@@ -6,10 +6,10 @@ Version:	0.6.0
 Release:	0.%{snap}.1
 Epoch:		3
 License:	GPL
+#Source0:	http://divx.euro.ru/%{name}-%{version}-%{snap}.tar.gz
 Group:		X11/Applications/Multimedia
 Group(de):	X11/Applikationen/Multimedia
 Group(pl):	X11/Aplikacje/Multimedia
-#Source0:	http://divx.euro.ru/%{name}-%{version}-%{snap}.tar.gz
 Source0:	http://divx.euro.ru/%{name}-%{version}-%{snap}.tgz
 Patch0:		%{name}-shareware.patch
 Patch1:		%{name}-deplib.patch
@@ -22,29 +22,35 @@ BuildRequires:	libjpeg-devel
 BuildRequires:	unzip
 BuildRequires:	qt-devel
 BuildRequires:	alsa-lib-devel
+BuildRequires:	divx4linux-devel
 BuildConflicts:	wine-devel
 ExclusiveArch:	%{ix86}
-Requires:	w32codec
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_prefix		/usr/X11R6
 %define		_mandir		%{_prefix}/man
 
 %description
-Library and sample program for playing AVI files. It uses windows
-codecs and parts of Wine (http://www.winehq.com) code to load them.
+Library and sample program for playing AVI files. It can use windows
+codecs and parts of Wine (http://www.winehq.com) code to play some of
+them.
 
 %description -l pl
-Biblioteka i przyk≥adowy program do odtwarzania plikÛw AVI.
-Wykorzystuje dekompresory dla Windows oraz fragmenty kodu Wine
-(http://www.winehq.com) aby je za≥adowaÊ.
+Biblioteka i przyk≥adowy program do odtwarzania plikÛw AVI. Moøe
+wykorzystaÊ dekompresory dla Windows oraz fragmenty kodu Wine
+(http://www.winehq.com) aby czÍ∂Ê z nich odtworzyÊ.
 
 %package devel
 Summary:	Header file required to build programs using libaviplay
 Summary(pl):	Pliki nag≥Ûwkowe wymagane przez programy uøywaj±ce libaviplay
 Group:		X11/Development/Libraries
 Group(de):	X11/Entwicklung/Libraries
+Group(es):	X11/Desarrollo/Bibliotecas
+Group(fr):	X11/Development/Librairies
 Group(pl):	X11/Programowanie/Biblioteki
+Group(pt_BR):	X11/Desenvolvimento/Bibliotecas
+Group(ru):	X11/Ú¡⁄“¡¬œ‘À¡/‚…¬Ã…œ‘≈À…
+Group(uk):	X11/Úœ⁄“œ¬À¡/‚¶¬Ã¶œ‘≈À…
 Requires:	XFree86-devel
 
 %description devel
@@ -68,7 +74,7 @@ libtoolize --copy --force
 aclocal
 autoconf
 automake -a -c --foreign
-%configure \
+%configure CPPFLAGS="-I/usr/include/divx" \
 	--with-qt-includes=%{_includedir}/qt \
 	--with-libac3-path=%{_prefix} \
 	--enable-release \
