@@ -23,6 +23,7 @@ Patch0:		%{name}-shareware.patch
 Patch1:		%{name}-deplib.patch
 Patch2:		%{name}-ac3.patch
 Patch3:		%{name}-fps.patch
+Patch4:		%{name}-mga.patch
 Requires:	avi-codecs
 BuildRequires:	unzip
 BuildRequires:	libstdc++-devel
@@ -33,6 +34,7 @@ BuildRequires:	libjpeg-devel
 %{!?bcond_off_arts:BuildRequires:	arts-devel}
 BuildRequires:	ac3dec-devel >= 0.6.1
 BuildConflicts:	wine-devel
+ExclusiveArch:	%{ix86}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_prefix		/usr/X11R6
@@ -67,6 +69,7 @@ libaviplay.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 %build
 libtoolize --copy --force
@@ -74,8 +77,6 @@ aclocal
 rm -f missing
 automake -a -c --foreign
 autoconf
-CFLAGS="%{rpmcflags} -D_LARGEFILE64_SOURCE"; export CFLAGS
-CXXFLAGS="%{rpmcflags} -D_LARGEFILE64_SOURCE"; export CXXFLAGS
 %configure \
 	--with-qt-includes=%{_includedir}/qt \
 	--enable-release \
@@ -106,9 +107,9 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc *.gz doc/{CREDITS,EXCEPTIONS,KNOWN_BUGS,LICENSING}.gz
 %doc doc/{TODO,VIDEO-PERFORMANCE,WARNINGS}.gz
+%attr(755,root,root) %{_bindir}/[^a]*
 %attr(755,root,root) %{_bindir}/aviplay
 %attr(755,root,root) %{_bindir}/asf*
-%attr(755,root,root) %{_bindir}/[bkq]*
 %attr(755,root,root) %{_libdir}/lib*.so.*.*
 %dir %{_libdir}/avifile
 %attr(755,root,root) %{_libdir}/avifile/lib*
