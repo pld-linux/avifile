@@ -1,0 +1,11 @@
+--- avifile-0.7-0.7.38/bin/avifile.m4.orig	2002-09-02 18:43:56.000000000 +0200
++++ avifile-0.7-0.7.38/bin/avifile.m4	2003-12-29 20:49:21.429701168 +0100
+@@ -18,7 +18,7 @@
+ dnl - usable libstdc++
+ dnl - AC_PATH_XTRA
+ 
+-AC_DEFUN(AM_PATH_AVIFILE,
++AC_DEFUN([AM_PATH_AVIFILE],
+ [
+     AC_REQUIRE([AC_PROG_CXX])
+     AC_REQUIRE([AC_PATH_XTRA])
