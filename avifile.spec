@@ -11,7 +11,7 @@ Summary(pt_BR):	Biblioteca para reproduzir formatos de áudio e vídeo usando biná
 Name:		avifile
 Version:	0.7.38
 Release:	1%{?_with_divx:+divx}
-Epoch:		2
+Epoch:		3
 License:	GPL
 Group:		X11/Libraries
 Source0:	http://dl.sourceforge.net/sourceforge/%{name}/%{name}-0.7-%{version}.tar.gz
