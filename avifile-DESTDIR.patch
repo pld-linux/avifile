@@ -1,7 +1,7 @@
---- avifile-0.50/samples/qtvidcap/Makefile.am~	Wed Dec  6 17:02:08 2000
-+++ avifile-0.50/samples/qtvidcap/Makefile.am	Wed Dec  6 17:12:36 2000
-@@ -7,7 +7,7 @@
- qtvidcap_LDADD=../../lib/libaviplay.la capwindow.o codecconf.o vidconf.o
+--- avifile-0.52/samples/qtvidcap/Makefile.am~	Mon Dec 18 09:38:59 2000
++++ avifile-0.52/samples/qtvidcap/Makefile.am	Fri Dec 22 19:09:02 2000
+@@ -8,7 +8,7 @@
+ CLEANFILES=*.moc
  
  install-exec-local:
 -	@INSTALL@ -m4755 ./kv4lsetup @bindir@
@@ -9,11 +9,11 @@
  
  CXXFLAGS=-I../../include @X_INCLUDES@ @QT_INCLUDES@ @SDL_CFLAGS@
  
---- avifile-0.50/Makefile.am~	Wed Dec  6 17:14:08 2000
-+++ avifile-0.50/Makefile.am	Wed Dec  6 17:24:05 2000
-@@ -2,4 +2,4 @@
+--- avifile-0.52/Makefile.am~	Tue Dec 19 19:23:08 2000
++++ avifile-0.52/Makefile.am	Fri Dec 22 19:09:29 2000
+@@ -9,4 +9,4 @@
  noinst_SCRIPTS=README
  DIST_SUDIRS = doc
  install-exec-local:
--	$(INSTALL_PROGRAM) -m0755 ./avifile-config $(bindir)
-+	$(INSTALL_PROGRAM) -m0755 ./avifile-config $(DESTDIR)$(bindir)
+-	$(INSTALL_SCRIPT) -m0755 ./avifile-config $(bindir)
++	$(INSTALL_SCRIPT) -m0755 ./avifile-config $(DESTDIR)$(bindir)
