@@ -6,19 +6,19 @@
 #			  lib)  note: if disabled, divx is decoded by ffmpeg
 # _with_nas		- enables nas support
 #
-%define		_snapver	20030319
+%define		_snapver	20030522
 %define		_snap		%{_snapver}
 Summary:	Library for playing AVI files
 Summary(pl):	Biblioteka do odtwarzania plików AVI
 Summary(pt_BR):	Biblioteca para reproduzir formatos de áudio e vídeo usando binários win32
 Name:		avifile
-Version:	0.7.34
+Version:	0.7.37
 Release:	0.%{_snap}%{?_with_divx:+divx}
-Epoch:		3
+Epoch:		1
 License:	GPL
 Group:		X11/Libraries
-Source0:	http://avifile.sourceforge.net/%{name}-%{version}-%{_snap}.tgz
-# Source0-md5: 5b3a831ed3d12a5d12d23b8d9673b88d
+Source0:	http://dl.sourceforge.net/avifile/%{name}-%{version}-%{_snap}.tgz
+# Source0-md5:	074bd003318128e433dd96a64c80b776
 Source1:	%{name}.desktop
 Patch0:		%{name}-shareware.patch
 Patch1:		%{name}-no_libnsl.patch
