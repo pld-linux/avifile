@@ -1,10 +1,9 @@
 # It's sick.
-%define		_snap		20020523
-%define		_ver	0.7
+%define		_snap		20020719
 Summary:	Library for playing AVI files
 Summary(pl):	Biblioteka do odtwarzania plików AVI
 Name:		avifile
-Version:	%{_ver}.7
+Version:	0.7.12
 Release:	0.%{_snap}.1
 Epoch:		3
 License:	GPL
@@ -30,6 +29,7 @@ BuildRequires:	libogg-devel
 BuildRequires:	libtool
 BuildRequires:	libvorbis-devel
 BuildRequires:	lame-libs-devel
+BuildRequires:	nas-devel
 BuildRequires:	qt-devel
 BuildRequires:	unzip
 %ifarch %{ix86} ppc sparc sparc64 sparcv9
@@ -198,13 +198,14 @@ XVID decoder and encoder.
 Dekoder i koder XVID.
 
 %prep
-%setup -q -n avifile%{_ver}-%{version}
+%setup -q -n avifile0.7-%{version}
 %patch0 -p1
 # was broken and need fixing; without this xmms and avi plugin is broken
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
-%patch4 -p1
+# all this patch changes is commented in this snapshot
+#%patch4 -p1
 
 %build
 rm -f missing aclocal.m4
