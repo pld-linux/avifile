@@ -8,7 +8,10 @@ Group:		X11/Applications/Multimedia
 Group(de):	X11/Applikationen/Multimedia
 Group(pl):	X11/Aplikacje/Multimedia
 Source0:	http://divx.euro.ru/%{name}-%{version}.tar.gz
-Patch:		%{name}-DESTDIR.patch
+Patch0:		http://www.emulinks.de/divx/%{name}-0.50.bitrate.patch
+Patch1:		http://www.emulinks.de/divx/%{name}-0.50.shareware.patch
+Patch2:		%{name}-DESTDIR.patch
+Patch3:		%{name}-cout.patch
 Requires:	avi-codecs
 BuildRequires:	unzip
 BuildRequires:	libstdc++-devel
