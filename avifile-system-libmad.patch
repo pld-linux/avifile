@@ -1,0 +1,16 @@
+--- avifile0.7-0.7.37/configure.in.orig	2003-07-10 20:34:58.000000000 +0200
++++ avifile0.7-0.7.37/configure.in	2003-07-10 21:13:57.000000000 +0200
+@@ -747,10 +747,11 @@
+     AC_ARG_ENABLE(libmad, [  --enable-libmad         use system MAD library. (autodetected)],
+ 		  [], enable_libmad=yes)
+     MAD_LIBS="-lmad"
++    if test x$enable_libmad != xyes; then
+     save_LIBS=$LIBS
+-dnl FIXME AC_CHECK_LIB(mad, mad_stream_init, [], [ MAD_LIBS=""; enable_libmad=no ])
+-    enable_libmad=no
++    AC_CHECK_LIB(mad, mad_stream_init, [], [ MAD_LIBS=""; enable_libmad=no ])
+     LIBS=$save_LIBS
++    fi
+ fi
+ AC_SUBST(MAD_LIBS)
+ 

@@ -1,4 +1,5 @@
-
+#
+# Conditional build:
 %bcond_without qt	# disables QT support
 %bcond_with divx	# enables divx4linux support (proprietary, binary-only
 			# lib)  note: if disabled, divx is decoded by ffmpeg
@@ -24,6 +25,8 @@ Patch4:		%{name}-without_qt.patch
 Patch5:		%{name}-no_aux_dir.patch
 Patch6:		%{name}-link_shared.patch
 Patch7:		%{name}-avifile_config_fix.patch
+Patch8:		%{name}-no_libnsl.patch
+Patch9:		%{name}-system-libmad.patch
 URL:		http://avifile.sourceforge.net/
 BuildRequires:	SDL-devel >= 1.2.0
 BuildRequires:	XFree86-devel
@@ -316,6 +319,8 @@ Sterownik VIDIX dla kart graficznych Permedia.
 %patch5 -p1
 %patch6 -p1
 %patch7 -p1
+%patch8 -p1
+%patch9 -p1
 
 %build
 %{__libtoolize}
