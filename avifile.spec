@@ -224,6 +224,7 @@ for f in $GEN_MOC; do moc -o "${f%.[!.]*}.moc" "$f"; done
 %configure \
 	CPPFLAGS="-I/usr/include/divx" AS="%{__cc}" \
 	--with-qt-includes=%{_includedir}/qt \
+	--with-qt-libraries=%{_libdir} \
     --enable-a52 \
 	--enable-release \
 	--enable-ffmpeg \
@@ -248,9 +249,6 @@ done
 
 cp -f include/fourcc.h $RPM_BUILD_ROOT/%{_includedir}/%{name}
 
-gzip -9nf README doc/{CREDITS,EXCEPTIONS,KNOWN_BUGS,LICENSING} \
-	doc/{README-DEVEL,TODO,VIDEO-PERFORMANCE,WARNINGS}
-
 install %{SOURCE1} $RPM_BUILD_ROOT%{_applnkdir}/Multimedia
 install bin/test.png $RPM_BUILD_ROOT%{_pixmapsdir}/avifile.png
 
@@ -262,8 +260,8 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc *.gz doc/{CREDITS,EXCEPTIONS,KNOWN_BUGS,LICENSING}.gz
-%doc doc/{TODO,VIDEO-PERFORMANCE,WARNINGS}.gz
+%doc README doc/{CREDITS,EXCEPTIONS,KNOWN_BUGS,LICENSING}
+%doc doc/{TODO,VIDEO-PERFORMANCE,WARNINGS}
 %attr(755,root,root) %{_libdir}/lib*.so.*.*
 %dir %{_libdir}/avifile*
 %attr(755,root,root) %{_libdir}/avifile*/libaudiodec.so*
