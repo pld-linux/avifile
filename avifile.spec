@@ -4,17 +4,23 @@
 %define		_snap		%{_snapver}%{_snapsubver}
 %define		_ver	0.6
 %define		_subver	.0
-Summary:	Library and sample program for playing AVI files
-Summary(pl):	Biblioteka i przyk≥adowy program do odtwarzania plikÛw AVI
+Summary:	Library for playing AVI files
+Summary(pl):	Biblioteka do odtwarzania plikÛw AVI
 Name:		avifile
 Version:	%{_ver}%{_subver}
-Release:	0.%{_snap}.1
+Release:	0.%{_snap}.2
 Epoch:		3
 License:	GPL
-Group:		X11/Applications/Multimedia
-Group(de):	X11/Applikationen/Multimedia
-Group(pl):	X11/Aplikacje/Multimedia
+Group:		X11/Libraries
+Group(de):	X11/Libraries
+Group(es):	X11/Bibliotecas
+Group(fr):	X11/Librairies
+Group(pl):	X11/Biblioteki
+Group(pt_BR):	X11/Bibliotecas
+Group(ru):	X11/‚…¬Ã…œ‘≈À…
+Group(uk):	X11/‚¶¬Ã¶œ‘≈À…
 Source0:	http://avifile.sourceforge.net/%{name}-%{version}-%{_snap}.tgz
+Source1:	%{name}.desktop
 Patch0:		%{name}-shareware.patch
 Patch1:		%{name}-deplib.patch
 Patch2:		%{name}-ac3.patch
@@ -34,25 +40,24 @@ BuildRequires:	libogg-devel
 BuildRequires:	libvorbis-devel
 BuildRequires:	lame-libs-devel
 BuildConflicts:	wine-devel
-ExclusiveArch:	%{ix86}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_prefix		/usr/X11R6
 %define		_mandir		%{_prefix}/man
 
 %description
-Library and sample program for playing AVI files. It can use windows
-codecs and parts of Wine (http://www.winehq.com) code to play some of
-them.
+Avifile is a library that allow programs to read and write compressed
+AVI files (Indeo Video, DivX :-), etc.) under x86 Linux.
+(De)compression is performed with various plugins (Win32, FFMpeg,...)
 
 %description -l pl
-Biblioteka i przyk≥adowy program do odtwarzania plikÛw AVI. Moøe
-wykorzystaÊ dekompresory dla Windows oraz fragmenty kodu Wine
-(http://www.winehq.com) aby czÍ∂Ê z nich odtworzyÊ.
+Avifile jest bibliotek± s≥uø±c± do odczytywania i zapisywania
+skompresowanych plikÛw AVI (Indeo Video, DivX :-), etc.) pod Linuksem.
+Do (de)kompresji uøywane s± pluginy (win32, FFMpeg, ...)
 
 %package devel
-Summary:	Header file required to build programs using libaviplay
-Summary(pl):	Pliki nag≥Ûwkowe wymagane przez programy uøywaj±ce libaviplay
+Summary:	Header file required to build programs using libavifile
+Summary(pl):	Pliki nag≥Ûwkowe wymagane przez programy uøywaj±ce libavifile
 Group:		X11/Development/Libraries
 Group(de):	X11/Entwicklung/Libraries
 Group(es):	X11/Desarrollo/Bibliotecas
@@ -64,11 +69,158 @@ Group(uk):	X11/Úœ⁄“œ¬À¡/‚¶¬Ã¶œ‘≈À…
 Requires:	XFree86-devel
 
 %description devel
-Header files required to build programs using libaviplay.
+Header files required to build programs using libavifile.
 
 %description devel -l pl
 Pliki nag≥Ûwkowe niezbÍdne do kompilacji programÛw korzystaj±cych z
-libaviplay.
+libavifile.
+
+%package aviplay
+Summary:	Player for AVI/ASF/WMF files
+Summary(pl):	Odtwarzacz plikÛw AVI/ASF/WMF
+Group:		X11/Applications/Multimedia
+Group(de):	X11/Applikationen/Multimedia
+Group(pl):	X11/Aplikacje/Multimedia
+Requires:	%{name}
+
+%description aviplay
+Sample player for AVI, ASF, WFM (with straming support) files.
+
+%description aviplay -l pl
+Przyk≥adowy odtwarzacz plikÛw AVI, ASF, WFM (ze wsparciem dla
+odtwarzania z sieci.)
+
+%package utils
+Summary:	Sample programs using the avifile library
+Summary(pl):	Przyk≥adowe programy uøywaj±ce biblioteki avifile
+Group:		X11/Applications/Multimedia
+Group(de):	X11/Applikationen/Multimedia
+Group(pl):	X11/Aplikacje/Multimedia
+Requires:	%{name}
+
+%description utils
+Qt-based AVI utilities with few other useful supporting tools for TV
+capturing, AVI recompression, benchmarking, joining AVI files. These
+programs have more bugs as they are not as extensively developed as
+player.
+
+%description utils -l pl
+Kilka uøytecznych narzÍdzi do przechwytywania TV, rekompresji AVI,
+benchmarkowania, ≥±czenia plikÛw AVI. Maj± wiÍcej b≥ÍdÛw, poniewaø nie
+s± tak intensywnie rozwijane jak odtwarzacz.
+
+%package win32
+Summary:	Win32 audio/video plugin
+Summary(pl):	Plugin audio/video win32
+Group:		X11/Libraries
+Group(de):	X11/Libraries
+Group(es):	X11/Bibliotecas
+Group(fr):	X11/Librairies
+Group(pl):	X11/Biblioteki
+Group(pt_BR):	X11/Bibliotecas
+Group(ru):	X11/‚…¬Ã…œ‘≈À…
+Group(uk):	X11/‚¶¬Ã¶œ‘≈À…
+Requires:	%{name}
+Requires:	w32codecs
+ExclusiveArch:	%{ix86}
+
+%description win32
+Plugin for using Win32 DLL libraries in avifile located in
+/usr/lib/win32
+
+%package ffmpeg
+Summary:	GPL MPEG4 codec
+Summary(pl):	Kodek MPEG4 na licencji GPL
+Group:		X11/Libraries
+Group(de):	X11/Libraries
+Group(es):	X11/Bibliotecas
+Group(fr):	X11/Librairies
+Group(pl):	X11/Biblioteki
+Group(pt_BR):	X11/Bibliotecas
+Group(ru):	X11/‚…¬Ã…œ‘≈À…
+Group(uk):	X11/‚¶¬Ã¶œ‘≈À…
+Requires:	%{name}
+
+%description ffmpeg
+ffmpeg is a hyper fast realtime audio/video encoder, a streaming
+server and a generic audio and video file converter.
+
+It can grab from a standard Video4Linux video source and convert it
+into several file formats based on DCT/motion compensation encoding.
+Sound is compressed in MPEG audio layer 2 or using an AC3 compatible
+stream.
+
+%package divx4
+Summary:	Fast MPEG4 codec
+Summary(pl):	Szybki kodek MPEG4
+Group:		X11/Libraries
+Group(de):	X11/Libraries
+Group(es):	X11/Bibliotecas
+Group(fr):	X11/Librairies
+Group(pl):	X11/Biblioteki
+Group(pt_BR):	X11/Bibliotecas
+Group(ru):	X11/‚…¬Ã…œ‘≈À…
+Group(uk):	X11/‚¶¬Ã¶œ‘≈À…
+Requires:	%{name}
+Requires:	divx4linux
+ExclusiveArch:	%{ix86}
+
+%description divx4
+DivX MPEG-4 decoder and encoder.
+
+%description divx4 -l pl
+Dekoder i koder MPEG-4 DivX.
+
+%package vorbis
+Summary:	Vorbis audio plugin
+Summary(pl):	Plugin vorbis audio.
+Group:		X11/Libraries
+Group(de):	X11/Libraries
+Group(es):	X11/Bibliotecas
+Group(fr):	X11/Librairies
+Group(pl):	X11/Biblioteki
+Group(pt_BR):	X11/Bibliotecas
+Group(ru):	X11/‚…¬Ã…œ‘≈À…
+Group(uk):	X11/‚¶¬Ã¶œ‘≈À…
+Requires:	%{name}
+
+%description vorbis
+Plugin for decompression of Vorbis audio streams.
+
+%package mad
+Summary:	MAD - MPEG audio plugin
+Summary(pl):	MAD - plugin MPEG audio
+Group:		X11/Libraries
+Group(de):	X11/Libraries
+Group(es):	X11/Bibliotecas
+Group(fr):	X11/Librairies
+Group(pl):	X11/Biblioteki
+Group(pt_BR):	X11/Bibliotecas
+Group(ru):	X11/‚…¬Ã…œ‘≈À…
+Group(uk):	X11/‚¶¬Ã¶œ‘≈À…
+Requires:	%{name}
+
+%description mad
+Plugin for decompression of MPEG-1 Layer I/II/III audio streams.
+
+%description mad -l pl
+Plugin do dekompresji strumieni dºwiÍkowych MPEG-1 Layer I/II/III.
+
+%package lame_audioenc
+Summary:	MP3 audio encoder plugin
+Summary(pl):	Plugin enkoduj±cy dºwiÍk w formacie MP3
+Group:		X11/Libraries
+Group(de):	X11/Libraries
+Group(es):	X11/Bibliotecas
+Group(fr):	X11/Librairies
+Group(pl):	X11/Biblioteki
+Group(pt_BR):	X11/Bibliotecas
+Group(ru):	X11/‚…¬Ã…œ‘≈À…
+Group(uk):	X11/‚¶¬Ã¶œ‘≈À…
+Requires:	%{name}-utils
+
+%description lame_audioenc
+Plugin for mp3 encoding capability of avirecompress tool.
 
 %prep
 %setup -q -n avifile%{_ver}-%{_snapver}
@@ -110,7 +262,7 @@ touch lib/dummy.cpp
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir},/usr/lib/win32}
+install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir},/usr/lib/win32,%{_pixmapsdir},%{_applnkdir}/Multimedia}
 
 # avoid relinking
 for f in plugins/*/lib*.la ; do
@@ -126,6 +278,9 @@ cp -f include/fourcc.h $RPM_BUILD_ROOT/%{_includedir}/%{name}
 gzip -9nf README doc/{CREDITS,EXCEPTIONS,KNOWN_BUGS,LICENSING} \
 	doc/{README-DEVEL,TODO,VIDEO-PERFORMANCE,WARNINGS}
 
+install %{SOURCE1} $RPM_BUILD_ROOT%{_applnkdir}/Multimedia
+install bin/test.png $RPM_BUILD_ROOT%{_pixmapsdir}/avifile.png
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -136,13 +291,14 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc *.gz doc/{CREDITS,EXCEPTIONS,KNOWN_BUGS,LICENSING}.gz
 %doc doc/{TODO,VIDEO-PERFORMANCE,WARNINGS}.gz
-%attr(755,root,root) %{_bindir}/avi[bcmprt]*
-%attr(755,root,root) %{_bindir}/kv4lsetup
 %attr(755,root,root) %{_libdir}/lib*.so.*.*
 %dir %{_libdir}/avifile*
-%attr(755,root,root) %{_libdir}/avifile*/lib*.so*
-%attr(755,root,root) %{_libdir}/avifile*/lib*.la
-%{_datadir}/%{name}*
+%attr(755,root,root) %{_libdir}/avifile*/lib*audiodec.so*
+%attr(755,root,root) %{_libdir}/avifile*/lib*audiodec.la
+%attr(755,root,root) %{_libdir}/avifile*/libac3pass.so*
+%attr(755,root,root) %{_libdir}/avifile*/libac3pass.la
+%attr(755,root,root) %{_libdir}/avifile*/libmjpeg.so*
+%attr(755,root,root) %{_libdir}/avifile*/libmjpeg.la
 
 %files devel
 %defattr(644,root,root,755)
@@ -152,3 +308,45 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/lib*.la
 %{_libdir}/lib*.so
 %{_includedir}/%{name}
+
+%files aviplay
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_bindir}/aviplay
+%{_datadir}/%{name}*
+%{_applnkdir}/Multimedia/*
+%{_pixmapsdir}/*
+
+%files utils
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_bindir}/avi[bcmrt]*
+%attr(755,root,root) %{_bindir}/kv4lsetup
+
+%files win32
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/avifile*/libwin32.so*
+%attr(755,root,root) %{_libdir}/avifile*/libwin32.la
+
+%files ffmpeg
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/avifile*/libffmpeg.so*
+%attr(755,root,root) %{_libdir}/avifile*/libffmpeg.la
+
+%files divx4
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/avifile*/libdivx4.so*
+%attr(755,root,root) %{_libdir}/avifile*/libdivx4.la
+
+%files vorbis
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/avifile*/libvorbis*.so*
+%attr(755,root,root) %{_libdir}/avifile*/libvorbis*.la
+
+%files mad
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/avifile*/libmad*.so*
+%attr(755,root,root) %{_libdir}/avifile*/libmad*.la
+
+%files lame_audioenc
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/avifile*/libmp3lamebin_audioenc.so*
+%attr(755,root,root) %{_libdir}/avifile*/libmp3lamebin_audioenc.la
