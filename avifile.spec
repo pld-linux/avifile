@@ -1,9 +1,4 @@
-#
-# Conditional build:
-# _without_arts - without arts support
-#
-
-%define		snap	20010514
+%define		snap	20010528
 Summary:	Library and sample program for playing AVI files
 Summary(pl):	Biblioteka i przyk³adowy program do odtwarzania plików AVI
 Name:		avifile
@@ -21,12 +16,10 @@ Patch2:		%{name}-ac3.patch
 Patch3:		%{name}-mga.patch
 Patch4:		%{name}-libtool.patch
 Patch5:		%{name}-opt.patch
-Patch6:		%{name}-lt14.patch
 BuildRequires:	XFree86-devel
 BuildRequires:	SDL-devel >= 1.2.0
 BuildRequires:	ac3dec-devel >= 0.6.1
 BuildRequires:	libjpeg-devel
-%{!?_without_arts:BuildRequires:	arts-devel}
 BuildRequires:	unzip
 BuildRequires:	qt-devel
 BuildConflicts:	wine-devel
@@ -68,7 +61,6 @@ libaviplay.
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
-%patch6 -p1
 
 %build
 rm -f missing
