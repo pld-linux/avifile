@@ -6,13 +6,13 @@
 #			  lib)  note: if disabled, divx is decoded by ffmpeg
 # _with_nas		- enables nas support
 #
-%define		_snapver	20030219
+%define		_snapver	20030319
 %define		_snap		%{_snapver}
 Summary:	Library for playing AVI files
 Summary(pl):	Biblioteka do odtwarzania plików AVI
 Summary(pt_BR):	Biblioteca para reproduzir formatos de áudio e vídeo usando binários win32
 Name:		avifile
-Version:	0.7.32
+Version:	0.7.34
 Release:	0.%{_snap}%{?_with_divx:+divx}
 Epoch:		3
 License:	GPL
@@ -298,7 +298,7 @@ Sterownik VIDIX dla kart graficznych Permedia.
 %prep
 %setup -q -n avifile0.7-%{version}
 %patch0 -p1
-%patch1 -p1
+%patch1 -p0
 %patch2 -p1
 %patch3 -p1
 
