@@ -1,0 +1,17 @@
+diff -urN avifile0.7-0.7.24.orig/lib/video/renderer.cpp avifile0.7-0.7.24/lib/video/renderer.cpp
+--- avifile0.7-0.7.24.orig/lib/video/renderer.cpp	Tue Jan  7 23:33:55 2003
++++ avifile0.7-0.7.24/lib/video/renderer.cpp	Wed Jan  8 12:30:09 2003
+@@ -1125,11 +1125,11 @@
+ 	    if (slen && xftfont)
+ 	    {
+ 		XGlyphInfo extents;
+-		XftTextExtents8(dpy, xftfont, sub, slen, &extents);
++		XftTextExtents8(dpy, xftfont, (_Xconst FcChar8*)sub, slen, &extents);
+ 		int fm_width_sub = extents.xOff;
+ 		XftDrawString8(xftdraw, xftcolor, xftfont,
+ 			       (pic_w - fm_width_sub) / 2,
+-			       draw_h, sub, slen);
++			       draw_h, (_Xconst FcChar8*)sub, slen);
+ 	    }
+ #endif /* HAVE_LIBXFT */
+ 	    if (slen && font)
