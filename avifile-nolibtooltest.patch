@@ -1,0 +1,23 @@
+--- avifile0.7-0.7.34/configure.ac.orig	Sat Apr 12 00:44:20 2003
++++ avifile0.7-0.7.34/configure.ac	Sat Apr 12 00:55:18 2003
+@@ -927,11 +927,6 @@
+ CFLAGS=$COPTFLAGS
+ CXXFLAGS=$CXXOPTFLAGS
+ 
+-lt_major_version=`libtool --version 2>&1 | sed 's/\(.*\ \)\([[0-9]]*\.[[0-9]]*\.[[0-9]]*\)\(\ .*\)/\2/'`
+-lt_minor_version=`echo $lt_major_version | cut -d . -f 2`
+-lt_micro_version=`echo $lt_major_version | cut -d . -f 3`
+-lt_major_version=`echo $lt_major_version | cut -d . -f 1`
+-dnl echo LT  $lt_major_version $lt_minor_version $lt_micro_version
+ 
+ AM_CONDITIONAL(AMM_USE_QT, test x$with_qt = xyes )
+ AM_CONDITIONAL(AMM_USE_SDL, test "$with_sdl" = yes)
+@@ -959,7 +954,7 @@
+ AM_CONDITIONAL(AMM_USE_FAST_BUILD, test x$enable_fast_build = xyes )
+ AM_CONDITIONAL(AMM_USE_VIDIX, test x$enable_vidix = xyes )
+ AM_CONDITIONAL(AMM_USE_LINUX, test x$enable_linux = xyes )
+-AM_CONDITIONAL(AMM_LINK_SHARED, test $lt_major_version -ge 1 -a $lt_minor_version -ge 4 -a $lt_micro_version -ge 3 )
++AM_CONDITIONAL(AMM_LINK_SHARED, true )
+ 
+ dnl Arts plugin disabled - it is unusable anyway
+ dnl artsc_config_test_path=$prefix/bin:$exec_prefix/bin:$KDEDIR/bin:$PATH

@@ -23,6 +23,7 @@ Patch0:		%{name}-shareware.patch
 Patch1:		%{name}-no_libnsl.patch
 Patch2:		%{name}-fix-keys.patch
 Patch3:		%{name}-etc_dir.patch
+Patch4:		%{name}-nolibtooltest.patch
 URL:		http://avifile.sourceforge.net/
 BuildRequires:	SDL-devel >= 1.2.0
 BuildRequires:	XFree86-devel
@@ -34,7 +35,7 @@ BuildRequires:	automake
 BuildRequires:	lame-libs-devel
 BuildRequires:	libjpeg-devel
 BuildRequires:	libogg-devel
-BuildRequires:	libtool >= 0:1.4.2-9
+BuildRequires:	libtool >= 1:1.4.3
 BuildRequires:	libvorbis-devel >= 1:1.0
 %{?_with_nas:BuildRequires:	nas-devel}
 %{?!_without_qt:BuildRequires:	qt-devel >= 2.0.0}
@@ -301,6 +302,7 @@ Sterownik VIDIX dla kart graficznych Permedia.
 %patch1 -p0
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 %build
 %{__autoconf}
