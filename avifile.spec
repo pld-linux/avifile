@@ -326,6 +326,12 @@ Sterownik VIDIX dla kart graficznych Permedia.
 %patch11 -p1
 %patch12 -p1
 
+%ifarch ppc
+# temporarily disable altivec compiling due to gcc 3.3.x bug target/11793
+sed -e 's/\(enable_ppcopt=\)yes/\1no/' configure.in > configure.in.tmp
+mv -f configure.in.tmp configure.in
+%endif
+
 %build
 %{__libtoolize}
 %{__aclocal}
