@@ -1,32 +1,28 @@
-# It's sick.
 
 %bcond_without qt	# disables QT support
 %bcond_with divx	# enables divx4linux support (proprietary, binary-only
 			# lib)  note: if disabled, divx is decoded by ffmpeg
 %bcond_with nas		# enables nas support
 
-%define		_snapver	20030522
-%define		_snap		%{_snapver}
 Summary:	Library for playing AVI files
 Summary(pl):	Biblioteka do odtwarzania plików AVI
 Summary(pt_BR):	Biblioteca para reproduzir formatos de áudio e vídeo usando binários win32
 Name:		avifile
-Version:	0.7.37
-Release:	0.%{_snap}%{?_with_divx:+divx}
+Version:	0.7.38
+Release:	1%{?_with_divx:+divx}
 Epoch:		1
 License:	GPL
 Group:		X11/Libraries
-Source0:	http://dl.sourceforge.net/avifile/%{name}-%{version}-%{_snap}.tgz
-# Source0-md5:	074bd003318128e433dd96a64c80b776
+Source0:	http://dl.sourceforge.net/sourceforge/%{name}/%{name}-0.7-%{version}.tar.gz
+# Source0-md5:	db90c4bc0a8a8182b1ec084feca86bbb
 Source1:	%{name}.desktop
 Patch0:		%{name}-shareware.patch
-Patch1:		%{name}-no_libnsl.patch
-Patch2:		%{name}-fix-keys.patch
-Patch3:		%{name}-etc_dir.patch
-Patch4:		%{name}-nolibtooltest.patch
-Patch5:		%{name}-aviplay_h.patch
-Patch6:		%{name}-system-libmad.patch
-Patch7:		%{name}-without_qt.patch
+Patch1:		%{name}-fix-keys.patch
+Patch2:		%{name}-etc_dir.patch
+Patch3:		%{name}-aviplay_h.patch
+Patch4:		%{name}-without_qt.patch
+Patch5:		%{name}-no_aux_dir.patch
+Patch6:		%{name}-link_shared.patch
 URL:		http://avifile.sourceforge.net/
 BuildRequires:	SDL-devel >= 1.2.0
 BuildRequires:	XFree86-devel
@@ -310,18 +306,14 @@ VIDIX driver for Permedia video adapters.
 Sterownik VIDIX dla kart graficznych Permedia.
 
 %prep
-%setup -q -n avifile0.7-%{version}
+%setup -q -n avifile-0.7-%{version}
 %patch0 -p1
-%patch1 -p0
+%patch1 -p1
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
-%patch7 -p1
-
-# configure.ac is enough
-rm configure.in
 
 %build
 %{__libtoolize}
@@ -337,9 +329,7 @@ for f in $GEN_MOC; do moc -o "${f%.[!.]*}.moc" "$f"; done
 %endif
 
 %configure \
-	CPPFLAGS="-I/usr/include/divx -I/usr/include/xvid -I/usr/include/freetype2" \
-	AS="%{__cc}" \
-	FFMPEG_CFLAGS="%{rpmcflags} -ffast-math %{!?debug:-fomit-frame-pointer}" \
+	CPPFLAGS="-I/usr/include/divx" \
 	--with-qt-includes=%{_includedir}/qt \
 	--with-qt-libraries=%{_libdir} \
 	--enable-a52 \
@@ -363,7 +353,7 @@ touch lib/dummy.cpp
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir},/usr/lib/win32,%{_pixmapsdir},%{_applnkdir}/Multimedia}
+install -d $RPM_BUILD_ROOT{%{_bindir},%{_includedir}/%{name},%{_libdir},/usr/lib/win32,%{_pixmapsdir},%{_desktopdir}}
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT \
@@ -371,7 +361,9 @@ install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir},/usr/lib/win32,%{_pixmapsdir},%
 
 cp -f include/fourcc.h $RPM_BUILD_ROOT%{_includedir}/%{name}
 
-install %{SOURCE1} $RPM_BUILD_ROOT%{_applnkdir}/Multimedia
+mv -f $RPM_BUILD_ROOT%{_includedir}/%{name}-0.7/* $RPM_BUILD_ROOT%{_includedir}/%{name}
+
+install %{SOURCE1} $RPM_BUILD_ROOT%{_desktopdir}
 install bin/test.png $RPM_BUILD_ROOT%{_pixmapsdir}/avifile.png
 
 # avifile dlopens *.so
@@ -414,7 +406,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/aviplay
 %{_mandir}/man1/aviplay.1*
 %{_datadir}/%{name}*
-%{_applnkdir}/Multimedia/*
+%{_desktopdir}/*
 %{_pixmapsdir}/*
 %endif
 
@@ -492,11 +484,6 @@ rm -rf $RPM_BUILD_ROOT
 %files vidix-driver-mga
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/avifile*/vidix/libmga*.so*
-
-# "just debug driver", even removed from sources
-#%files vidix-driver-nvidia
-#%defattr(644,root,root,755)
-#%attr(755,root,root) %{_libdir}/avifile*/vidix/libnvidia.so*
 
 %files vidix-driver-permedia
 %defattr(644,root,root,755)
