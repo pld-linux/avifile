@@ -2,18 +2,16 @@ Summary:	Library and sample program for playing AVI files
 Summary(pl):	Biblioteka i przyk³adowy program do odtwarzania plików AVI
 Name:		avifile
 Version:	0.6.0
-Release:	0.beta4
+Release:	0.beta4.1
 Epoch:		1
 License:	GPL
 Group:		X11/Applications/Multimedia
 Group(de):	X11/Applikationen/Multimedia
 Group(pl):	X11/Aplikacje/Multimedia
-Source0:	http://divx.euro.ru/%{name}-%{version}-beta3.tar.gz
-Patch0:		%{name}-bitrate.patch
-Patch1:		%{name}-shareware.patch
-Patch2:		%{name}-DESTDIR.patch
-Patch3:		%{name}-opt.patch
-Patch4:		%{name}-am_fix.patch
+Source0:	http://divx.euro.ru/%{name}-%{version}-beta4.tar.gz
+Patch0:		%{name}-shareware.patch
+Patch1:		%{name}-opt.patch
+Patch2:		%{name}-am_fix.patch
 Requires:	avi-codecs
 BuildRequires:	unzip
 BuildRequires:	libstdc++-devel
@@ -57,15 +55,14 @@ libaviplay.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
-%patch3 -p1
-%patch4 -p1
 
 %build
 libtoolize --copy --force
 aclocal
 automake -a -c --foreign
 autoconf
-CD_OPT="%{?debug:-O0 -g}%{!?debug:$RPM_OPT_FLAGS}"; export CD_OPT
+CFLAGS="%{?debug:-O0 -g}%{!?debug:$RPM_OPT_FLAGS} -D_LARGEFILE64_SOURCE"; export CFLAGS
+CXXFLAGS="%{?debug:-O0 -g}%{!?debug:$RPM_OPT_FLAGS} -D_LARGEFILE64_SOURCE"; export CXXFLAGS
 %configure \
 	--with-qt-includes=%{_includedir}/qt \
 	--enable-release
@@ -99,8 +96,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/asf*
 %attr(755,root,root) %{_bindir}/[bkq]*
 %attr(755,root,root) %{_libdir}/lib*.so.*.*
-%attr(755,root,root) /usr/lib/win32/lib*.la
-%attr(755,root,root) /usr/lib/win32/lib*.so.*
+%attr(755,root,root) %{_libdir}/avifile/lib*
 %{_datadir}/%{name}
 
 %files devel
