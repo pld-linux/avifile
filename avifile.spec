@@ -169,7 +169,11 @@ ExclusiveArch:	%{ix86}
 
 %description win32
 Plugin for using Win32 DLL libraries in avifile located in
-/usr/lib/win32
+/usr/lib/win32.
+
+%description win32 -l pl
+Plugin do u¿ywania w avifile zlokalizowanych w /usr/lib/win32
+bibliotek DLL Win32.
 
 %package ffmpeg
 Summary:	GPL MPEG4 codec
@@ -199,6 +203,15 @@ It can grab from a standard Video4Linux video source and convert it
 into several file formats based on DCT/motion compensation encoding.
 Sound is compressed in MPEG audio layer 2 or using an AC3 compatible
 stream.
+
+%description ffmpeg -l pl
+ffmpeg jest hiperszybkim koderem audio/wideo czasu rzeczywistego,
+serwerem strumieni oraz standardowym konwerterem plików audio-wideo.
+
+Mo¿e pobieraæ ze standardowego Video4Linux ¼ród³o obrazu i konwertowaæ
+je do kilku formatów plików opartych na kodowaniu DCT/kompensacji
+ruchu. D¼wiêk jest kompresowany w MPEG audio layer 2 lub u¿ywaj±c
+kompatybilnego z AC3 strumienia.
 
 %package divx4
 Summary:	Fast MPEG4 codec
@@ -251,6 +264,9 @@ Requires:	%{name} = %{version}
 %description vorbis
 Plugin for decompression of Vorbis audio streams.
 
+%description vorbis -l pl
+Plugin do dekompresji strumieni audio Vorbis.
+
 %package mad
 Summary:	MAD - MPEG audio plugin
 Summary(pl):	MAD - plugin MPEG audio
@@ -300,6 +316,9 @@ Requires:	%{name} = %{version}
 %description lame_audioenc
 Plugin for mp3 encoding capability of avirecompress tool.
 
+%description lame_audioenc -l pl
+Plugin umo¿liwiaj±cy avirecompressowi kodowanie mp3.
+
 %prep
 %setup -q -n avifile%{_ver}-%{_snapver}
 %patch0 -p1
@@ -347,7 +366,7 @@ for f in plugins/*/lib*.la ; do
 	sed -e '/^relink_command/d' $f > $f.new
 	mv -f $f.new $f
 done
-	
+
 %{__make} install \
 	DESTDIR="$RPM_BUILD_ROOT"
 
