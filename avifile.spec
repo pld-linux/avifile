@@ -2,7 +2,7 @@ Summary:	Library and sample program for playing AVI files
 Summary(pl):	Biblioteka i przyk³adowy program do odtwarzania plików AVI
 Name:		avifile
 Version:	0.50
-Release:	2
+Release:	3
 License:	GPL
 Group:		X11/Applications/Multimedia
 Group(de):	X11/Applikationen/Multimedia
@@ -12,6 +12,7 @@ Patch0:		%{name}-DESTDIR.patch
 Patch1:		%{name}-old_ver_conflict.patch
 Patch2:		http://www.emulinks.de/divx/%{name}-%{version}.bitrate.patch
 Patch3:		%{name}-OPT_FLAGS.patch
+Patch4:		%{name}-kernel2.4-test11.patch
 Requires:	avi-codecs
 BuildRequires:	unzip
 BuildRequires:	libstdc++-devel
@@ -52,6 +53,7 @@ libaviplay.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 find . -exec touch {} \;
 
 %build
