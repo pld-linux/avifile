@@ -349,7 +349,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/avifile*/mp3lamebin_audioenc.so*
 %attr(755,root,root) %{_libdir}/avifile*/mp3lamebin_audioenc.la
 
-%ifarch %{ix86} ppc sparc sparc64 sparcv9
+%ifarch %{ix86} ppc
 %files xvid
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/avifile*/xvid.so*
