@@ -9,7 +9,7 @@
 -		     unsigned char* out_data, unsigned out_size,
 -		     unsigned* size_read, unsigned* size_written );
 +	size_t GetMinSize() { return CHUNK_SIZE; }
-+	int Convert( void* in_data, unsigned in_size,
-+		     void* out_data, unsigned out_size,
++	int Convert( const void* in_data, size_t in_size,
++		     void* out_data, size_t out_size,
 +		     size_t* size_read, size_t* size_written );
  };
