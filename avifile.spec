@@ -376,8 +376,10 @@ rm -f m4/as.m4
 	--disable-lame \
 	--enable-libmad \
 	--enable-release \
-%ifarch i586 i686 athlon
+%ifarch %{ix86}
+%ifnarch i386 i486
 	--enable-x86opt \
+%endif
 %else
 	--disable-x86opt \
 %endif
