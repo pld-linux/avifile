@@ -350,10 +350,10 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir},/usr/lib/win32,%{_pixmapsdir},%{_applnkdir}/Multimedia}
 
 %{__make} install \
-	DESTDIR="$RPM_BUILD_ROOT" \
+	DESTDIR=$RPM_BUILD_ROOT \
 	m4datadir="%{_aclocaldir}"
 
-cp -f include/fourcc.h $RPM_BUILD_ROOT/%{_includedir}/%{name}
+cp -f include/fourcc.h $RPM_BUILD_ROOT%{_includedir}/%{name}
 
 install %{SOURCE1} $RPM_BUILD_ROOT%{_applnkdir}/Multimedia
 install bin/test.png $RPM_BUILD_ROOT%{_pixmapsdir}/avifile.png
