@@ -1,7 +1,7 @@
 # It's sick.
 
 # Conditional build:
-# _without_qt - disables QT support 
+# _without_qt - disables QT support
 
 %define		_snapver	20020816
 %define		_snap		%{_snapver}
@@ -148,7 +148,7 @@ Summary(pl):	Szybki kodek MPEG4
 Group:		X11/Libraries
 Requires:	%{name} = %{version}
 Requires:	divx4linux
-Obsoletes:  avifile-divx4
+Obsoletes:	avifile-divx4
 
 %description divx
 DivX MPEG-4 decoder and encoder.
