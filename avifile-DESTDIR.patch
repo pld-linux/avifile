@@ -1,0 +1,28 @@
+diff -urN avifile-0.33.orig/Makefile.in avifile-0.33/Makefile.in
+--- avifile-0.33.orig/Makefile.in	Sun Jul 16 15:20:43 2000
++++ avifile-0.33/Makefile.in	Sun Jul 16 15:22:27 2000
+@@ -36,15 +36,15 @@
+ 	-find . -name Makefile -exec rm \{\} \;
+ 
+ install:
+-	$(INSTALL_PROGRAM) -d $(datadir)
+-	$(INSTALL_PROGRAM) -d $(includedir)/avifile/wine
+-	$(INSTALL_PROGRAM) -d $(datadir)/avifile
+-	$(INSTALL_PROGRAM) ./lib/libaviplay.so $(libdir)
+-	$(INSTALL_PROGRAM) ./include/*.h $(includedir)/avifile
+-	$(INSTALL_PROGRAM) ./include/wine/*.h $(includedir)/avifile/wine
+-	$(INSTALL_PROGRAM) ./bin/aviplay $(bindir)
+-	$(INSTALL_PROGRAM) ./bin/pause.png $(datadir)/avifile
+-	/sbin/ldconfig
++	$(INSTALL_PROGRAM) -d $(DESTDIR)/$(datadir)
++	$(INSTALL_PROGRAM) -d $(DESTDIR)/$(includedir)/avifile/wine
++	$(INSTALL_PROGRAM) -d $(DESTDIR)/$(datadir)/avifile
++	$(INSTALL_PROGRAM) ./lib/libaviplay.so $(DESTDIR)/$(libdir)
++	$(INSTALL_PROGRAM) ./include/*.h $(DESTDIR)/$(includedir)/avifile
++	$(INSTALL_PROGRAM) ./include/wine/*.h $(DESTDIR)/$(includedir)/avifile/wine
++	$(INSTALL_PROGRAM) ./bin/aviplay $(DESTDIR)/$(bindir)
++	$(INSTALL_PROGRAM) ./bin/pause.png $(DESTDIR)/$(datadir)/avifile
++	#/sbin/ldconfig
+ 
+ devinst:
+ 	$(INSTALL_PROGRAM) -d $(datadir)/avifile
