@@ -29,7 +29,7 @@ BuildRequires:	a52dec-libs-devel
 BuildRequires:	audiofile-devel
 BuildRequires:	autoconf
 BuildRequires:	automake
-%{!?_with_divx4:BuildRequires:	divx4linux-devel}
+%{?_with_divx4:BuildRequires:	divx4linux-devel}
 BuildRequires:	lame-libs-devel
 BuildRequires:	libjpeg-devel
 BuildRequires:	libogg-devel
