@@ -2,7 +2,7 @@
 #
 # Conditional build:
 # _without_qt		- disables QT support
-# _with_divx4		- disables divx4linux support
+# _with_divx4		- enables divx4linux support (proprietary, binary-only lib)
 #
 %define		_snapver	20020913
 %define		_snap		%{_snapver}
@@ -326,7 +326,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/avifile*/ffmpeg.so*
 %attr(755,root,root) %{_libdir}/avifile*/ffmpeg.la
 
-%if %{?_with_divx4:1}%{!?_without_divx4:0}
+%if %{?_with_divx4:1}%{!?_with_divx4:0}
 %files divx
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/avifile*/divx*.so*
