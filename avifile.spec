@@ -2,7 +2,7 @@
 #
 # Conditional build:
 # _without_qt		- disables QT support
-# _without_divx4	- disables divx4linux support
+# _with_divx4		- disables divx4linux support
 #
 %ifnarch %{ix86}
 %define		_without_divx4	1
@@ -11,6 +11,7 @@
 %define		_snap		%{_snapver}
 Summary:	Library for playing AVI files
 Summary(pl):	Biblioteka do odtwarzania plików AVI
+Summary(pt_BR):	Biblioteca para reproduzir formatos de áudio e vídeo usando binários win32
 Name:		avifile
 Version:	0.7.16
 Release:	0.%{_snap}.1
@@ -28,7 +29,7 @@ BuildRequires:	a52dec-libs-devel
 BuildRequires:	audiofile-devel
 BuildRequires:	autoconf
 BuildRequires:	automake
-%{!?_without_divx4:BuildRequires:	divx4linux-devel}
+%{!?_with_divx4:BuildRequires:	divx4linux-devel}
 BuildRequires:	lame-libs-devel
 BuildRequires:	libjpeg-devel
 BuildRequires:	libogg-devel
@@ -56,9 +57,16 @@ Avifile jest bibliotek± s³u¿±c± do odczytywania i zapisywania
 skompresowanych plików AVI (Indeo Video, DivX :-), etc.) pod Linuksem.
 Do (de)kompresji u¿ywane s± pluginy (win32, FFMpeg, ...)
 
+%description -l pt_BR
+Avifile busca criar uma biblioteca usável de suporte a arquivos AVI e
+um conjunto básico de utilitários (para reprodução, captura e edição)
+para o Linux. Contém classes C++ para leitura e criação de AVIs e
+interfaces para compressores e descompresseores de áudio e vídeo.
+
 %package devel
 Summary:	Header file required to build programs using libavifile
 Summary(pl):	Pliki nag³ówkowe wymagane przez programy u¿ywaj±ce libavifile
+Summary(pt_BR):	Componentes para desenvolvimento com a avifile
 Group:		X11/Development/Libraries
 Requires:	XFree86-devel
 Requires:	%{name} = %{version}
@@ -69,6 +77,9 @@ Header files required to build programs using libavifile.
 %description devel -l pl
 Pliki nag³ówkowe niezbêdne do kompilacji programów korzystaj±cych z
 libavifile.
+
+%description devel -l pt_BR
+Componentes para desenvolvimento com a avifile.
 
 %package aviplay
 Summary:	Player for AVI/ASF/WMF files
