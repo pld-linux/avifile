@@ -10,7 +10,7 @@ Summary(pl):	Biblioteka do odtwarzania plików AVI
 Summary(pt_BR):	Biblioteca para reproduzir formatos de áudio e vídeo usando binários win32
 Name:		avifile
 Version:	0.7.38
-Release:	4%{?with_divx:+divx}
+Release:	5%{?with_divx:+divx}
 Epoch:		3
 License:	GPL
 Group:		X11/Libraries
@@ -399,6 +399,7 @@ install -d $RPM_BUILD_ROOT{%{_bindir},%{_includedir}/%{name},%{_libdir},/usr/lib
 
 cp -f include/fourcc.h $RPM_BUILD_ROOT%{_includedir}/%{name}
 
+mv -f $RPM_BUILD_ROOT%{_bindir}/kv4lsetup $RPM_BUILD_ROOT%{_bindir}/akv4lsetup
 mv -f $RPM_BUILD_ROOT%{_includedir}/%{name}-0.7/* $RPM_BUILD_ROOT%{_includedir}/%{name}
 
 install %{SOURCE1} $RPM_BUILD_ROOT%{_desktopdir}
@@ -468,7 +469,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/avimake
 %attr(755,root,root) %{_bindir}/avirec
 %attr(755,root,root) %{_bindir}/avitype
-%attr(755,root,root) %{_bindir}/kv4lsetup
+%attr(755,root,root) %{_bindir}/akv4lsetup
 %{_mandir}/man1/avibench.1*
 %{_mandir}/man1/avicat.1*
 %{_mandir}/man1/avimake.1*
