@@ -5,25 +5,23 @@
 # _with_divx		- enables divx4linux support (proprietary, binary-only
 #			  lib)  note: if disabled, divx is decoded by ffmpeg
 #
-%define		_snapver	20020913
+%define		_snapver	20030107
 %define		_snap		%{_snapver}
 Summary:	Library for playing AVI files
 Summary(pl):	Biblioteka do odtwarzania plików AVI
 Summary(pt_BR):	Biblioteca para reproduzir formatos de áudio e vídeo usando binários win32
 Name:		avifile
-Version:	0.7.16
-Release:	0.%{_snap}.4%{?_with_divx:+divx}
+Version:	0.7.24
+Release:	0.%{_snap}.%{?_with_divx:+divx}
 Epoch:		3
 License:	GPL
 Group:		X11/Libraries
-Source0:	http://avifile.sourceforge.net/%{name}-%{version}-%{_snap}.tgz
+Source0:	%{name}0.7-%{version}-%{_snap}.tar.bz2
 Source1:	%{name}.desktop
 Patch0:		%{name}-shareware.patch
 Patch1:		%{name}-no_libnsl.patch
-Patch2:		%{name}-vidix.patch
-Patch3:		%{name}-configure.patch
-Patch4:		%{name}-compilation.patch
-Patch5:		%{name}-fix-keys.patch
+Patch2:		%{name}-configure.patch
+Patch3:		%{name}-fix-keys.patch
 URL:		http://avifile.sourceforge.net/
 BuildRequires:	SDL-devel >= 1.2.0
 BuildRequires:	XFree86-devel
@@ -221,24 +219,24 @@ Dekoder i koder XVID.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
-%patch4 -p0
-%patch5 -p1
 
 %build
-rm -f missing aclocal.m4
-%{__libtoolize}
-%{__aclocal}
-%{__autoheader}
-%{__autoconf}
-%{__automake}
+#rm -f missing aclocal.m4
+#%%{__libtoolize}
+#%%{__aclocal} -I m4
+#%%{__autoheader}
+#%%{__autoconf}
+#%%{__automake}
 
-cd plugins/libmad/libmad
-%{__autoconf}
-cd ../../..
+#cd plugins/libmad/libmad
+#%%{__autoconf}
+#cd ../../..
 
-cd libmmxnow
-%{__autoconf}
-cd ..
+#cd libmmxnow
+#%%{__autoconf}
+#cd ..
+
+./autogen.sh
 
 # This is The WRONG Way (tm)
 %if %{!?_without_qt:1}%{?_without_qt:0}
@@ -246,8 +244,10 @@ GEN_MOC="`grep -Rl '^ *Q_OBJECT$' *`"
 for f in $GEN_MOC; do moc -o "${f%.[!.]*}.moc" "$f"; done
 %endif
 
+#Temporary removed -I/usr/include/freetype2 cause it break build, I don't know why :(
+
 %configure \
-	CPPFLAGS="-I/usr/include/divx -I/usr/include/xvid -I/usr/include/freetype2" \
+	CPPFLAGS="-I/usr/include/divx -I/usr/include/xvid" \
 	AS="%{__cc}" \
 	FFMPEG_CFLAGS="%{rpmcflags} -ffast-math %{!?debug:-fomit-frame-pointer}" \
 	--with-qt-includes=%{_includedir}/qt \
