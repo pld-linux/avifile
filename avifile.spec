@@ -1,20 +1,20 @@
-%define		snap	20010929
+%define		snap	20011207
 Summary:	Library and sample program for playing AVI files
 Summary(pl):	Biblioteka i przyk³adowy program do odtwarzania plików AVI
 Name:		avifile
-Version:	0.6
+Version:	0.6.0
 Release:	0.%{snap}.1
 Epoch:		3
 License:	GPL
 Group:		X11/Applications/Multimedia
 Group(de):	X11/Applikationen/Multimedia
 Group(pl):	X11/Aplikacje/Multimedia
-Source0:	http://divx.euro.ru/%{name}-%{version}-%{snap}.tar.gz
+Source0:	http://divx.euro.ru/%{name}-%{version}.%{snap}.tar.gz
 Patch0:		%{name}-shareware.patch
 Patch1:		%{name}-deplib.patch
 Patch2:		%{name}-ac3.patch
 Patch3:		%{name}-size_t.patch
-Patch4:		%{name}-amfix.patch
+Patch4:		%{name}-wma2wav.patch
 BuildRequires:	XFree86-devel
 BuildRequires:	SDL-devel >= 1.2.0
 BuildRequires:	ac3dec-devel >= 0.6.1
@@ -63,7 +63,7 @@ Pliki nag³ówkowe niezbêdne do kompilacji programów korzystaj±cych z
 libaviplay.
 
 %prep
-%setup -q -n avifile-%{version}
+%setup -q -n avifile-%{version}.%{snap}
 %patch0 -p1
 # was broken and need fixing; without this xmms and avi plugin is broken
 %patch1 -p1
@@ -76,13 +76,17 @@ rm -f missing aclocal.m4
 libtoolize --copy --force
 aclocal
 autoconf
+(cd plugins/libmad/libmad && autoconf)
+(cd libmmxnow && autoconf)
 autoheader
 automake -a -c --foreign
-%configure CPPFLAGS="-I/usr/include/divx" AS="%{__cc}" \
+%configure \
+	CPPFLAGS="-I/usr/include/divx" AS="%{__cc}" \
 	--with-qt-includes=%{_includedir}/qt \
 	--with-libac3-path=%{_prefix} \
-	--enable-release \
-	--enable-ffmpeg
+	--enable-iconv \
+	--enable-ffmpeg \
+	--enable-release 
 
 touch lib/dummy.cpp
 %{__make}
@@ -116,6 +120,7 @@ rm -rf $RPM_BUILD_ROOT
 %doc *.gz doc/{CREDITS,EXCEPTIONS,KNOWN_BUGS,LICENSING}.gz
 %doc doc/{TODO,VIDEO-PERFORMANCE,WARNINGS}.gz
 %attr(755,root,root) %{_bindir}/avi[bcmprt]*
+%attr(755,root,root) %{_bindir}/wma2wav
 %attr(755,root,root) %{_bindir}/kv4lsetup
 %attr(755,root,root) %{_libdir}/lib*.so.*.*
 %dir %{_libdir}/avifile*
