@@ -1,7 +1,7 @@
 Summary:	Library and sample program for playing AVI files
 Summary(pl):	Biblioteka i przyk³adowy program do odtwarzania plików AVI
 Name:		avifile
-Version:	0.46
+Version:	0.47.1
 Release:	1
 Group:		X11/Applications/Multimedia
 Group(pl):	X11/Aplikacje/Multimedia
@@ -59,7 +59,7 @@ find . -exec touch {} \;
 %install
 rm -rf $RPM_BUILD_ROOT
 
-install -d "$RPM_BUILD_ROOT"{%{_bindir},%{_libdir}}
+install -d "$RPM_BUILD_ROOT"{%{_bindir},%{_libdir},/usr/lib/win32}
 
 %{__make} install \
 	DESTDIR="$RPM_BUILD_ROOT"
