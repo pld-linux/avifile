@@ -1,26 +1,27 @@
-%define		snap	20010809
+%define		snap	20010831
 Summary:	Library and sample program for playing AVI files
 Summary(pl):	Biblioteka i przyk³adowy program do odtwarzania plików AVI
 Name:		avifile
-Version:	0.6
-Release:	0.%{snap}.2
+Version:	0.6.0
+Release:	0.%{snap}.1
 Epoch:		3
 License:	GPL
 Group:		X11/Applications/Multimedia
 Group(de):	X11/Applikationen/Multimedia
 Group(pl):	X11/Aplikacje/Multimedia
-Source0:	http://divx.euro.ru/%{name}-%{version}-%{snap}.tar.gz
+#Source0:	http://divx.euro.ru/%{name}-%{version}-%{snap}.tar.gz
+Source0:	http://divx.euro.ru/%{name}-%{version}-%{snap}.tgz
 Patch0:		%{name}-shareware.patch
 Patch1:		%{name}-deplib.patch
 Patch2:		%{name}-ac3.patch
-Patch3:		%{name}-mga.patch
-Patch4:		%{name}-size_t.patch
+Patch3:		%{name}-size_t.patch
 BuildRequires:	XFree86-devel
 BuildRequires:	SDL-devel >= 1.2.0
 BuildRequires:	ac3dec-devel >= 0.6.1
 BuildRequires:	libjpeg-devel
 BuildRequires:	unzip
 BuildRequires:	qt-devel
+BuildRequires:	alsa-lib-devel
 BuildConflicts:	wine-devel
 ExclusiveArch:	%{ix86}
 Requires:	w32codec
@@ -54,13 +55,12 @@ Pliki nag³ówkowe niezbêdne do kompilacji programów korzystaj±cych z
 libaviplay.
 
 %prep
-%setup -q
+%setup -q -n avifile-%{version}.%{snap}
 %patch0 -p1
 # was broken and need fixing; without this xmms and avi plugin is broken
 # %patch1 -p1
 %patch2 -p1
 %patch3 -p1
-%patch4 -p1
 
 %build
 rm -f missing aclocal.m4
