@@ -293,20 +293,20 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/lib*.so.*.*
 %dir %{_libdir}/avifile*
 %attr(755,root,root) %{_libdir}/avifile*/audiodec.so*
-%attr(755,root,root) %{_libdir}/avifile*/audiodec.la
+%{_libdir}/avifile*/audiodec.la
 %attr(755,root,root) %{_libdir}/avifile*/mpeg_audiodec.so*
-%attr(755,root,root) %{_libdir}/avifile*/mpeg_audiodec.la
+%{_libdir}/avifile*/mpeg_audiodec.la
 %attr(755,root,root) %{_libdir}/avifile*/ac3pass.so*
-%attr(755,root,root) %{_libdir}/avifile*/ac3pass.la
+%{_libdir}/avifile*/ac3pass.la
 %attr(755,root,root) %{_libdir}/avifile*/mjpeg.so*
-%attr(755,root,root) %{_libdir}/avifile*/mjpeg.la
+%{_libdir}/avifile*/mjpeg.la
 
 %files devel
 %defattr(644,root,root,755)
 %doc doc/README-DEVEL*
 %attr(755,root,root) %{_bindir}/avifile-config
 %attr(755,root,root) %{_bindir}/mmxnow-config
-%attr(755,root,root) %{_libdir}/lib*.la
+%{_libdir}/lib*.la
 %{_libdir}/lib*.so
 %{_includedir}/%{name}
 %{_includedir}/*.h
@@ -331,39 +331,39 @@ rm -rf $RPM_BUILD_ROOT
 %files win32
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/avifile*/win32.so*
-%attr(755,root,root) %{_libdir}/avifile*/win32.la
+%{_libdir}/avifile*/win32.la
 %endif
 
 %files ffmpeg
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/avifile*/ffmpeg.so*
-%attr(755,root,root) %{_libdir}/avifile*/ffmpeg.la
+%{_libdir}/avifile*/ffmpeg.la
 
 %if %{?_with_divx:1}%{!?_with_divx:0}
 %files divx
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/avifile*/divx*.so*
-%attr(755,root,root) %{_libdir}/avifile*/divx*.la
+%{_libdir}/avifile*/divx*.la
 %endif
 
 %files vorbis
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/avifile*/vorbis*.so*
-%attr(755,root,root) %{_libdir}/avifile*/vorbis*.la
+%{_libdir}/avifile*/vorbis*.la
 
 %files mad
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/avifile*/mad*.so*
-%attr(755,root,root) %{_libdir}/avifile*/mad*.la
+%{_libdir}/avifile*/mad*.la
 
 %files lame_audioenc
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/avifile*/mp3lamebin_audioenc.so*
-%attr(755,root,root) %{_libdir}/avifile*/mp3lamebin_audioenc.la
+%{_libdir}/avifile*/mp3lamebin_audioenc.la
 
 %ifarch %{ix86} ppc
 %files xvid
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/avifile*/xvid.so*
-%attr(755,root,root) %{_libdir}/avifile*/xvid.la
+%{_libdir}/avifile*/xvid.la
 %endif
