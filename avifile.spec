@@ -8,7 +8,7 @@ Summary:	Library for playing AVI files
 Summary(pl):	Biblioteka do odtwarzania plikСw AVI
 Name:		avifile
 Version:	%{_ver}%{_subver}
-Release:	0.%{_snap}.3
+Release:	0.%{_snap}.4
 Epoch:		3
 License:	GPL
 Group:		X11/Libraries
@@ -123,7 +123,7 @@ Group(pt_BR):	X11/Bibliotecas
 Group(ru):	X11/Библиотеки
 Group(uk):	X11/Б╕бл╕отеки
 Requires:	%{name} = %{version}
-Requires:	w32codecs
+Requires:	w32codec
 ExclusiveArch:	%{ix86}
 
 %description win32
