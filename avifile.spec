@@ -4,9 +4,6 @@
 # _without_qt		- disables QT support
 # _with_divx4		- disables divx4linux support
 #
-%ifnarch %{ix86}
-%define		_without_divx4	1
-%endif
 %define		_snapver	20020913
 %define		_snap		%{_snapver}
 Summary:	Library for playing AVI files
