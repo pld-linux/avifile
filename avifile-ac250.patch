@@ -1,45 +1,5 @@
---- avifile-0.6/plugins/libffmpeg/libavcodec/Makefile.am.wiget	Mon Jul 16 16:02:37 2001
-+++ avifile-0.6/plugins/libffmpeg/libavcodec/Makefile.am	Mon Jul 16 16:02:37 2001
-@@ -1,14 +1,15 @@
- noinst_LTLIBRARIES = libavcodec.la
- 
--I386_SOURCE_FILES = 386/fdct_mmx.s i386/fdctdata.s i386/sad_mmx.s
-+I386_SOURCE_FILES_C = i386/fdctdata.c
-+I386_SOURCE_FILES_S = i386/fdct_mmx.s i386/sad_mmx.s
- 
- libavcodec_la_SOURCES = common.c utils.c mpegvideo.c h263.c jrevdct.c \
-       jfdctfst.c mpegaudio.c ac3enc.c mjpegenc.c resample.c dsputil.c \
-       motion_est.c imgconvert.c imgresample.c msmpeg4.c \
--      mpeg12.c h263dec.c mpegaudiodec.c $(I386_SOURCE_FILES)
-+      mpeg12.c h263dec.c mpegaudiodec.c 
- 
- libavcodec_la_LDFLAGS = -module
--
-+libavcodec_la_LIBADD = $(patsubst %.c, %.o, $(I386_SOURCE_FILES_C)) $(patsubst %.s, %.o, $(I386_SOURCE_FILES_S))
- LIBS =
- 
- # i386 specific stuff
-@@ -16,5 +17,5 @@
- # SSE can also be added
- #CFLAGS += -DCONFIG_SSE
- 
--#%.o: %.s
--#	nasm -f elf -o $@ $<
-+%.o: %.s
-+	nasm -f elf -o $@ $<
 --- avifile-0.6/acinclude.m4.wiget	Mon Jul 16 16:03:09 2001
 +++ avifile-0.6/acinclude.m4	Mon Jul 16 16:04:20 2001
-@@ -415,8 +415,8 @@
- AC_CACHE_VAL(ac_cv_have_x,
- [# One or both of the vars are not set, and there is no cached value.
- ac_x_includes=NO ac_x_libraries=NO
--AC_PATH_X_DIRECT
--AC_PATH_X_XMKMF
-+_AC_PATH_X_DIRECT
-+_AC_PATH_X_XMKMF
- if test "$ac_x_includes" = NO || test "$ac_x_libraries" = NO; then
-   AC_MSG_ERROR([Can't find X includes. Please check your installation and add the correct paths!])
- else
 @@ -1662,52 +1662,6 @@
  AC_SUBST($1)dnl
  ])
@@ -93,3 +53,11 @@
  # Macro to add for using GNU gettext.
  # Ulrich Drepper <drepper@cygnus.com>, 1995.
  
+--- avifile-0.6/plugins/libffmpeg/libavcodec/i386/Makefile.am~	Tue Jul 17 16:12:43 2001
++++ avifile-0.6/plugins/libffmpeg/libavcodec/i386/Makefile.am	Sat Jul 21 02:36:14 2001
+@@ -7,4 +7,4 @@
+
+ # incompatible with libtool!!
+ %.lo: %.s
+-	nasm -f elf -o $@ $<
++	$(LIBTOOL) --mode=compile --tag=shit nasm -f elf -o $@ $< -prefer-non-pic
