@@ -247,6 +247,8 @@ for f in $GEN_MOC; do moc -o "${f%.[!.]*}.moc" "$f"; done
 	%{?_with_divx4:--enable-divx4} \
 %ifarch i586 i686 athlon
 	--enable-x86opt \
+%else
+	--disable-x86opt \
 %endif
 	%{?_without_qt:--without-qt}
 
