@@ -1,19 +1,18 @@
+%define		snap	20010323
 Summary:	Library and sample program for playing AVI files
 Summary(pl):	Biblioteka i przyk³adowy program do odtwarzania plików AVI
 Name:		avifile
-Version:	0.6.0
-Release:	0.beta4
+Version:	0.6
+Release:	0.%{snap}
 Epoch:		1
 License:	GPL
 Group:		X11/Applications/Multimedia
 Group(de):	X11/Applikationen/Multimedia
 Group(pl):	X11/Aplikacje/Multimedia
-Source0:	http://divx.euro.ru/%{name}-%{version}-beta4.tar.gz
+Source0:	http://divx.euro.ru/%{name}-%{version}-%{snap}.tar.gz
 Patch0:		%{name}-shareware.patch
-Patch1:		%{name}-opt.patch
-Patch2:		%{name}-am_fix.patch
-Patch3:		%{name}-deplib.patch
-Patch4:		%{name}-ac3.patch
+Patch1:		%{name}-deplib.patch
+Patch2:		%{name}-ac3.patch
 Requires:	avi-codecs
 BuildRequires:	unzip
 BuildRequires:	libstdc++-devel
@@ -57,12 +56,11 @@ libaviplay.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
-%patch3 -p1
-%patch4 -p1
 
 %build
 libtoolize --copy --force
 aclocal
+rm -f missing
 automake -a -c --foreign
 autoconf
 CFLAGS="%{?debug:-O0 -g}%{!?debug:$RPM_OPT_FLAGS} -D_LARGEFILE64_SOURCE"; export CFLAGS
