@@ -168,7 +168,7 @@ Dekoder i koder MPEG-4 DivX.
 
 %package vorbis
 Summary:	Vorbis audio plugin
-Summary(pl):	Plugin vorbis audio.
+Summary(pl):	Plugin vorbis audio
 Group:		X11/Libraries
 Requires:	%{name} = %{version}
 
