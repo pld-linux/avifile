@@ -12,7 +12,7 @@ Summary(pl):	Biblioteka do odtwarzania plików AVI
 Summary(pt_BR):	Biblioteca para reproduzir formatos de áudio e vídeo usando binários win32
 Name:		avifile
 Version:	0.7.24
-Release:	0.%{_snap}.%{?_with_divx:+divx}
+Release:	0.%{_snap}%{?_with_divx:+divx}
 Epoch:		3
 License:	GPL
 Group:		X11/Libraries
@@ -245,8 +245,6 @@ Dekoder i koder XVID.
 GEN_MOC="`grep -Rl '^ *Q_OBJECT$' *`"
 for f in $GEN_MOC; do moc -o "${f%.[!.]*}.moc" "$f"; done
 %endif
-
-#Temporary removed -I/usr/include/freetype2 cause it break build, I don't know why :(
 
 %configure \
 	CPPFLAGS="-I/usr/include/divx -I/usr/include/xvid -I/usr/include/freetype2" \
