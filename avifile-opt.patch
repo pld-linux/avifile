@@ -1,8 +1,0 @@
-diff -urN avifile-0.6.org/lib/common/Makefile.am avifile-0.6/lib/common/Makefile.am
---- avifile-0.6.org/lib/common/Makefile.am	Mon Jun  4 20:48:19 2001
-+++ avifile-0.6/lib/common/Makefile.am	Mon Jun  4 20:49:11 2001
-@@ -13,4 +13,3 @@
-  ldt_keeper.cpp \
-  mmx.cpp 
- 
--CXXFLAGS = -g -O2
