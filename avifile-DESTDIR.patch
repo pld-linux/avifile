@@ -1,7 +1,7 @@
-diff -urN avifile-0.33.orig/Makefile.in avifile-0.33/Makefile.in
---- avifile-0.33.orig/Makefile.in	Sun Jul 16 15:20:43 2000
-+++ avifile-0.33/Makefile.in	Sun Jul 16 15:22:27 2000
-@@ -36,15 +36,15 @@
+diff -urN avifile-0.43.orig/Makefile.in avifile-0.43/Makefile.in
+--- avifile-0.43.orig/Makefile.in	Thu Aug  3 18:26:34 2000
++++ avifile-0.43/Makefile.in	Thu Aug  3 18:43:24 2000
+@@ -35,17 +35,16 @@
  	-find . -name Makefile -exec rm \{\} \;
  
  install:
@@ -12,17 +12,20 @@ diff -urN avifile-0.33.orig/Makefile.in avifile-0.33/Makefile.in
 -	$(INSTALL_PROGRAM) ./include/*.h $(includedir)/avifile
 -	$(INSTALL_PROGRAM) ./include/wine/*.h $(includedir)/avifile/wine
 -	$(INSTALL_PROGRAM) ./bin/aviplay $(bindir)
--	$(INSTALL_PROGRAM) ./bin/pause.png $(datadir)/avifile
+-	$(INSTALL_PROGRAM) ./bin/benchmark $(bindir)
+-	$(INSTALL_PROGRAM) ./bin/*.ppm $(datadir)/avifile
+-	$(INSTALL_PROGRAM) ./bin/*.png $(datadir)/avifile
 -	/sbin/ldconfig
-+	$(INSTALL_PROGRAM) -d $(DESTDIR)/$(datadir)
-+	$(INSTALL_PROGRAM) -d $(DESTDIR)/$(includedir)/avifile/wine
-+	$(INSTALL_PROGRAM) -d $(DESTDIR)/$(datadir)/avifile
-+	$(INSTALL_PROGRAM) ./lib/libaviplay.so $(DESTDIR)/$(libdir)
-+	$(INSTALL_PROGRAM) ./include/*.h $(DESTDIR)/$(includedir)/avifile
-+	$(INSTALL_PROGRAM) ./include/wine/*.h $(DESTDIR)/$(includedir)/avifile/wine
-+	$(INSTALL_PROGRAM) ./bin/aviplay $(DESTDIR)/$(bindir)
-+	$(INSTALL_PROGRAM) ./bin/pause.png $(DESTDIR)/$(datadir)/avifile
-+	#/sbin/ldconfig
++	$(INSTALL_PROGRAM) -d $(DESTDIR)$(datadir)
++	$(INSTALL_PROGRAM) -d $(DESTDIR)$(includedir)/avifile/wine
++	$(INSTALL_PROGRAM) -d $(DESTDIR)$(datadir)/avifile
++	$(INSTALL_PROGRAM) ./lib/libaviplay.so $(DESTDIR)$(libdir)
++	$(INSTALL_PROGRAM) ./include/*.h $(DESTDIR)$(includedir)/avifile
++	$(INSTALL_PROGRAM) ./include/wine/*.h $(DESTDIR)$(includedir)/avifile/wine
++	$(INSTALL_PROGRAM) ./bin/aviplay $(DESTDIR)$(bindir)
++	$(INSTALL_PROGRAM) ./bin/benchmark $(DESTDIR)$(bindir)
++	$(INSTALL_PROGRAM) ./bin/*.ppm $(DESTDIR)$(datadir)/avifile
++	$(INSTALL_PROGRAM) ./bin/*.png $(DESTDIR)$(datadir)/avifile
  
  devinst:
  	$(INSTALL_PROGRAM) -d $(datadir)/avifile
