@@ -1,0 +1,11 @@
+--- avifile0.7-0.7.15/configure.in~	Sun Sep 15 19:44:35 2002
++++ avifile0.7-0.7.15/configure.in	Sun Sep 15 19:44:35 2002
+@@ -90,7 +90,7 @@
+ AC_CHECK_LIB(dl, dlopen)
+ AC_CHECK_LIB(posix4, nanosleep)
+ AC_CHECK_LIB(socket, socket)
+-AC_CHECK_LIB(nsl, gethostbyname)
++AC_CHECK_FUNC(gethostbyname, [], AC_CHECK_LIB(nsl, gethostbyname))
+ dnl AC_SUBST(LIBSOCKET)
+ dnl AC_SUBST(LIBNSL)
+ 
