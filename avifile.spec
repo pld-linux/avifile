@@ -187,6 +187,20 @@ Plugin for mp3 encoding capability of avirecompress tool.
 %description lame_audioenc -l pl
 Plugin umo¿liwiaj±cy avirecompressowi kodowanie mp3.
 
+%package xvid
+Summary:	XVID codec
+Summary(pl):	Kodek XVID
+Group:		X11/Libraries
+Requires:	%{name} = %{version}
+Requires:	xvid
+ExclusiveArch:	%{ix86}
+
+%description xvid
+XVID decoder and encoder.
+
+%description xvid -l pl
+Dekoder i koder XVID.
+
 %prep
 %setup -q -n avifile%{_ver}-%{_snapver}
 %patch0 -p1
@@ -322,3 +336,8 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/avifile*/libmp3lamebin_audioenc.so*
 %attr(755,root,root) %{_libdir}/avifile*/libmp3lamebin_audioenc.la
+
+%files xvid
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/avifile*/libxvid.so*
+%attr(755,root,root) %{_libdir}/avifile*/libxvid.la
