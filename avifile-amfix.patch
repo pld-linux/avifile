@@ -1,0 +1,78 @@
+diff -urN avifile0.6-20011220.orig/configure.in avifile0.6-20011220/configure.in
+--- avifile0.6-20011220.orig/configure.in	Sun Jan 20 17:15:14 2002
++++ avifile0.6-20011220/configure.in	Sun Jan 20 17:17:59 2002
+@@ -83,6 +83,7 @@
+ dnl automatic updating of libtool configuration files
+ dnl not needed with automake AC_SUBST(LIBTOOL_DEPS) 
+ dnl using rather hack for .lo creation AM_PROG_AS
++AM_PROG_AS
+ 
+ 
+ dnl 
+diff -urN avifile0.6-20011220.orig/plugins/libwin32/loader/Makefile.am avifile0.6-20011220/plugins/libwin32/loader/Makefile.am
+--- avifile0.6-20011220.orig/plugins/libwin32/loader/Makefile.am	Sun Jan 20 17:15:14 2002
++++ avifile0.6-20011220/plugins/libwin32/loader/Makefile.am	Sun Jan 20 17:19:21 2002
+@@ -1,7 +1,7 @@
+ SUBDIRS = dshow wine 
+ noinst_LTLIBRARIES = libloader.la
+ libloader_la_SOURCES = afl.c driver.c elfdll.c ext.c module.c \
+- pe_image.c pe_resource.c registry.c resource.c win32.c ldt_keeper.c 
++ pe_image.c pe_resource.c registry.c resource.c win32.c ldt_keeper.c stubs.s
+ 
+ # ldt_keeper.c is not used here !! this is not a bug 
+ # it's used in lib/common/ldt_keeper.cpp
+--- avifile0.7-20020412/acinclude.m4.orig	Thu Apr 11 20:59:08 2002
++++ avifile0.7-20020412/acinclude.m4	Sun Apr 21 15:35:25 2002
+@@ -1444,18 +1444,6 @@
+ 
+ 
+ 
+-# as.m4
+-# Figure out how to run the assembler.
+-
+-# AM_PROG_AS
+-AC_DEFUN([AM_PROG_AS],
+-[# By default we simply use the C compiler to build assembly code.
+-AC_REQUIRE([AC_PROG_CC])
+-: ${AS='$(CC)'}
+-# Set ASFLAGS if not already set.
+-: ${ASFLAGS='$(CFLAGS)'}
+-AC_SUBST(AS)
+-AC_SUBST(ASFLAGS)])
+ 
+ 
+ 
+--- avifile0.7-20020412/lib/aviplay/Makefile.am.orig	Mon Jan  7 23:24:48 2002
++++ avifile0.7-20020412/lib/aviplay/Makefile.am	Sun Apr 21 15:37:56 2002
+@@ -38,7 +38,8 @@
+ 
+ # just for testing speed
+ check_PROGRAMS = hqtest res
+-hqtest_SOURCES = AudioFpHQResampler.cpp hqtest.cpp
++hqtest_SOURCES = hqtest.cpp
++hqtest_LDADD   = AudioFpHQResampler.lo
+ hqtest_LDFLAGS = ../libaviplay.la $(SDL_LDADD)
+ 
+ res_SOURCES = ResampleSinc.cpp
+--- avifile0.7-20020412/plugins/libac3pass/Makefile.am.orig	Sun Apr 21 15:35:45 2002
++++ avifile0.7-20020412/plugins/libac3pass/Makefile.am	Sun Apr 21 15:39:18 2002
+@@ -9,7 +9,8 @@
+ EXTRA_DIST = Makefile.emu README.avifile
+ 
+ check_PROGRAMS = play_ac3
+-play_ac3_SOURCES = play-ac3.c ac3-iec958.c
++play_ac3_SOURCES = play-ac3.c
++play_ac3_LDADD = ac3-iec958.lo
+ 
+ LINE1=Digital L
+ LINE2=Digital R
+--- avifile0.7-20020412/plugins/libmad/libmad/configure.in.orig	Sat Oct 27 03:28:47 2001
++++ avifile0.7-20020412/plugins/libmad/libmad/configure.in	Sun Apr 21 15:41:42 2002
+@@ -352,7 +352,5 @@
+ test -n "$optimize" && CFLAGS="$CFLAGS $optimize"
+ test -n "$profile"  && CFLAGS="$CFLAGS $profile" LDFLAGS="$LDFLAGS $profile"
+ 
+-LTLIBOBJS=`echo "$LIBOBJS" | sed -e 's/\.o/.lo/g'`
+-AC_SUBST(LTLIBOBJS)
+ 
+ AC_OUTPUT(Makefile)

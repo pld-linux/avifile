@@ -1,0 +1,11 @@
+--- avifile-0.50/lib/videocodec/Module.cpp~	Wed Dec  6 16:44:54 2000
++++ avifile-0.50/lib/videocodec/Module.cpp	Wed Dec  6 16:47:46 2000
+@@ -60,7 +60,7 @@
+ 		RegCloseKey(newkey);
+ 	        goto no_reg;
+     	    }    
+- 	    printf("::module bitrate: %d\n",bitrate);
++ 	    cout << "::module bitrate: %d\n" << bitrate;
+ 	    *(double*)((char*)_handle+0x14c0)=bitrate;
+ 	    RegCloseKey(newkey);
+ 	no_reg:

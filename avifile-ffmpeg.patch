@@ -1,0 +1,31 @@
+diff -ur avifile-0.6.orig/plugins/libffmpeg/libav/Makefile avifile-0.6/plugins/libffmpeg/libav/Makefile
+--- avifile-0.6.orig/plugins/libffmpeg/libav/Makefile	Mon Jul  9 11:09:00 2001
++++ avifile-0.6/plugins/libffmpeg/libav/Makefile	Tue Jul 10 00:22:21 2001
+@@ -1,6 +1,3 @@
+-CFLAGS= -O2 -Wall -g -I../libavcodec
+-CC=gcc
+-
+ OBJS= rmenc.o mpegmux.o asfenc.o avienc.o jpegenc.o swfenc.o wav.o raw.o \
+ 	 avidec.o ffm.o \
+ 	 avio.o aviobuf.o utils.o \
+@@ -15,7 +12,7 @@
+ 	ar rcs $@ $(OBJS)
+ 
+ %.o: %.c
+-	$(CC) $(CFLAGS) -c -o $@ $< 
++	$(CC) $(CFLAGS) -I../libavcodec -c -o $@ $< 
+ 
+ clean: 
+ 	rm -f *.o *~ *.a 
+diff -ur avifile-0.6.orig/plugins/libffmpeg/libavcodec/Makefile.am avifile-0.6/plugins/libffmpeg/libavcodec/Makefile.am
+--- avifile-0.6.orig/plugins/libffmpeg/libavcodec/Makefile.am	Mon Jul  9 11:09:00 2001
++++ avifile-0.6/plugins/libffmpeg/libavcodec/Makefile.am	Tue Jul 10 00:21:30 2001
+@@ -5,7 +5,7 @@
+ libavcodec_la_SOURCES = common.c utils.c mpegvideo.c h263.c jrevdct.c \
+       jfdctfst.c mpegaudio.c ac3enc.c mjpegenc.c resample.c dsputil.c \
+       motion_est.c imgconvert.c imgresample.c msmpeg4.c \
+-      mpeg12.c h263dec.c mpegaudiodec.c @I386_SOURCE_FILES@
++      mpeg12.c h263dec.c mpegaudiodec.c $(I386_SOURCE_FILES)
+ 
+ libavcodec_la_LDFLAGS = -module
+ 

@@ -1,0 +1,15 @@
+--- avifile-0.6/plugins/libaudiodec/ac3.h~	Mon Jul 30 16:18:42 2001
++++ avifile-0.6/plugins/libaudiodec/ac3.h	Mon Jul 30 16:25:01 2001
+@@ -14,8 +14,8 @@
+ 	static const int CHUNK_SIZE;
+ public:
+ 	AC3_Decoder(const CodecInfo&, WAVEFORMATEX*);
+-	int GetMinSize() { return CHUNK_SIZE; }
+-	int Convert( unsigned char* in_data, unsigned in_size,
+-		     unsigned char* out_data, unsigned out_size,
+-		     unsigned* size_read, unsigned* size_written );
++	size_t GetMinSize() { return CHUNK_SIZE; }
++	int Convert( const void* in_data, size_t in_size,
++		     void* out_data, size_t out_size,
++		     size_t* size_read, size_t* size_written );
+ };

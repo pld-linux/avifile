@@ -1,0 +1,14 @@
+diff -uNr avifile0.7-0.7.16.orig/configure.in avifile0.7-0.7.16/configure.in
+--- avifile0.7-0.7.16.orig/configure.in	Sat Oct  5 09:19:20 2002
++++ avifile0.7-0.7.16/configure.in	Sat Oct  5 10:19:22 2002
+@@ -807,7 +807,9 @@
+ 
+     if test x$ffmpeg_cpu = xx86 ; then
+ 	AC_DEFINE(ARCH_X86, 1, [Define if you want to build ffmpeg on x86 architecture.])
+-	AC_DEFINE(HAVE_MMX, 1, [Define if you want to build ffmpeg with mmx code.])
++        if test x$ffmpeg_x86opt != x--disable-mmx ; then
++	    AC_DEFINE(HAVE_MMX, 1, [Define if you want to build ffmpeg with mmx code.])
++	fi			    
+     fi
+ 
+     AC_DEFINE(CONFIG_ENCODERS, 1, [Define if you want to build ffmpeg encoders.])

@@ -1,0 +1,27 @@
+diff -ru avifile-0.50.orig/lib/videocodec/Module.cpp avifile-0.50/lib/videocodec/Module.cpp
+--- avifile-0.50.orig/lib/videocodec/Module.cpp	Sat Sep 30 11:17:51 2000
++++ avifile-0.50/lib/videocodec/Module.cpp	Tue Oct 24 23:17:22 2000
+@@ -44,12 +44,12 @@
+ 	throw FATAL("Could not load library");
+     try
+     {	
+-	if(name==string("divxc32.dll"))
++	if(name==string("divxc32.dll") || name==string("divxc32f.dll"))
+ 	{
+ 	    int newkey;
+ 	    int bitrate;	
+     	    int count=4;
+-	    if(RegOpenKeyExA(HKEY_CURRENT_USER, "Software\\LinuxLoader\\div3", 0, 0, &newkey)!=0)
++	    if(RegOpenKeyExA(HKEY_CURRENT_USER, "Software\\LinuxLoader\\Div3", 0, 0, &newkey)!=0)
+ 	    {
+ //		cerr<<"Could not open Divx key"<<endl;
+ 		goto no_reg;
+@@ -60,7 +60,7 @@
+ 		RegCloseKey(newkey);
+ 	        goto no_reg;
+     	    }    
+- 
++ 	    printf("::module bitrate: %d\n",bitrate);
+ 	    *(double*)((char*)_handle+0x14c0)=bitrate;
+ 	    RegCloseKey(newkey);
+ 	no_reg:
