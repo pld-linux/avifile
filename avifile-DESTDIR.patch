@@ -1,7 +1,7 @@
 diff -urN avifile-0.50.org/Makefile.in avifile-0.50/Makefile.in
---- avifile-0.50.org/Makefile.in	Mon Oct 30 00:43:41 2000
-+++ avifile-0.50/Makefile.in	Mon Oct 30 00:46:09 2000
-@@ -49,48 +49,48 @@
+--- avifile-0.50.org/Makefile.in	Mon Oct 30 11:45:32 2000
++++ avifile-0.50/Makefile.in	Mon Oct 30 11:46:10 2000
+@@ -49,49 +49,48 @@
  	-find . -name Makefile -exec rm \{\} \;
  
  stable-install:
@@ -73,7 +73,16 @@ diff -urN avifile-0.50.org/Makefile.in avifile-0.50/Makefile.in
  	-$(INSTALL_PROGRAM) ./lib/libavi_mjpeg.so @WIN32_PATH@
  endif
 -	-$(INSTALL_PROGRAM) -m0755 ./avifile-config $(bindir)
+-	/sbin/ldconfig @LDCONFIGOPTS@
 +	-$(INSTALL_PROGRAM) -m0755 ./avifile-config $(DESTDIR)$(bindir)
- 	/sbin/ldconfig @LDCONFIGOPTS@
  
  devinst:
+ 	-$(INSTALL_PROGRAM) -d $(datadir)/avifile
+@@ -117,7 +116,6 @@
+ endif
+ 	-ln -snf `pwd`/avifile-config $(bindir)
+ 	-chmod 755 $(bindir)/avifile-config
+-	/sbin/ldconfig @LDCONFIGOPTS@
+ 
+ uninstall:
+ 	-rm -fR $(bindir)/aviplay
