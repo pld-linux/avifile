@@ -15,6 +15,7 @@ Patch1:		%{name}-deplib.patch
 Patch2:		%{name}-ac3.patch
 Patch3:		%{name}-mga.patch
 Patch4:		%{name}-ffmpeg.patch
+Patch5:		%{name}-ac250.patch
 BuildRequires:	XFree86-devel
 BuildRequires:	SDL-devel >= 1.2.0
 BuildRequires:	ac3dec-devel >= 0.6.1
@@ -60,12 +61,13 @@ libaviplay.
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1 -b .wiget
 
 %build
-rm -f missing
+rm -f missing aclocal.m4
 libtoolize --copy --force
 aclocal
-autoconf
+autoconf || :
 automake -a -c --foreign
 %configure \
 	--with-qt-includes=%{_includedir}/qt \
@@ -74,7 +76,6 @@ automake -a -c --foreign
 	--disable-ffmpeg
 
 touch lib/dummy.cpp
-gcc -c plugins/libwin32/loader/stubs.s -o plugins/libwin32/loader/stubs.lo
 %{__make}
 
 %install
