@@ -225,7 +225,11 @@ Summary(pl):	Plugin enkoduj±cy d¼wiêk w formacie MP3
 Group:		X11/Libraries
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 # this library is dlopened
+%ifarch amd64 ia64 ppc64 s390x sparc64
+Requires:	libmp3lame.so.0()(64bit)
+%else
 Requires:	libmp3lame.so.0
+%endif
 Requires:	lame-libs
 
 %description lame_audioenc
