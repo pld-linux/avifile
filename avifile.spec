@@ -1,23 +1,21 @@
 Summary:	Library and sample program for playing AVI files
 Summary(pl):	Biblioteka i przyk³adowy program do odtwarzania plików AVI
 Name:		avifile
-Version:	0.50
-Release:	5
+Version:	0.51
+Release:	1
 License:	GPL
 Group:		X11/Applications/Multimedia
 Group(de):	X11/Applikationen/Multimedia
 Group(pl):	X11/Aplikacje/Multimedia
 Source0:	http://divx.euro.ru/%{name}-%{version}.tar.gz
-Patch0:		http://www.emulinks.de/divx/%{name}-%{version}.bitrate.patch
-Patch1:		%{name}-CVS-20001206.patch.gz
-Patch2:		%{name}-DESTDIR.patch
-Patch3:		%{name}-cout.patch
+Patch:		%{name}-DESTDIR.patch
 Requires:	avi-codecs
 BuildRequires:	unzip
 BuildRequires:	libstdc++-devel
 BuildRequires:	xmps-devel
 BuildRequires:	qt-devel
-BuildRequires:	SDL-devel
+BuildRequires:	SDL-devel >= 1.1.3
+BuildRequires:	XFree86-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_prefix		/usr/X11R6
@@ -49,10 +47,8 @@ libaviplay.
 %prep
 %setup -q
 %patch0 -p1
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
-perl -pi -e "s|-march=i586||g" configure.in
+cp configure.in configure.in.old
+sed -e "s#-march=i586##g" configure.in.old > configure.in
 
 %build
 aclocal
