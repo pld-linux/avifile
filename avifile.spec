@@ -11,7 +11,7 @@ Summary(pl):	Biblioteka do odtwarzania plików AVI
 Summary(pt_BR):	Biblioteca para reproduzir formatos de áudio e vídeo usando binários win32
 Name:		avifile
 Version:	0.7.16
-Release:	0.%{_snap}.2
+Release:	0.%{_snap}.3
 Epoch:		3
 License:	GPL
 Group:		X11/Libraries
@@ -20,6 +20,7 @@ Source1:	%{name}.desktop
 Patch0:		%{name}-shareware.patch
 Patch1:		%{name}-no_libnsl.patch
 Patch2:		%{name}-vidix.patch
+Patch2:		%{name}-configure.patch
 URL:		http://avifile.sourceforge.net/
 BuildRequires:	SDL-devel >= 1.2.0
 BuildRequires:	XFree86-devel
@@ -216,6 +217,7 @@ Dekoder i koder XVID.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 rm -f missing aclocal.m4
@@ -247,11 +249,7 @@ for f in $GEN_MOC; do moc -o "${f%.[!.]*}.moc" "$f"; done
 	--enable-ffmpeg \
 	--enable-ffmpeg-a52 \
 	%{?_with_divx4:--enable-divx4} \
-%ifarch i586 i686 athlon
-	--enable-x86opt \
-%else
 	--disable-x86opt \
-%endif
 	%{?_without_qt:--without-qt}
 
 touch lib/dummy.cpp
