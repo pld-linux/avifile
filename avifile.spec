@@ -22,7 +22,7 @@ Source1:	%{name}.desktop
 Patch0:		%{name}-shareware.patch
 Patch1:		%{name}-no_libnsl.patch
 Patch2:		%{name}-fix-keys.patch
-Patch3:		%{name}-home_etc.patch
+Patch3:		%{name}-etc_dir.patch
 URL:		http://avifile.sourceforge.net/
 BuildRequires:	SDL-devel >= 1.2.0
 BuildRequires:	XFree86-devel
