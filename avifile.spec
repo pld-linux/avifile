@@ -45,9 +45,6 @@ BuildRequires:	xvid-devel
 BuildConflicts:	wine-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define		_prefix		/usr/X11R6
-%define		_mandir		%{_prefix}/man
-
 %description
 Avifile is a library that allow programs to read and write compressed
 AVI files (Indeo Video, DivX :-), etc.) under x86 Linux.
