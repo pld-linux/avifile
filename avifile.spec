@@ -5,24 +5,22 @@
 # _with_divx		- enables divx4linux support (proprietary, binary-only
 #			  lib)  note: if disabled, divx is decoded by ffmpeg
 #
-%define		_snapver	20030107
+%define		_snapver	20030219
 %define		_snap		%{_snapver}
 Summary:	Library for playing AVI files
 Summary(pl):	Biblioteka do odtwarzania plików AVI
 Summary(pt_BR):	Biblioteca para reproduzir formatos de áudio e vídeo usando binários win32
 Name:		avifile
-Version:	0.7.24
+Version:	0.7.32
 Release:	0.%{_snap}%{?_with_divx:+divx}
 Epoch:		3
 License:	GPL
 Group:		X11/Libraries
-Source0:	%{name}0.7-%{version}-%{_snap}.tar.bz2
+Source0:	http://avifile.sourceforge.net/%{name}-%{version}-%{_snap}.tgz
 Source1:	%{name}.desktop
 Patch0:		%{name}-shareware.patch
 Patch1:		%{name}-no_libnsl.patch
-Patch2:		%{name}-configure.patch
-Patch3:		%{name}-fix-keys.patch
-Patch4:		%{name}-xft.patch
+Patch2:		%{name}-fix-keys.patch
 URL:		http://avifile.sourceforge.net/
 BuildRequires:	SDL-devel >= 1.2.0
 BuildRequires:	XFree86-devel
@@ -300,26 +298,13 @@ Sterownik VIDIX dla kart graficznych Permedia.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
-%patch3 -p1
-%patch4 -p1
 
 %build
-#rm -f missing aclocal.m4
-#%%{__libtoolize}
-#%%{__aclocal} -I m4
-#%%{__autoheader}
-#%%{__autoconf}
-#%%{__automake}
+%{__autoconf}
 
-#cd plugins/libmad/libmad
-#%%{__autoconf}
-#cd ../../..
-
-#cd libmmxnow
-#%%{__autoconf}
-#cd ..
-
-./autogen.sh
+cd plugins/libmad/libmad
+%{__autoconf}
+cd ../../..
 
 # This is The WRONG Way (tm)
 %if %{!?_without_qt:1}%{?_without_qt:0}
@@ -390,12 +375,13 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc doc/README-DEVEL*
 %attr(755,root,root) %{_bindir}/avifile-config
-%attr(755,root,root) %{_bindir}/mmxnow-config
 %{_libdir}/lib*.la
 %{_libdir}/lib*.so
 %{_includedir}/%{name}
-%{_includedir}/*.h
 %{_aclocaldir}/*.m4
+%{_pkgconfigdir}/%{name}.pc
+%{_mandir}/man1/avifile-config.1*
+
 
 %if %{?_without_qt:0}%{!?_without_qt:1}
 %files aviplay
@@ -417,6 +403,14 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/avirec
 %attr(755,root,root) %{_bindir}/avitype
 %attr(755,root,root) %{_bindir}/kv4lsetup
+%{?!_without_qt:%{_mandir}/man1/avicap.1*}
+%{?!_without_qt:%{_mandir}/man1/avirecompress.1*}
+%{_mandir}/man1/avibench.1*
+%{_mandir}/man1/avicat.1*
+%{_mandir}/man1/avimake.1*
+%{_mandir}/man1/avirec.1*
+%{_mandir}/man1/avitype.1*
+%{_mandir}/man1/kv4lsetup.1*
 
 %ifarch %{ix86}
 %files win32
