@@ -6,7 +6,7 @@ Summary:	Library for playing AVI files
 Summary(pl):	Biblioteka do odtwarzania plików AVI
 Name:		avifile
 Version:	%{_ver}
-Release:	0.%{_snap}.7
+Release:	0.%{_snap}.8
 Epoch:		3
 License:	GPL
 Group:		X11/Libraries
@@ -19,21 +19,22 @@ Patch2:		%{name}-ac3.patch
 Patch3:		%{name}-size_t.patch
 Patch4:		%{name}-amfix.patch
 Patch5:		%{name}-xvid.patch
-BuildRequires:	XFree86-devel
 BuildRequires:	SDL-devel >= 1.2.0
+BuildRequires:	XFree86-devel
 BuildRequires:	ac3dec-devel >= 0.6.1
-BuildRequires:	libjpeg-devel
-BuildRequires:	unzip
-BuildRequires:	qt-devel
+BuildRequires:	audiofile-devel
+BuildRequires:	autoconf
+BuildRequires:	automake
 %ifarch %{ix86}
 BuildRequires:	divx4linux-devel
 %endif
-BuildRequires:	autoconf
-BuildRequires:	automake
-BuildRequires:	libtool
-BuildRequires:	libogg-devel
-BuildRequires:	libvorbis-devel >= 1:1.0
 BuildRequires:	lame-libs-devel
+BuildRequires:	libjpeg-devel
+BuildRequires:	libogg-devel
+BuildRequires:	libtool
+BuildRequires:	libvorbis-devel >= 1:1.0
+BuildRequires:	qt-devel
+BuildRequires:	unzip
 %ifarch %{ix86} ppc sparc sparc64 sparcv9
 BuildRequires:	xvid-devel
 %endif
