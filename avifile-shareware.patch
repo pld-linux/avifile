@@ -1,18 +1,19 @@
---- avifile-0.6.0/plugins/libwin32/loader/win32.c~	Sat Jan 20 01:08:03 2001
-+++ avifile-0.6.0/plugins/libwin32/loader/win32.c	Wed Jan 24 00:31:28 2001
-@@ -1728,7 +1728,7 @@
+diff -ur avifile-0.6.0.20011207/plugins/libwin32/loader/win32.c avifile-0.6.0.20011207-/plugins/libwin32/loader/win32.c
+--- avifile-0.6.0.20011207/plugins/libwin32/loader/win32.c	Wed Dec 19 00:36:11 2001
++++ avifile-0.6.0.20011207-/plugins/libwin32/loader/win32.c	Wed Dec 19 00:35:31 2001
+@@ -2907,7 +2907,7 @@
      local_time=tv.tv_sec;
      local_tm=localtime(&local_time);
-     
+ 
 -    systime->wYear = local_tm->tm_year + 1900;
 +    systime->wYear = 1999; /* local_tm->tm_year + 1900; */
      systime->wMonth = local_tm->tm_mon + 1;
      systime->wDayOfWeek = local_tm->tm_wday;
      systime->wDay = local_tm->tm_mday;
-@@ -1749,7 +1749,7 @@
+@@ -2933,7 +2933,7 @@
      local_time=tv.tv_sec;
      local_tm=gmtime(&local_time);
-     
+ 
 -    systime->wYear = local_tm->tm_year + 1900;
 +    systime->wYear = 1999; /* local_tm->tm_year + 1900; */
      systime->wMonth = local_tm->tm_mon + 1;
