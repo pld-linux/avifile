@@ -1,9 +1,9 @@
 # It's sick.
-%define		_snap		20020719
+%define		_snap		20020816
 Summary:	Library for playing AVI files
 Summary(pl):	Biblioteka do odtwarzania plików AVI
 Name:		avifile
-Version:	0.7.12
+Version:	0.7.15
 Release:	0.%{_snap}.1
 Epoch:		3
 License:	GPL
@@ -202,7 +202,8 @@ Dekoder i koder XVID.
 %patch0 -p1
 # was broken and need fixing; without this xmms and avi plugin is broken
 %patch1 -p1
-%patch2 -p1
+# applied in snapshot
+#%patch2 -p1
 %patch3 -p1
 # all this patch changes is commented in this snapshot
 #%patch4 -p1
