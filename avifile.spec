@@ -210,7 +210,7 @@ Dekoder i koder XVID.
 
 %build
 rm -f missing aclocal.m4
-libtoolize --copy --force
+%{__libtoolize}
 aclocal
 autoheader
 %{__autoconf}
