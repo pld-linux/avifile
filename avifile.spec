@@ -45,6 +45,7 @@ Summary(pl):	Pliki nag³ówkowe wymagane przez programy u¿ywaj±ce libaviplay
 Group:		X11/Development/Libraries
 Group(de):	X11/Entwicklung/Libraries
 Group(pl):	X11/Programowanie/Biblioteki
+Requires:	XFree86-devel
 
 %description devel
 Header files required to build programs using libaviplay.
