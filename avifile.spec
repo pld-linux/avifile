@@ -223,7 +223,7 @@ Dekoder i koder XVID.
 rm -f missing aclocal.m4
 %{__libtoolize}
 %{__aclocal}
-autoheader
+%{__autoheader}
 %{__autoconf}
 %{__automake}
 
