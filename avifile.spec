@@ -7,14 +7,13 @@
 %ifnarch %{ix86}
 %define		_without_divx4	1
 %endif
-%define		_snapver	20020816
+%define		_snapver	20020913
 %define		_snap		%{_snapver}
-%define		_ver	0.7.15
 Summary:	Library for playing AVI files
 Summary(pl):	Biblioteka do odtwarzania plików AVI
 Name:		avifile
-Version:	%{_ver}
-Release:	0.%{_snap}.2
+Version:	0.7.16
+Release:	0.%{_snap}.1
 Epoch:		3
 License:	GPL
 Group:		X11/Libraries
@@ -204,7 +203,7 @@ XVID decoder and encoder.
 Dekoder i koder XVID.
 
 %prep
-%setup -q -n avifile0.7-%{_ver}
+%setup -q -n avifile0.7-%{version}
 %patch0 -p1
 %patch1 -p1
 
