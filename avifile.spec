@@ -1,3 +1,12 @@
+#
+# Conditional build:
+# bcond_off_arts - without arts support
+#
+
+%ifarch	alpha
+%define bcond_off_arts 1
+%endif
+
 %define		snap	20010402
 Summary:	Library and sample program for playing AVI files
 Summary(pl):	Biblioteka i przyk³adowy program do odtwarzania plików AVI
@@ -21,7 +30,7 @@ BuildRequires:	qt-devel
 BuildRequires:	SDL-devel >= 1.1.3
 BuildRequires:	XFree86-devel
 BuildRequires:	libjpeg-devel
-BuildRequires:	arts-devel
+%{!?bcond_off_arts:BuildRequires:	arts-devel}
 BuildRequires:	ac3dec-devel >= 0.6.1
 BuildConflicts:	wine-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
