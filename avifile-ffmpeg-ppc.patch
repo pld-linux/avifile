@@ -3145,6 +3145,6 @@ diff -Nur avifile-0.7-0.7.38/ffmpeg/libavcodec/ppc.orig/mpegvideo_ppc.c avifile-
  libavcodecppc_la_SOURCES = $(PPC_SRC)
  
 -AM_CPPFLAGS = $(LTNOPIC) -DHAVE_AV_CONFIG_H -I$(srcdir)/../..
-+AM_CPPFLAGS = $(LTNOPIC) -DHAVE_AV_CONFIG_H -DHAVE_ALTIVEC_H -I$(srcdir)/../..
++AM_CPPFLAGS = $(LTNOPIC) -DHAVE_AV_CONFIG_H -DHAVE_ALTIVEC_H -maltivec -I$(srcdir)/../..
  
  MAINTAINERCLEANFILES = Makefile.in
