@@ -1,4 +1,4 @@
-%define		snap	20010604
+%define		snap	20010612
 Summary:	Library and sample program for playing AVI files
 Summary(pl):	Biblioteka i przyk³adowy program do odtwarzania plików AVI
 Name:		avifile
@@ -56,7 +56,8 @@ libaviplay.
 %prep
 %setup -q
 %patch0 -p1
-%patch1 -p1
+# was broken and need fixing; without this xmms and avi plugin is broken
+# %patch1 -p1
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
