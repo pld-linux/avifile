@@ -1,6 +1,6 @@
 diff -urN avifile-0.6.org/acinclude.m4 avifile-0.6/acinclude.m4
---- avifile-0.6.org/acinclude.m4	Tue May  1 18:42:52 2001
-+++ avifile-0.6/acinclude.m4	Tue May  1 18:51:03 2001
+--- avifile-0.6.org/acinclude.m4	Thu May 17 17:54:08 2001
++++ avifile-0.6/acinclude.m4	Thu May 17 17:54:17 2001
 @@ -2587,190 +2587,6 @@
  
  ])
@@ -305,3 +305,21 @@ diff -urN avifile-0.6.org/acinclude.m4 avifile-0.6/acinclude.m4
  
  # Configure paths for SDL
  # Sam Lantinga 9/21/99
+diff -urN avifile-0.6.org/configure.in avifile-0.6/configure.in
+--- avifile-0.6.org/configure.in	Thu May 17 17:54:08 2001
++++ avifile-0.6/configure.in	Thu May 17 17:54:32 2001
+@@ -18,14 +18,6 @@
+ AC_PROG_CXXCPP
+ AC_PROG_INSTALL
+ AM_PROG_LIBTOOL
+-dnl - some bad is with the current version of automake in Debian unstable
+-dnl - so temporaly using this ugly fix - using link to system's binary
+-if test x$USER = xkabi; then
+-   rm libtool
+-   ln -s /usr/bin/libtool
+-else
+-   AM_PROG_LIBTOOL
+-fi
+ AC_LANG_C
+ 
+ AM_CONFIG_HEADER(include/config.h)
