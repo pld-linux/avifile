@@ -1,4 +1,4 @@
-%define		snap	20010323
+%define		snap	20010402
 Summary:	Library and sample program for playing AVI files
 Summary(pl):	Biblioteka i przyk³adowy program do odtwarzania plików AVI
 Name:		avifile
@@ -13,6 +13,7 @@ Source0:	http://divx.euro.ru/%{name}-%{version}-%{snap}.tar.gz
 Patch0:		%{name}-shareware.patch
 Patch1:		%{name}-deplib.patch
 Patch2:		%{name}-ac3.patch
+Patch3:		%{name}-fps.patch
 Requires:	avi-codecs
 BuildRequires:	unzip
 BuildRequires:	libstdc++-devel
@@ -56,6 +57,7 @@ libaviplay.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 libtoolize --copy --force
