@@ -214,89 +214,82 @@ XVID decoder and encoder.
 %description xvid -l pl
 Dekoder i koder XVID.
 
-%package xvid-driver-fb
-Summary:	XVID FB Driver
-Summary(pl):	Sterownik XVID dla FB
+%package vidix-driver-fb
+Summary:	VIDIX FB Driver
+Summary(pl):	Sterownik VIDIX dla FB
 Group:		X11/Libraries
-Requires:	xvid
 
-%description xvid-driver-fb
-XVID FB Driver.
+%description vidix-driver-fb
+VIDIX FB Driver.
 
-%description xvid-driver-fb -l pl
-Sterownik XVID dla FB.
+%description vidix-driver-fb -l pl
+Sterownik VIDIX dla FB.
 
-%package xvid-driver-mach64
-Summary:	XVID mach64 Driver
-Summary(pl):	Sterownik XVID dla mach64
+%package vidix-driver-mach64
+Summary:	VIDIX mach64 Driver
+Summary(pl):	Sterownik VIDIX dla mach64
 Group:		X11/Libraries
-Requires:	xvid
 
-%description xvid-driver-mach64
-XVID mach64 Driver.
+%description vidix-driver-mach64
+VIDIX mach64 Driver.
 
-%description xvid-driver-mach64 -l pl
-Sterownik XVID dla mach64.
+%description vidix-driver-mach64 -l pl
+Sterownik vidix dla mach64.
 
-%package xvid-driver-rage128
-Summary:	XVID rage128 Driver
-Summary(pl):	Sterownik XVID dla rage128
+%package vidix-driver-rage128
+Summary:	vidix rage128 Driver
+Summary(pl):	Sterownik vidix dla rage128
 Group:		X11/Libraries
-Requires:	xvid
 
-%description xvid-driver-rage128
-XVID rage128 Driver.
+%description vidix-driver-rage128
+vidix rage128 Driver.
 
-%description xvid-driver-rage128 -l pl
-Sterownik XVID dla rage128.
+%description vidix-driver-rage128 -l pl
+Sterownik vidix dla rage128.
 
-%package xvid-driver-radeon
-Summary:	XVID radeon Driver
-Summary(pl):	Sterownik XVID dla radeon
+%package vidix-driver-radeon
+Summary:	vidix radeon Driver
+Summary(pl):	Sterownik vidix dla radeon
 Group:		X11/Libraries
-Requires:	xvid
 
-%description xvid-driver-radeon
-XVID radeon Driver.
+%description vidix-driver-radeon
+vidix radeon Driver.
 
-%description xvid-driver-radeon -l pl
-Sterownik XVID dla radeon.
+%description vidix-driver-radeon -l pl
+Sterownik vidix dla radeon.
 
-%package xvid-driver-mga
-Summary:	XVID MGA Driver
-Summary(pl):	Sterownik XVID dla MGA
+%package vidix-driver-mga
+Summary:	vidix MGA Driver
+Summary(pl):	Sterownik vidix dla MGA
 Group:		X11/Libraries
-Requires:	xvid
 
-%description xvid-driver-mga
-XVID MGA Driver.
+%description vidix-driver-mga
+vidix MGA Driver.
 
-%description xvid-driver-mga -l pl
-Sterownik XVID dla MGA.
+%description vidix-driver-mga -l pl
+Sterownik vidix dla MGA.
 
-%package xvid-driver-nvidia
-Summary:	XVID nvidia Driver
-Summary(pl):	Sterownik XVID dla nvidia
+%package vidix-driver-nvidia
+Summary:	vidix nvidia Driver
+Summary(pl):	Sterownik vidix dla nvidia
 Group:		X11/Libraries
-Requires:	xvid
 
-%description xvid-driver-nvidia
-XVID nvidia Driver.
+%description vidix-driver-nvidia
+vidix nvidia Driver.
 
-%description xvid-driver-nvidia -l pl
-Sterownik XVID dla nvidia.
+%description vidix-driver-nvidia -l pl
+Sterownik vidix dla nvidia.
 
-%package xvid-driver-permedia
-Summary:	XVID permedia Driver
-Summary(pl):	Sterownik XVID dla permedia
+%package vidix-driver-permedia
+Summary:	vidix permedia Driver
+Summary(pl):	Sterownik vidix dla permedia
 Group:		X11/Libraries
-Requires:	xvid
 
-%description xvid-driver-permedia
-XVID permedia Driver.
+%description vidix-driver-permedia
+vidix permedia Driver.
 
-%description xvid-driver-permedia -l pl
-Sterownik XVID dla permedia.
+%description vidix-driver-permedia -l pl
+Sterownik vidix dla permedia.
 
 %prep
 %setup -q -n avifile0.7-%{version}
@@ -452,53 +445,53 @@ rm -rf $RPM_BUILD_ROOT
 %files xvid
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/avifile*/xvid.so*
-%{_libdir}/avifile*/xvid.la
+%{_libdir}/avifile*/vidix.la
 %endif
 
 %ifarch %{ix86} ppc
-%files xvid-driver-fb
+%files vidix-driver-fb
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/avifile*/vidix/libgenfb.so*
 %{_libdir}/avifile*/vidix/libgenfb.la
 %endif
 
 %ifarch %{ix86} ppc
-%files xvid-driver-mach64
+%files vidix-driver-mach64
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/avifile*/vidix/libmach64.so*
 %{_libdir}/avifile*/vidix/libmach64.la
 %endif
 
 %ifarch %{ix86} ppc
-%files xvid-driver-rage128
+%files vidix-driver-rage128
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/avifile*/vidix/librage128.so*
 %{_libdir}/avifile*/vidix/librage128.la
 %endif
 
 %ifarch %{ix86} ppc
-%files xvid-driver-radeon
+%files vidix-driver-radeon
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/avifile*/vidix/libradeon.so*
 %{_libdir}/avifile*/vidix/libradeon.la
 %endif
 
 %ifarch %{ix86} ppc
-%files xvid-driver-mga
+%files vidix-driver-mga
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/avifile*/vidix/libmga*.so*
 %{_libdir}/avifile*/vidix/libmga*.la
 %endif
 
 %ifarch %{ix86} ppc
-%files xvid-driver-nvidia
+%files vidix-driver-nvidia
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/avifile*/vidix/libnvidia.so*
 %{_libdir}/avifile*/vidix/libnvidia.la
 %endif
 
 %ifarch %{ix86} ppc
-%files xvid-driver-permedia
+%files vidix-driver-permedia
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/avifile*/vidix/libpm3.so*
 %{_libdir}/avifile*/vidix/libpm3.la
