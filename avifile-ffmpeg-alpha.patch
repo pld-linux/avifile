@@ -1,0 +1,1285 @@
+diff -Nur avifile-0.7-0.7.38/ffmpeg/libavcodec/alpha.orig/asm.h avifile-0.7-0.7.38/ffmpeg/libavcodec/alpha/asm.h
+--- avifile-0.7-0.7.38/ffmpeg/libavcodec/alpha.orig/asm.h	2002-10-16 09:26:12.000000000 +0200
++++ avifile-0.7-0.7.38/ffmpeg/libavcodec/alpha/asm.h	2003-09-28 17:26:39.000000000 +0200
+@@ -42,14 +42,14 @@
+ #define AMASK_CIX (1 << 2)
+ #define AMASK_MVI (1 << 8)
+ 
+-inline static uint64_t BYTE_VEC(uint64_t x)
++static inline uint64_t BYTE_VEC(uint64_t x)
+ {
+     x |= x <<  8;
+     x |= x << 16;
+     x |= x << 32;
+     return x;
+ }
+-inline static uint64_t WORD_VEC(uint64_t x)
++static inline uint64_t WORD_VEC(uint64_t x)
+ {
+     x |= x << 16;
+     x |= x << 32;
+@@ -63,27 +63,15 @@
+ #define sextw(x) ((int16_t) (x))
+ 
+ #ifdef __GNUC__
+-#define ASM_ACCEPT_MVI asm (".arch pca56")
+ struct unaligned_long { uint64_t l; } __attribute__((packed));
+ #define ldq_u(p)     (*(const uint64_t *) (((uint64_t) (p)) & ~7ul))
+ #define uldq(a)	     (((const struct unaligned_long *) (a))->l)
+ 
+-#if GNUC_PREREQ(3,0)
+-/* Unfortunately, __builtin_prefetch is slightly buggy on Alpha. The
+-   defines here are kludged so we still get the right
+-   instruction. This needs to be adapted as soon as gcc is fixed.  */
+-# define prefetch(p)     __builtin_prefetch((p), 0, 1)
+-# define prefetch_en(p)  __builtin_prefetch((p), 1, 1)
+-# define prefetch_m(p)   __builtin_prefetch((p), 0, 0)
+-# define prefetch_men(p) __builtin_prefetch((p), 1, 0)
+-#else
+-# define prefetch(p)     asm volatile("ldl $31,%0"  : : "m"(*(const char *) (p)) : "memory")
+-# define prefetch_en(p)  asm volatile("ldq $31,%0"  : : "m"(*(const char *) (p)) : "memory")
+-# define prefetch_m(p)   asm volatile("lds $f31,%0" : : "m"(*(const char *) (p)) : "memory")
+-# define prefetch_men(p) asm volatile("ldt $f31,%0" : : "m"(*(const char *) (p)) : "memory")
+-#endif
+-
+ #if GNUC_PREREQ(3,3)
++#define prefetch(p)     __builtin_prefetch((p), 0, 1)
++#define prefetch_en(p)  __builtin_prefetch((p), 0, 0)
++#define prefetch_m(p)   __builtin_prefetch((p), 1, 1)
++#define prefetch_men(p) __builtin_prefetch((p), 1, 0)
+ #define cmpbge	__builtin_alpha_cmpbge
+ /* Avoid warnings.  */
+ #define extql(a, b)	__builtin_alpha_extql(a, (uint64_t) (b))
+@@ -94,6 +82,24 @@
+ #define amask	__builtin_alpha_amask
+ #define implver	__builtin_alpha_implver
+ #define rpcc	__builtin_alpha_rpcc
++#else
++#define prefetch(p)     asm volatile("ldl $31,%0"  : : "m"(*(const char *) (p)) : "memory")
++#define prefetch_en(p)  asm volatile("ldq $31,%0"  : : "m"(*(const char *) (p)) : "memory")
++#define prefetch_m(p)   asm volatile("lds $f31,%0" : : "m"(*(const char *) (p)) : "memory")
++#define prefetch_men(p) asm volatile("ldt $f31,%0" : : "m"(*(const char *) (p)) : "memory")
++#define cmpbge(a, b) ({ uint64_t __r; asm ("cmpbge  %r1,%2,%0"  : "=r" (__r) : "rJ"  (a), "rI" (b)); __r; })
++#define extql(a, b)  ({ uint64_t __r; asm ("extql   %r1,%2,%0"  : "=r" (__r) : "rJ"  (a), "rI" (b)); __r; })
++#define extwl(a, b)  ({ uint64_t __r; asm ("extwl   %r1,%2,%0"  : "=r" (__r) : "rJ"  (a), "rI" (b)); __r; })
++#define extqh(a, b)  ({ uint64_t __r; asm ("extqh   %r1,%2,%0"  : "=r" (__r) : "rJ"  (a), "rI" (b)); __r; })
++#define zap(a, b)    ({ uint64_t __r; asm ("zap     %r1,%2,%0"  : "=r" (__r) : "rJ"  (a), "rI" (b)); __r; })
++#define zapnot(a, b) ({ uint64_t __r; asm ("zapnot  %r1,%2,%0"  : "=r" (__r) : "rJ"  (a), "rI" (b)); __r; })
++#define amask(a)     ({ uint64_t __r; asm ("amask   %1,%0"      : "=r" (__r) : "rI"  (a));	     __r; })
++#define implver()    ({ uint64_t __r; asm ("implver %0"         : "=r" (__r));			     __r; })
++#define rpcc()	     ({ uint64_t __r; asm volatile ("rpcc %0"   : "=r" (__r));			     __r; })
++#endif
++#define wh64(p) asm volatile("wh64 (%0)" : : "r"(p) : "memory")
++
++#if GNUC_PREREQ(3,3) && defined(__alpha_max__)
+ #define minub8	__builtin_alpha_minub8
+ #define minsb8	__builtin_alpha_minsb8
+ #define minuw4	__builtin_alpha_minuw4
+@@ -108,34 +114,24 @@
+ #define unpkbl	__builtin_alpha_unpkbl
+ #define unpkbw	__builtin_alpha_unpkbw
+ #else
+-#define cmpbge(a, b) ({ uint64_t __r; asm ("cmpbge  %r1,%2,%0"  : "=r" (__r) : "rJ"  (a), "rI" (b)); __r; })
+-#define extql(a, b)  ({ uint64_t __r; asm ("extql   %r1,%2,%0"  : "=r" (__r) : "rJ"  (a), "rI" (b)); __r; })
+-#define extwl(a, b)  ({ uint64_t __r; asm ("extwl   %r1,%2,%0"  : "=r" (__r) : "rJ"  (a), "rI" (b)); __r; })
+-#define extqh(a, b)  ({ uint64_t __r; asm ("extqh   %r1,%2,%0"  : "=r" (__r) : "rJ"  (a), "rI" (b)); __r; })
+-#define zap(a, b)    ({ uint64_t __r; asm ("zap     %r1,%2,%0"  : "=r" (__r) : "rJ"  (a), "rI" (b)); __r; })
+-#define zapnot(a, b) ({ uint64_t __r; asm ("zapnot  %r1,%2,%0"  : "=r" (__r) : "rJ"  (a), "rI" (b)); __r; })
+-#define amask(a)     ({ uint64_t __r; asm ("amask   %1,%0"      : "=r" (__r) : "rI"  (a));	     __r; })
+-#define implver()    ({ uint64_t __r; asm ("implver %0"         : "=r" (__r));			     __r; })
+-#define rpcc()	     ({ uint64_t __r; asm volatile ("rpcc %0"   : "=r" (__r));			     __r; })
+-#define minub8(a, b) ({ uint64_t __r; asm ("minub8  %r1,%2,%0"  : "=r" (__r) : "%rJ" (a), "rI" (b)); __r; })
+-#define minsb8(a, b) ({ uint64_t __r; asm ("minsb8  %r1,%2,%0"  : "=r" (__r) : "%rJ" (a), "rI" (b)); __r; })
+-#define minuw4(a, b) ({ uint64_t __r; asm ("minuw4  %r1,%2,%0"  : "=r" (__r) : "%rJ" (a), "rI" (b)); __r; })
+-#define minsw4(a, b) ({ uint64_t __r; asm ("minsw4  %r1,%2,%0"  : "=r" (__r) : "%rJ" (a), "rI" (b)); __r; })
+-#define maxub8(a, b) ({ uint64_t __r; asm ("maxub8  %r1,%2,%0"  : "=r" (__r) : "%rJ" (a), "rI" (b)); __r; })
+-#define maxsb8(a, b) ({ uint64_t __r; asm ("maxsb8  %r1,%2,%0"  : "=r" (__r) : "%rJ" (a), "rI" (b)); __r; })
+-#define maxuw4(a, b) ({ uint64_t __r; asm ("maxuw4  %r1,%2,%0"  : "=r" (__r) : "%rJ" (a), "rI" (b)); __r; })
+-#define maxsw4(a, b) ({ uint64_t __r; asm ("maxsw4  %r1,%2,%0"  : "=r" (__r) : "%rJ" (a), "rI" (b)); __r; })
+-#define perr(a, b)   ({ uint64_t __r; asm ("perr    %r1,%r2,%0" : "=r" (__r) : "%rJ" (a), "rJ" (b)); __r; })
+-#define pklb(a)      ({ uint64_t __r; asm ("pklb    %r1,%0"     : "=r" (__r) : "rJ"  (a));	     __r; })
+-#define pkwb(a)      ({ uint64_t __r; asm ("pkwb    %r1,%0"     : "=r" (__r) : "rJ"  (a));	     __r; })
+-#define unpkbl(a)    ({ uint64_t __r; asm ("unpkbl  %r1,%0"     : "=r" (__r) : "rJ"  (a));	     __r; })
+-#define unpkbw(a)    ({ uint64_t __r; asm ("unpkbw  %r1,%0"     : "=r" (__r) : "rJ"  (a));	     __r; })
++#define minub8(a, b) ({ uint64_t __r; asm (".arch ev6; minub8  %r1,%2,%0"  : "=r" (__r) : "%rJ" (a), "rI" (b)); __r; })
++#define minsb8(a, b) ({ uint64_t __r; asm (".arch ev6; minsb8  %r1,%2,%0"  : "=r" (__r) : "%rJ" (a), "rI" (b)); __r; })
++#define minuw4(a, b) ({ uint64_t __r; asm (".arch ev6; minuw4  %r1,%2,%0"  : "=r" (__r) : "%rJ" (a), "rI" (b)); __r; })
++#define minsw4(a, b) ({ uint64_t __r; asm (".arch ev6; minsw4  %r1,%2,%0"  : "=r" (__r) : "%rJ" (a), "rI" (b)); __r; })
++#define maxub8(a, b) ({ uint64_t __r; asm (".arch ev6; maxub8  %r1,%2,%0"  : "=r" (__r) : "%rJ" (a), "rI" (b)); __r; })
++#define maxsb8(a, b) ({ uint64_t __r; asm (".arch ev6; maxsb8  %r1,%2,%0"  : "=r" (__r) : "%rJ" (a), "rI" (b)); __r; })
++#define maxuw4(a, b) ({ uint64_t __r; asm (".arch ev6; maxuw4  %r1,%2,%0"  : "=r" (__r) : "%rJ" (a), "rI" (b)); __r; })
++#define maxsw4(a, b) ({ uint64_t __r; asm (".arch ev6; maxsw4  %r1,%2,%0"  : "=r" (__r) : "%rJ" (a), "rI" (b)); __r; })
++#define perr(a, b)   ({ uint64_t __r; asm (".arch ev6; perr    %r1,%r2,%0" : "=r" (__r) : "%rJ" (a), "rJ" (b)); __r; })
++#define pklb(a)      ({ uint64_t __r; asm (".arch ev6; pklb    %r1,%0"     : "=r" (__r) : "rJ"  (a));	     __r; })
++#define pkwb(a)      ({ uint64_t __r; asm (".arch ev6; pkwb    %r1,%0"     : "=r" (__r) : "rJ"  (a));	     __r; })
++#define unpkbl(a)    ({ uint64_t __r; asm (".arch ev6; unpkbl  %r1,%0"     : "=r" (__r) : "rJ"  (a));	     __r; })
++#define unpkbw(a)    ({ uint64_t __r; asm (".arch ev6; unpkbw  %r1,%0"     : "=r" (__r) : "rJ"  (a));	     __r; })
+ #endif
+ 
+ #elif defined(__DECC)		/* Digital/Compaq/hp "ccc" compiler */
+ 
+ #include <c_asm.h>
+-#define ASM_ACCEPT_MVI
+ #define ldq_u(a)     asm ("ldq_u   %v0,0(%a0)", a)
+ #define uldq(a)	     (*(const __unaligned uint64_t *) (a))
+ #define cmpbge(a, b) asm ("cmpbge  %a0,%a1,%v0", a, b)
+@@ -160,6 +156,7 @@
+ #define pkwb(a)      asm ("pkwb    %a0,%v0", a)
+ #define unpkbl(a)    asm ("unpkbl  %a0,%v0", a)
+ #define unpkbw(a)    asm ("unpkbw  %a0,%v0", a)
++#define wh64(a)      asm ("wh64    %a0", a)
+ 
+ #else
+ #error "Unknown compiler!"
+diff -Nur avifile-0.7-0.7.38/ffmpeg/libavcodec/alpha.orig/dsputil_alpha.c avifile-0.7-0.7.38/ffmpeg/libavcodec/alpha/dsputil_alpha.c
+--- avifile-0.7-0.7.38/ffmpeg/libavcodec/alpha.orig/dsputil_alpha.c	1970-01-01 01:00:00.000000000 +0100
++++ avifile-0.7-0.7.38/ffmpeg/libavcodec/alpha/dsputil_alpha.c	2003-09-28 17:26:39.000000000 +0200
+@@ -0,0 +1,364 @@
++/*
++ * Alpha optimized DSP utils
++ * Copyright (c) 2002 Falk Hueffner <falk@debian.org>
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, write to the Free Software
++ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
++ */
++
++#include "asm.h"
++#include "../dsputil.h"
++
++extern void simple_idct_axp(DCTELEM *block);
++extern void simple_idct_put_axp(uint8_t *dest, int line_size, DCTELEM *block);
++extern void simple_idct_add_axp(uint8_t *dest, int line_size, DCTELEM *block);
++
++void put_pixels_axp_asm(uint8_t *block, const uint8_t *pixels,
++                        int line_size, int h);
++void put_pixels_clamped_mvi_asm(const DCTELEM *block, uint8_t *pixels,
++                                int line_size);
++void add_pixels_clamped_mvi_asm(const DCTELEM *block, uint8_t *pixels, 
++                                int line_size);
++void (*put_pixels_clamped_axp_p)(const DCTELEM *block, uint8_t *pixels,
++                                 int line_size);
++void (*add_pixels_clamped_axp_p)(const DCTELEM *block, uint8_t *pixels, 
++                                 int line_size);
++
++void get_pixels_mvi(DCTELEM *restrict block,
++                    const uint8_t *restrict pixels, int line_size);
++void diff_pixels_mvi(DCTELEM *block, const uint8_t *s1, const uint8_t *s2,
++                     int stride);
++int pix_abs8x8_mvi(uint8_t *pix1, uint8_t *pix2, int line_size);
++int pix_abs16x16_mvi_asm(uint8_t *pix1, uint8_t *pix2, int line_size);
++int pix_abs16x16_x2_mvi(uint8_t *pix1, uint8_t *pix2, int line_size);
++int pix_abs16x16_y2_mvi(uint8_t *pix1, uint8_t *pix2, int line_size);
++int pix_abs16x16_xy2_mvi(uint8_t *pix1, uint8_t *pix2, int line_size);
++
++#if 0
++/* These functions were the base for the optimized assembler routines,
++   and remain here for documentation purposes.  */
++static void put_pixels_clamped_mvi(const DCTELEM *block, uint8_t *pixels, 
++                                   int line_size)
++{
++    int i = 8;
++    uint64_t clampmask = zap(-1, 0xaa); /* 0x00ff00ff00ff00ff */
++
++    do {
++        uint64_t shorts0, shorts1;
++
++        shorts0 = ldq(block);
++        shorts0 = maxsw4(shorts0, 0);
++        shorts0 = minsw4(shorts0, clampmask);
++        stl(pkwb(shorts0), pixels);
++
++        shorts1 = ldq(block + 4);
++        shorts1 = maxsw4(shorts1, 0);
++        shorts1 = minsw4(shorts1, clampmask);
++        stl(pkwb(shorts1), pixels + 4);
++
++        pixels += line_size;
++        block += 8;
++    } while (--i);
++}
++
++void add_pixels_clamped_mvi(const DCTELEM *block, uint8_t *pixels, 
++                            int line_size)
++{
++    int h = 8;
++    /* Keep this function a leaf function by generating the constants
++       manually (mainly for the hack value ;-).  */
++    uint64_t clampmask = zap(-1, 0xaa); /* 0x00ff00ff00ff00ff */
++    uint64_t signmask  = zap(-1, 0x33);
++    signmask ^= signmask >> 1;  /* 0x8000800080008000 */
++
++    do {
++        uint64_t shorts0, pix0, signs0;
++        uint64_t shorts1, pix1, signs1;
++
++        shorts0 = ldq(block);
++        shorts1 = ldq(block + 4);
++
++        pix0    = unpkbw(ldl(pixels));
++        /* Signed subword add (MMX paddw).  */
++        signs0  = shorts0 & signmask;
++        shorts0 &= ~signmask;
++        shorts0 += pix0;
++        shorts0 ^= signs0;
++        /* Clamp. */
++        shorts0 = maxsw4(shorts0, 0);
++        shorts0 = minsw4(shorts0, clampmask);   
++
++        /* Next 4.  */
++        pix1    = unpkbw(ldl(pixels + 4));
++        signs1  = shorts1 & signmask;
++        shorts1 &= ~signmask;
++        shorts1 += pix1;
++        shorts1 ^= signs1;
++        shorts1 = maxsw4(shorts1, 0);
++        shorts1 = minsw4(shorts1, clampmask);
++
++        stl(pkwb(shorts0), pixels);
++        stl(pkwb(shorts1), pixels + 4);
++
++        pixels += line_size;
++        block += 8;
++    } while (--h);
++}
++#endif
++
++static void clear_blocks_axp(DCTELEM *blocks) {
++    uint64_t *p = (uint64_t *) blocks;
++    int n = sizeof(DCTELEM) * 6 * 64;
++
++    do {
++        p[0] = 0;
++        p[1] = 0;
++        p[2] = 0;
++        p[3] = 0;
++        p[4] = 0;
++        p[5] = 0;
++        p[6] = 0;
++        p[7] = 0;
++        p += 8;
++        n -= 8 * 8;
++    } while (n);
++}
++
++static inline uint64_t avg2_no_rnd(uint64_t a, uint64_t b)
++{
++    return (a & b) + (((a ^ b) & BYTE_VEC(0xfe)) >> 1);
++}
++
++static inline uint64_t avg2(uint64_t a, uint64_t b)
++{
++    return (a | b) - (((a ^ b) & BYTE_VEC(0xfe)) >> 1);    
++}
++
++#if 0
++/* The XY2 routines basically utilize this scheme, but reuse parts in
++   each iteration.  */
++static inline uint64_t avg4(uint64_t l1, uint64_t l2, uint64_t l3, uint64_t l4)
++{
++    uint64_t r1 = ((l1 & ~BYTE_VEC(0x03)) >> 2)
++                + ((l2 & ~BYTE_VEC(0x03)) >> 2)
++                + ((l3 & ~BYTE_VEC(0x03)) >> 2)
++                + ((l4 & ~BYTE_VEC(0x03)) >> 2);
++    uint64_t r2 = ((  (l1 & BYTE_VEC(0x03))
++                    + (l2 & BYTE_VEC(0x03))
++                    + (l3 & BYTE_VEC(0x03))
++                    + (l4 & BYTE_VEC(0x03))
++                    + BYTE_VEC(0x02)) >> 2) & BYTE_VEC(0x03);
++    return r1 + r2;
++}
++#endif
++
++#define OP(LOAD, STORE)                         \
++    do {                                        \
++        STORE(LOAD(pixels), block);             \
++        pixels += line_size;                    \
++        block += line_size;                     \
++    } while (--h)
++
++#define OP_X2(LOAD, STORE)                                      \
++    do {                                                        \
++        uint64_t pix1, pix2;                                    \
++                                                                \
++        pix1 = LOAD(pixels);                                    \
++        pix2 = pix1 >> 8 | ((uint64_t) pixels[8] << 56);        \
++        STORE(AVG2(pix1, pix2), block);                         \
++        pixels += line_size;                                    \
++        block += line_size;                                     \
++    } while (--h)
++
++#define OP_Y2(LOAD, STORE)                      \
++    do {                                        \
++        uint64_t pix = LOAD(pixels);            \
++        do {                                    \
++            uint64_t next_pix;                  \
++                                                \
++            pixels += line_size;                \
++            next_pix = LOAD(pixels);            \
++            STORE(AVG2(pix, next_pix), block);  \
++            block += line_size;                 \
++            pix = next_pix;                     \
++        } while (--h);                          \
++    } while (0)
++
++#define OP_XY2(LOAD, STORE)                                                 \
++    do {                                                                    \
++        uint64_t pix1 = LOAD(pixels);                                       \
++        uint64_t pix2 = pix1 >> 8 | ((uint64_t) pixels[8] << 56);           \
++        uint64_t pix_l = (pix1 & BYTE_VEC(0x03))                            \
++                       + (pix2 & BYTE_VEC(0x03));                           \
++        uint64_t pix_h = ((pix1 & ~BYTE_VEC(0x03)) >> 2)                    \
++                       + ((pix2 & ~BYTE_VEC(0x03)) >> 2);                   \
++                                                                            \
++        do {                                                                \
++            uint64_t npix1, npix2;                                          \
++            uint64_t npix_l, npix_h;                                        \
++            uint64_t avg;                                                   \
++                                                                            \
++            pixels += line_size;                                            \
++            npix1 = LOAD(pixels);                                           \
++            npix2 = npix1 >> 8 | ((uint64_t) pixels[8] << 56);              \
++            npix_l = (npix1 & BYTE_VEC(0x03))                               \
++                   + (npix2 & BYTE_VEC(0x03));                              \
++            npix_h = ((npix1 & ~BYTE_VEC(0x03)) >> 2)                       \
++                   + ((npix2 & ~BYTE_VEC(0x03)) >> 2);                      \
++            avg = (((pix_l + npix_l + AVG4_ROUNDER) >> 2) & BYTE_VEC(0x03)) \
++                + pix_h + npix_h;                                           \
++            STORE(avg, block);                                              \
++                                                                            \
++            block += line_size;                                             \
++            pix_l = npix_l;                                                 \
++            pix_h = npix_h;                                                 \
++        } while (--h);                                                      \
++    } while (0)
++
++#define MAKE_OP(OPNAME, SUFF, OPKIND, STORE)                                \
++static void OPNAME ## _pixels ## SUFF ## _axp                               \
++        (uint8_t *restrict block, const uint8_t *restrict pixels,           \
++         int line_size, int h)                                              \
++{                                                                           \
++    if ((size_t) pixels & 0x7) {                                            \
++        OPKIND(uldq, STORE);                                                \
++    } else {                                                                \
++        OPKIND(ldq, STORE);                                                 \
++    }                                                                       \
++}                                                                           \
++                                                                            \
++static void OPNAME ## _pixels16 ## SUFF ## _axp                             \
++        (uint8_t *restrict block, const uint8_t *restrict pixels,           \
++         int line_size, int h)                                              \
++{                                                                           \
++    OPNAME ## _pixels ## SUFF ## _axp(block,     pixels,     line_size, h); \
++    OPNAME ## _pixels ## SUFF ## _axp(block + 8, pixels + 8, line_size, h); \
++}
++
++#define PIXOP(OPNAME, STORE)                    \
++    MAKE_OP(OPNAME, ,     OP,     STORE)        \
++    MAKE_OP(OPNAME, _x2,  OP_X2,  STORE)        \
++    MAKE_OP(OPNAME, _y2,  OP_Y2,  STORE)        \
++    MAKE_OP(OPNAME, _xy2, OP_XY2, STORE)
++
++/* Rounding primitives.  */
++#define AVG2 avg2
++#define AVG4 avg4
++#define AVG4_ROUNDER BYTE_VEC(0x02)
++#define STORE(l, b) stq(l, b)
++PIXOP(put, STORE);
++
++#undef STORE
++#define STORE(l, b) stq(AVG2(l, ldq(b)), b);
++PIXOP(avg, STORE);
++
++/* Not rounding primitives.  */
++#undef AVG2
++#undef AVG4
++#undef AVG4_ROUNDER
++#undef STORE
++#define AVG2 avg2_no_rnd
++#define AVG4 avg4_no_rnd
++#define AVG4_ROUNDER BYTE_VEC(0x01)
++#define STORE(l, b) stq(l, b)
++PIXOP(put_no_rnd, STORE);
++
++#undef STORE
++#define STORE(l, b) stq(AVG2(l, ldq(b)), b);
++PIXOP(avg_no_rnd, STORE);
++
++void put_pixels16_axp_asm(uint8_t *block, const uint8_t *pixels,
++                          int line_size, int h)
++{
++    put_pixels_axp_asm(block,     pixels,     line_size, h);
++    put_pixels_axp_asm(block + 8, pixels + 8, line_size, h);
++}
++
++static int sad16x16_mvi(void *s, uint8_t *a, uint8_t *b, int stride)
++{
++    return pix_abs16x16_mvi_asm(a, b, stride);
++}
++
++static int sad8x8_mvi(void *s, uint8_t *a, uint8_t *b, int stride)
++{
++    return pix_abs8x8_mvi(a, b, stride);
++}
++
++void dsputil_init_alpha(DSPContext* c, AVCodecContext *avctx)
++{
++    c->put_pixels_tab[0][0] = put_pixels16_axp_asm;
++    c->put_pixels_tab[0][1] = put_pixels16_x2_axp;
++    c->put_pixels_tab[0][2] = put_pixels16_y2_axp;
++    c->put_pixels_tab[0][3] = put_pixels16_xy2_axp;
++
++    c->put_no_rnd_pixels_tab[0][0] = put_pixels16_axp_asm;
++    c->put_no_rnd_pixels_tab[0][1] = put_no_rnd_pixels16_x2_axp;
++    c->put_no_rnd_pixels_tab[0][2] = put_no_rnd_pixels16_y2_axp;
++    c->put_no_rnd_pixels_tab[0][3] = put_no_rnd_pixels16_xy2_axp;
++
++    c->avg_pixels_tab[0][0] = avg_pixels16_axp;
++    c->avg_pixels_tab[0][1] = avg_pixels16_x2_axp;
++    c->avg_pixels_tab[0][2] = avg_pixels16_y2_axp;
++    c->avg_pixels_tab[0][3] = avg_pixels16_xy2_axp;
++
++    c->avg_no_rnd_pixels_tab[0][0] = avg_no_rnd_pixels16_axp;
++    c->avg_no_rnd_pixels_tab[0][1] = avg_no_rnd_pixels16_x2_axp;
++    c->avg_no_rnd_pixels_tab[0][2] = avg_no_rnd_pixels16_y2_axp;
++    c->avg_no_rnd_pixels_tab[0][3] = avg_no_rnd_pixels16_xy2_axp;
++
++    c->put_pixels_tab[1][0] = put_pixels_axp_asm;
++    c->put_pixels_tab[1][1] = put_pixels_x2_axp;
++    c->put_pixels_tab[1][2] = put_pixels_y2_axp;
++    c->put_pixels_tab[1][3] = put_pixels_xy2_axp;
++
++    c->put_no_rnd_pixels_tab[1][0] = put_pixels_axp_asm;
++    c->put_no_rnd_pixels_tab[1][1] = put_no_rnd_pixels_x2_axp;
++    c->put_no_rnd_pixels_tab[1][2] = put_no_rnd_pixels_y2_axp;
++    c->put_no_rnd_pixels_tab[1][3] = put_no_rnd_pixels_xy2_axp;
++
++    c->avg_pixels_tab[1][0] = avg_pixels_axp;
++    c->avg_pixels_tab[1][1] = avg_pixels_x2_axp;
++    c->avg_pixels_tab[1][2] = avg_pixels_y2_axp;
++    c->avg_pixels_tab[1][3] = avg_pixels_xy2_axp;
++
++    c->avg_no_rnd_pixels_tab[1][0] = avg_no_rnd_pixels_axp;
++    c->avg_no_rnd_pixels_tab[1][1] = avg_no_rnd_pixels_x2_axp;
++    c->avg_no_rnd_pixels_tab[1][2] = avg_no_rnd_pixels_y2_axp;
++    c->avg_no_rnd_pixels_tab[1][3] = avg_no_rnd_pixels_xy2_axp;
++
++    c->clear_blocks = clear_blocks_axp;
++
++    /* amask clears all bits that correspond to present features.  */
++    if (amask(AMASK_MVI) == 0) {
++        c->put_pixels_clamped = put_pixels_clamped_mvi_asm;
++        c->add_pixels_clamped = add_pixels_clamped_mvi_asm;
++
++        c->get_pixels       = get_pixels_mvi;
++        c->diff_pixels      = diff_pixels_mvi;
++        c->sad[0]           = sad16x16_mvi;
++        c->sad[1]           = sad8x8_mvi;
++        c->pix_abs8x8       = pix_abs8x8_mvi;
++        c->pix_abs16x16     = pix_abs16x16_mvi_asm;
++        c->pix_abs16x16_x2  = pix_abs16x16_x2_mvi;
++        c->pix_abs16x16_y2  = pix_abs16x16_y2_mvi;
++        c->pix_abs16x16_xy2 = pix_abs16x16_xy2_mvi;
++    }
++
++    put_pixels_clamped_axp_p = c->put_pixels_clamped;
++    add_pixels_clamped_axp_p = c->add_pixels_clamped;
++    
++    c->idct_put = simple_idct_put_axp;
++    c->idct_add = simple_idct_add_axp;
++    c->idct = simple_idct_axp;
++}
+diff -Nur avifile-0.7-0.7.38/ffmpeg/libavcodec/alpha.orig/Makefile.am avifile-0.7-0.7.38/ffmpeg/libavcodec/alpha/Makefile.am
+--- avifile-0.7-0.7.38/ffmpeg/libavcodec/alpha.orig/Makefile.am	2003-05-25 23:07:42.000000000 +0200
++++ avifile-0.7-0.7.38/ffmpeg/libavcodec/alpha/Makefile.am	2003-11-13 23:51:25.426454176 +0100
+@@ -7,10 +7,12 @@
+  dsputil_alpha.c \
+  motion_est_alpha.c \
+  mpegvideo_alpha.c \
+- simple_idct_alpha.c
++ simple_idct_alpha.c \
++ dsputil_alpha_asm.S \
++ motion_est_mvi_asm.S
+ endif
+ 
+-noinst_HEADERS = asm.h dsputil_alpha_asm.S regdef.h motion_est_mvi_asm.S 
++noinst_HEADERS = asm.h regdef.h
+ 
+ libavcodecalpha_la_SOURCES = $(ALPHA_SRC)
+ 
+diff -Nur avifile-0.7-0.7.38/ffmpeg/libavcodec/alpha.orig/motion_est_alpha.c avifile-0.7-0.7.38/ffmpeg/libavcodec/alpha/motion_est_alpha.c
+--- avifile-0.7-0.7.38/ffmpeg/libavcodec/alpha.orig/motion_est_alpha.c	1970-01-01 01:00:00.000000000 +0100
++++ avifile-0.7-0.7.38/ffmpeg/libavcodec/alpha/motion_est_alpha.c	2003-09-28 17:26:39.000000000 +0200
+@@ -0,0 +1,347 @@
++/*
++ * Alpha optimized DSP utils
++ * Copyright (c) 2002 Falk Hueffner <falk@debian.org>
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, write to the Free Software
++ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
++ */
++
++#include "asm.h"
++#include "../dsputil.h"
++
++void get_pixels_mvi(DCTELEM *restrict block,
++                    const uint8_t *restrict pixels, int line_size)
++{
++    int h = 8;
++
++    do {
++        uint64_t p;
++
++        p = ldq(pixels);
++        stq(unpkbw(p),       block);
++        stq(unpkbw(p >> 32), block + 4); 
++
++        pixels += line_size;
++        block += 8;
++    } while (--h);
++}
++
++void diff_pixels_mvi(DCTELEM *block, const uint8_t *s1, const uint8_t *s2,
++                     int stride) {
++    int h = 8;
++    uint64_t mask = 0x4040;
++
++    mask |= mask << 16;
++    mask |= mask << 32;
++    do {
++        uint64_t x, y, c, d, a;
++        uint64_t signs;
++
++        x = ldq(s1);
++        y = ldq(s2);
++        c = cmpbge(x, y);
++        d = x - y;
++        a = zap(mask, c);       /* We use 0x4040404040404040 here...  */
++        d += 4 * a;             /* ...so we can use s4addq here.      */
++        signs = zap(-1, c);
++
++        stq(unpkbw(d)       | (unpkbw(signs)       << 8), block);
++        stq(unpkbw(d >> 32) | (unpkbw(signs >> 32) << 8), block + 4);
++
++        s1 += stride;
++        s2 += stride;
++        block += 8;
++    } while (--h);
++}
++
++static inline uint64_t avg2(uint64_t a, uint64_t b)
++{
++    return (a | b) - (((a ^ b) & BYTE_VEC(0xfe)) >> 1);
++}
++
++static inline uint64_t avg4(uint64_t l1, uint64_t l2, uint64_t l3, uint64_t l4)
++{
++    uint64_t r1 = ((l1 & ~BYTE_VEC(0x03)) >> 2)
++                + ((l2 & ~BYTE_VEC(0x03)) >> 2)
++                + ((l3 & ~BYTE_VEC(0x03)) >> 2)
++                + ((l4 & ~BYTE_VEC(0x03)) >> 2);
++    uint64_t r2 = ((  (l1 & BYTE_VEC(0x03))
++                    + (l2 & BYTE_VEC(0x03))
++                    + (l3 & BYTE_VEC(0x03))
++                    + (l4 & BYTE_VEC(0x03))
++                    + BYTE_VEC(0x02)) >> 2) & BYTE_VEC(0x03);
++    return r1 + r2;
++}
++
++int pix_abs8x8_mvi(uint8_t *pix1, uint8_t *pix2, int line_size)
++{
++    int result = 0;
++    int h = 8;
++
++    if ((size_t) pix2 & 0x7) {
++        /* works only when pix2 is actually unaligned */
++        do {                    /* do 8 pixel a time */
++            uint64_t p1, p2;
++
++            p1  = ldq(pix1);
++            p2  = uldq(pix2);
++            result += perr(p1, p2);
++
++            pix1 += line_size;
++            pix2 += line_size;
++        } while (--h);
++    } else {
++        do {
++            uint64_t p1, p2;
++
++            p1 = ldq(pix1);
++            p2 = ldq(pix2);
++            result += perr(p1, p2);
++
++            pix1 += line_size;
++            pix2 += line_size;
++        } while (--h);
++    }
++
++    return result;
++}
++
++#if 0				/* now done in assembly */
++int pix_abs16x16_mvi(uint8_t *pix1, uint8_t *pix2, int line_size)
++{
++    int result = 0;
++    int h = 16;
++
++    if ((size_t) pix2 & 0x7) {
++        /* works only when pix2 is actually unaligned */
++        do {                    /* do 16 pixel a time */
++            uint64_t p1_l, p1_r, p2_l, p2_r;
++            uint64_t t;
++
++            p1_l  = ldq(pix1);
++            p1_r  = ldq(pix1 + 8);
++            t     = ldq_u(pix2 + 8);
++            p2_l  = extql(ldq_u(pix2), pix2) | extqh(t, pix2);
++            p2_r  = extql(t, pix2) | extqh(ldq_u(pix2 + 16), pix2);
++            pix1 += line_size;
++            pix2 += line_size;
++
++            result += perr(p1_l, p2_l)
++                    + perr(p1_r, p2_r);
++        } while (--h);
++    } else {
++        do {
++            uint64_t p1_l, p1_r, p2_l, p2_r;
++
++            p1_l = ldq(pix1);
++            p1_r = ldq(pix1 + 8);
++            p2_l = ldq(pix2);
++            p2_r = ldq(pix2 + 8);
++            pix1 += line_size;
++            pix2 += line_size;
++
++            result += perr(p1_l, p2_l)
++                    + perr(p1_r, p2_r);
++        } while (--h);
++    }
++
++    return result;
++}
++#endif
++
++int pix_abs16x16_x2_mvi(uint8_t *pix1, uint8_t *pix2, int line_size)
++{
++    int result = 0;
++    int h = 16;
++    uint64_t disalign = (size_t) pix2 & 0x7;
++
++    switch (disalign) {
++    case 0:
++        do {
++            uint64_t p1_l, p1_r, p2_l, p2_r;
++            uint64_t l, r;
++
++            p1_l = ldq(pix1);
++            p1_r = ldq(pix1 + 8);
++            l    = ldq(pix2);
++            r    = ldq(pix2 + 8);
++            p2_l = avg2(l, (l >> 8) | ((uint64_t) r << 56));
++            p2_r = avg2(r, (r >> 8) | ((uint64_t) pix2[16] << 56));
++            pix1 += line_size;
++            pix2 += line_size;
++
++            result += perr(p1_l, p2_l)
++                    + perr(p1_r, p2_r);
++        } while (--h);
++        break;
++    case 7:
++        /* |.......l|lllllllr|rrrrrrr*|
++           This case is special because disalign1 would be 8, which
++           gets treated as 0 by extqh.  At least it is a bit faster
++           that way :)  */   
++        do {
++            uint64_t p1_l, p1_r, p2_l, p2_r;
++            uint64_t l, m, r;
++
++            p1_l = ldq(pix1);
++            p1_r = ldq(pix1 + 8);
++            l     = ldq_u(pix2);
++            m     = ldq_u(pix2 + 8);
++            r     = ldq_u(pix2 + 16);
++            p2_l  = avg2(extql(l, disalign) | extqh(m, disalign), m);
++            p2_r  = avg2(extql(m, disalign) | extqh(r, disalign), r);
++            pix1 += line_size;
++            pix2 += line_size;
++            
++            result += perr(p1_l, p2_l)
++                    + perr(p1_r, p2_r);
++        } while (--h);
++        break;
++    default:
++        do {
++            uint64_t disalign1 = disalign + 1;
++            uint64_t p1_l, p1_r, p2_l, p2_r;
++            uint64_t l, m, r;
++
++            p1_l  = ldq(pix1);
++            p1_r  = ldq(pix1 + 8);
++            l     = ldq_u(pix2);
++            m     = ldq_u(pix2 + 8);
++            r     = ldq_u(pix2 + 16);
++            p2_l  = avg2(extql(l, disalign) | extqh(m, disalign),
++                         extql(l, disalign1) | extqh(m, disalign1));
++            p2_r  = avg2(extql(m, disalign) | extqh(r, disalign),
++                         extql(m, disalign1) | extqh(r, disalign1));
++            pix1 += line_size;
++            pix2 += line_size;
++
++            result += perr(p1_l, p2_l)
++                    + perr(p1_r, p2_r);
++        } while (--h);
++        break;
++    }
++    return result;
++}
++
++int pix_abs16x16_y2_mvi(uint8_t *pix1, uint8_t *pix2, int line_size)
++{
++    int result = 0;
++    int h = 16;
++
++    if ((size_t) pix2 & 0x7) {
++        uint64_t t, p2_l, p2_r;
++        t     = ldq_u(pix2 + 8);
++        p2_l  = extql(ldq_u(pix2), pix2) | extqh(t, pix2);
++        p2_r  = extql(t, pix2) | extqh(ldq_u(pix2 + 16), pix2);
++
++        do {
++            uint64_t p1_l, p1_r, np2_l, np2_r;
++            uint64_t t;
++
++            p1_l  = ldq(pix1);
++            p1_r  = ldq(pix1 + 8);
++            pix2 += line_size;
++            t     = ldq_u(pix2 + 8);
++            np2_l = extql(ldq_u(pix2), pix2) | extqh(t, pix2);
++            np2_r = extql(t, pix2) | extqh(ldq_u(pix2 + 16), pix2);
++
++            result += perr(p1_l, avg2(p2_l, np2_l))
++                    + perr(p1_r, avg2(p2_r, np2_r));
++
++            pix1 += line_size;
++            p2_l  = np2_l;
++            p2_r  = np2_r;
++
++        } while (--h);
++    } else {
++        uint64_t p2_l, p2_r;
++        p2_l = ldq(pix2);
++        p2_r = ldq(pix2 + 8);
++        do {
++            uint64_t p1_l, p1_r, np2_l, np2_r;
++
++            p1_l = ldq(pix1);
++            p1_r = ldq(pix1 + 8);
++            pix2 += line_size;
++            np2_l = ldq(pix2);
++            np2_r = ldq(pix2 + 8);
++
++            result += perr(p1_l, avg2(p2_l, np2_l))
++                    + perr(p1_r, avg2(p2_r, np2_r));
++
++            pix1 += line_size;
++            p2_l  = np2_l;
++            p2_r  = np2_r;
++        } while (--h);
++    }
++    return result;
++}
++
++int pix_abs16x16_xy2_mvi(uint8_t *pix1, uint8_t *pix2, int line_size)
++{
++    int result = 0;
++    int h = 16;
++    
++    uint64_t p1_l, p1_r;
++    uint64_t p2_l, p2_r, p2_x;
++
++    p1_l = ldq(pix1);
++    p1_r = ldq(pix1 + 8);
++
++    if ((size_t) pix2 & 0x7) { /* could be optimized a lot */
++        p2_l = uldq(pix2);
++        p2_r = uldq(pix2 + 8);
++        p2_x = (uint64_t) pix2[16] << 56;
++    } else {
++        p2_l = ldq(pix2);
++        p2_r = ldq(pix2 + 8);
++        p2_x = ldq(pix2 + 16) << 56;
++    }
++
++    do {
++        uint64_t np1_l, np1_r;
++        uint64_t np2_l, np2_r, np2_x;
++
++        pix1 += line_size;
++        pix2 += line_size;
++
++        np1_l = ldq(pix1);
++        np1_r = ldq(pix1 + 8);
++
++        if ((size_t) pix2 & 0x7) { /* could be optimized a lot */
++            np2_l = uldq(pix2);
++            np2_r = uldq(pix2 + 8);
++            np2_x = (uint64_t) pix2[16] << 56;
++        } else {
++            np2_l = ldq(pix2);
++            np2_r = ldq(pix2 + 8);
++            np2_x = ldq(pix2 + 16) << 56;
++        }
++
++        result += perr(p1_l,
++                       avg4( p2_l, ( p2_l >> 8) | ((uint64_t)  p2_r << 56),
++                            np2_l, (np2_l >> 8) | ((uint64_t) np2_r << 56)))
++                + perr(p1_r,
++                       avg4( p2_r, ( p2_r >> 8) | ((uint64_t)  p2_x),
++                            np2_r, (np2_r >> 8) | ((uint64_t) np2_x)));
++
++        p1_l = np1_l;
++        p1_r = np1_r;
++        p2_l = np2_l;
++        p2_r = np2_r;
++        p2_x = np2_x;
++    } while (--h);
++
++    return result;
++}
+diff -Nur avifile-0.7-0.7.38/ffmpeg/libavcodec/alpha.orig/mpegvideo_alpha.c avifile-0.7-0.7.38/ffmpeg/libavcodec/alpha/mpegvideo_alpha.c
+--- avifile-0.7-0.7.38/ffmpeg/libavcodec/alpha.orig/mpegvideo_alpha.c	1970-01-01 01:00:00.000000000 +0100
++++ avifile-0.7-0.7.38/ffmpeg/libavcodec/alpha/mpegvideo_alpha.c	2003-09-28 17:26:39.000000000 +0200
+@@ -0,0 +1,96 @@
++/*
++ * Alpha optimized DSP utils
++ * Copyright (c) 2002 Falk Hueffner <falk@debian.org>
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, write to the Free Software
++ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
++ */
++
++#include "asm.h"
++#include "../dsputil.h"
++#include "../mpegvideo.h"
++
++static void dct_unquantize_h263_axp(MpegEncContext *s, DCTELEM *block,
++                                    int n, int qscale)
++{
++    int i, n_coeffs;
++    uint64_t qmul, qadd;
++    uint64_t correction;
++    DCTELEM *orig_block = block;
++    DCTELEM block0;
++
++    qadd = WORD_VEC((qscale - 1) | 1);
++    qmul = qscale << 1;
++    /* This mask kills spill from negative subwords to the next subword.  */ 
++    correction = WORD_VEC((qmul - 1) + 1); /* multiplication / addition */
++
++    if (s->mb_intra) {
++        if (!s->h263_aic) {
++            if (n < 4) 
++                block0 = block[0] * s->y_dc_scale;
++            else
++                block0 = block[0] * s->c_dc_scale;
++        } else {
++	    qadd = 0;
++	}
++        n_coeffs = 63; // does not always use zigzag table 
++    } else {
++        n_coeffs = s->intra_scantable.raster_end[s->block_last_index[n]];
++    }
++
++    for(i = 0; i <= n_coeffs; block += 4, i += 4) {
++        uint64_t levels, negmask, zeros, add;
++
++        levels = ldq(block);
++        if (levels == 0)
++            continue;
++
++#ifdef __alpha_max__
++        /* I don't think the speed difference justifies runtime
++           detection.  */
++        negmask = maxsw4(levels, -1); /* negative -> ffff (-1) */
++        negmask = minsw4(negmask, 0); /* positive -> 0000 (0) */
++#else
++        negmask = cmpbge(WORD_VEC(0x7fff), levels);
++        negmask &= (negmask >> 1) | (1 << 7);
++        negmask = zap(-1, negmask);
++#endif
++
++        zeros = cmpbge(0, levels);
++        zeros &= zeros >> 1;
++        /* zeros |= zeros << 1 is not needed since qadd <= 255, so
++           zapping the lower byte suffices.  */
++
++        levels *= qmul;
++        levels -= correction & (negmask << 16);
++
++        /* Negate qadd for negative levels.  */
++        add = qadd ^ negmask;
++        add += WORD_VEC(0x0001) & negmask;
++        /* Set qadd to 0 for levels == 0.  */
++        add = zap(add, zeros);
++
++        levels += add;
++
++        stq(levels, block);
++    }
++
++    if (s->mb_intra && !s->h263_aic)
++        orig_block[0] = block0;
++}
++
++void MPV_common_init_axp(MpegEncContext *s)
++{
++    s->dct_unquantize_h263 = dct_unquantize_h263_axp;
++}
+diff -Nur avifile-0.7-0.7.38/ffmpeg/libavcodec/alpha.orig/simple_idct_alpha.c avifile-0.7-0.7.38/ffmpeg/libavcodec/alpha/simple_idct_alpha.c
+--- avifile-0.7-0.7.38/ffmpeg/libavcodec/alpha.orig/simple_idct_alpha.c	1970-01-01 01:00:00.000000000 +0100
++++ avifile-0.7-0.7.38/ffmpeg/libavcodec/alpha/simple_idct_alpha.c	2003-09-28 17:26:39.000000000 +0200
+@@ -0,0 +1,311 @@
++/*
++ * Simple IDCT (Alpha optimized)
++ *
++ * Copyright (c) 2001 Michael Niedermayer <michaelni@gmx.at>
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, write to the Free Software
++ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
++ *
++ * based upon some outcommented c code from mpeg2dec (idct_mmx.c
++ * written by Aaron Holtzman <aholtzma@ess.engr.uvic.ca>)
++ *
++ * Alpha optimiziations by Måns Rullgård <mru@users.sourceforge.net>
++ *                     and Falk Hueffner <falk@debian.org>
++ */
++
++#include "asm.h"
++#include "../dsputil.h"
++
++extern void (*put_pixels_clamped_axp_p)(const DCTELEM *block, uint8_t *pixels,
++                                        int line_size);
++extern void (*add_pixels_clamped_axp_p)(const DCTELEM *block, uint8_t *pixels, 
++                                        int line_size);
++
++// cos(i * M_PI / 16) * sqrt(2) * (1 << 14)
++// W4 is actually exactly 16384, but using 16383 works around
++// accumulating rounding errors for some encoders
++#define W1 ((int_fast32_t) 22725)
++#define W2 ((int_fast32_t) 21407)
++#define W3 ((int_fast32_t) 19266)
++#define W4 ((int_fast32_t) 16383)
++#define W5 ((int_fast32_t) 12873)
++#define W6 ((int_fast32_t)  8867)
++#define W7 ((int_fast32_t)  4520)
++#define ROW_SHIFT 11
++#define COL_SHIFT 20
++
++/* 0: all entries 0, 1: only first entry nonzero, 2: otherwise  */
++static inline int idct_row(DCTELEM *row)
++{
++    int_fast32_t a0, a1, a2, a3, b0, b1, b2, b3, t;
++    uint64_t l, r, t2;
++    l = ldq(row);
++    r = ldq(row + 4);
++
++    if (l == 0 && r == 0)
++        return 0;
++    
++    a0 = W4 * sextw(l) + (1 << (ROW_SHIFT - 1));
++
++    if (((l & ~0xffffUL) | r) == 0) {
++        a0 >>= ROW_SHIFT;
++        t2 = (uint16_t) a0;
++        t2 |= t2 << 16;
++        t2 |= t2 << 32;
++        
++        stq(t2, row);
++        stq(t2, row + 4);
++        return 1;
++    }
++
++    a1 = a0;
++    a2 = a0;
++    a3 = a0;
++
++    t = extwl(l, 4);            /* row[2] */
++    if (t != 0) {
++        t = sextw(t);
++        a0 += W2 * t;
++        a1 += W6 * t;
++        a2 -= W6 * t;
++        a3 -= W2 * t;
++    }
++
++    t = extwl(r, 0);            /* row[4] */
++    if (t != 0) {
++        t = sextw(t);
++        a0 += W4 * t;
++        a1 -= W4 * t;
++        a2 -= W4 * t;
++        a3 += W4 * t;
++    }
++
++    t = extwl(r, 4);            /* row[6] */
++    if (t != 0) {
++        t = sextw(t);
++        a0 += W6 * t;
++        a1 -= W2 * t;
++        a2 += W2 * t;
++        a3 -= W6 * t;
++    }
++
++    t = extwl(l, 2);            /* row[1] */
++    if (t != 0) {
++        t = sextw(t);
++        b0 = W1 * t;
++        b1 = W3 * t;
++        b2 = W5 * t;
++        b3 = W7 * t;
++    } else {
++        b0 = 0;
++        b1 = 0;
++        b2 = 0;
++        b3 = 0;
++    }
++
++    t = extwl(l, 6);            /* row[3] */
++    if (t) {
++        t = sextw(t);
++        b0 += W3 * t;
++        b1 -= W7 * t;
++        b2 -= W1 * t;
++        b3 -= W5 * t;
++    }
++
++    
++    t = extwl(r, 2);            /* row[5] */
++    if (t) {
++        t = sextw(t);
++        b0 += W5 * t;
++        b1 -= W1 * t;
++        b2 += W7 * t;
++        b3 += W3 * t;
++    }
++
++    t = extwl(r, 6);            /* row[7] */
++    if (t) {
++        t = sextw(t);
++        b0 += W7 * t;
++        b1 -= W5 * t;
++        b2 += W3 * t;
++        b3 -= W1 * t;
++    }
++
++    row[0] = (a0 + b0) >> ROW_SHIFT;
++    row[1] = (a1 + b1) >> ROW_SHIFT;
++    row[2] = (a2 + b2) >> ROW_SHIFT;
++    row[3] = (a3 + b3) >> ROW_SHIFT;
++    row[4] = (a3 - b3) >> ROW_SHIFT;
++    row[5] = (a2 - b2) >> ROW_SHIFT;
++    row[6] = (a1 - b1) >> ROW_SHIFT;
++    row[7] = (a0 - b0) >> ROW_SHIFT;
++
++    return 2;
++}
++
++static inline void idct_col(DCTELEM *col)
++{
++    int_fast32_t a0, a1, a2, a3, b0, b1, b2, b3;
++
++    col[0] += (1 << (COL_SHIFT - 1)) / W4;
++
++    a0 = W4 * col[8 * 0];
++    a1 = W4 * col[8 * 0];
++    a2 = W4 * col[8 * 0];
++    a3 = W4 * col[8 * 0];
++
++    if (col[8 * 2]) {
++        a0 += W2 * col[8 * 2];
++        a1 += W6 * col[8 * 2];
++        a2 -= W6 * col[8 * 2];
++        a3 -= W2 * col[8 * 2];
++    }
++
++    if (col[8 * 4]) {
++        a0 += W4 * col[8 * 4];
++        a1 -= W4 * col[8 * 4];
++        a2 -= W4 * col[8 * 4];
++        a3 += W4 * col[8 * 4];
++    }
++
++    if (col[8 * 6]) {
++        a0 += W6 * col[8 * 6];
++        a1 -= W2 * col[8 * 6];
++        a2 += W2 * col[8 * 6];
++        a3 -= W6 * col[8 * 6];
++    }
++
++    if (col[8 * 1]) {
++        b0 = W1 * col[8 * 1];
++        b1 = W3 * col[8 * 1];
++        b2 = W5 * col[8 * 1];
++        b3 = W7 * col[8 * 1];
++    } else {
++        b0 = 0;
++        b1 = 0;
++        b2 = 0;
++        b3 = 0;
++    }
++
++    if (col[8 * 3]) {
++        b0 += W3 * col[8 * 3];
++        b1 -= W7 * col[8 * 3];
++        b2 -= W1 * col[8 * 3];
++        b3 -= W5 * col[8 * 3];
++    }
++
++    if (col[8 * 5]) {
++        b0 += W5 * col[8 * 5];
++        b1 -= W1 * col[8 * 5];
++        b2 += W7 * col[8 * 5];
++        b3 += W3 * col[8 * 5];
++    }
++
++    if (col[8 * 7]) {
++        b0 += W7 * col[8 * 7];
++        b1 -= W5 * col[8 * 7];
++        b2 += W3 * col[8 * 7];
++        b3 -= W1 * col[8 * 7];
++    }
++
++    col[8 * 0] = (a0 + b0) >> COL_SHIFT;
++    col[8 * 7] = (a0 - b0) >> COL_SHIFT;
++    col[8 * 1] = (a1 + b1) >> COL_SHIFT;
++    col[8 * 6] = (a1 - b1) >> COL_SHIFT;
++    col[8 * 2] = (a2 + b2) >> COL_SHIFT;
++    col[8 * 5] = (a2 - b2) >> COL_SHIFT;
++    col[8 * 3] = (a3 + b3) >> COL_SHIFT;
++    col[8 * 4] = (a3 - b3) >> COL_SHIFT;
++}
++
++/* If all rows but the first one are zero after row transformation,
++   all rows will be identical after column transformation.  */
++static inline void idct_col2(DCTELEM *col)
++{
++    int i;
++    uint64_t l, r;
++    uint64_t *lcol = (uint64_t *) col;
++
++    for (i = 0; i < 8; ++i) {
++        int_fast32_t a0 = col[0] + (1 << (COL_SHIFT - 1)) / W4;
++
++        a0 *= W4;
++        col[0] = a0 >> COL_SHIFT;
++        ++col;
++    }
++
++    l = lcol[0];
++    r = lcol[1];
++    lcol[ 2] = l; lcol[ 3] = r;
++    lcol[ 4] = l; lcol[ 5] = r;
++    lcol[ 6] = l; lcol[ 7] = r;
++    lcol[ 8] = l; lcol[ 9] = r;
++    lcol[10] = l; lcol[11] = r;
++    lcol[12] = l; lcol[13] = r;
++    lcol[14] = l; lcol[15] = r;
++}
++
++void simple_idct_axp(DCTELEM *block)
++{
++
++    int i;
++    int rowsZero = 1;           /* all rows except row 0 zero */
++    int rowsConstant = 1;       /* all rows consist of a constant value */
++
++    for (i = 0; i < 8; i++) {
++        int sparseness = idct_row(block + 8 * i);
++
++        if (i > 0 && sparseness > 0)
++            rowsZero = 0;
++        if (sparseness == 2)
++            rowsConstant = 0;
++    }
++
++    if (rowsZero) {
++        idct_col2(block);
++    } else if (rowsConstant) {
++        uint64_t *lblock = (uint64_t *) block;
++
++        idct_col(block);
++        for (i = 0; i < 8; i += 2) {
++            uint64_t v = (uint16_t) block[i * 8];
++            uint64_t w = (uint16_t) block[i * 8 + 8];
++
++            v |= v << 16;
++            w |= w << 16;
++            v |= v << 32;
++            w |= w << 32;
++            lblock[0] = v;
++            lblock[1] = v;
++            lblock[2] = w;
++            lblock[3] = w;
++            lblock += 4;
++        }
++    } else {
++        for (i = 0; i < 8; i++)
++            idct_col(block + i);
++    }
++}
++
++void simple_idct_put_axp(uint8_t *dest, int line_size, DCTELEM *block)
++{
++    simple_idct_axp(block);
++    put_pixels_clamped_axp_p(block, dest, line_size);
++}
++
++void simple_idct_add_axp(uint8_t *dest, int line_size, DCTELEM *block)
++{
++    simple_idct_axp(block);
++    add_pixels_clamped_axp_p(block, dest, line_size);
++}
