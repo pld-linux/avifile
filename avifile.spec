@@ -35,6 +35,7 @@ Patch14:	%{name}-linux2.6.patch
 Patch15:	%{name}-xvid1.patch
 Patch16:	%{name}-opts.patch
 Patch17:	%{name}-mp3.patch
+Patch18:	%{name}-gcc34.patch
 URL:		http://avifile.sourceforge.net/
 BuildRequires:	SDL-devel >= 1.2.0
 BuildRequires:	XFree86-devel
@@ -351,6 +352,7 @@ Sterownik VIDIX dla kart graficznych Permedia.
 %patch15 -p1
 %patch16 -p1
 %patch17 -p1
+%patch18 -p1
 
 # unwanted hack
 rm -f m4/as.m4
@@ -365,7 +367,8 @@ rm -f m4/as.m4
 %{__automake}
 
 %configure \
-	CPPFLAGS="-I/usr/include/divx" \
+	CPPFLAGS="-I/usr/include/divx -fno-unit-at-a-time" \
+	CFLAGS="-fno-unit-at-a-time" \
 	--with-qt-includes=%{_includedir}/qt \
 	--with-qt-libraries=%{_libdir} \
 	--enable-a52 \
