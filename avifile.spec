@@ -4,6 +4,7 @@
 # _without_qt		- disables QT support
 # _with_divx		- enables divx4linux support (proprietary, binary-only
 #			  lib)  note: if disabled, divx is decoded by ffmpeg
+# _with_nas		- enables nas support
 #
 %define		_snapver	20030219
 %define		_snap		%{_snapver}
@@ -35,7 +36,7 @@ BuildRequires:	libjpeg-devel
 BuildRequires:	libogg-devel
 BuildRequires:	libtool >= 0:1.4.2-9
 BuildRequires:	libvorbis-devel >= 1:1.0
-BuildRequires:	nas-devel
+%{?_with_nas:BuildRequires:	nas-devel}
 %{?!_without_qt:BuildRequires:	qt-devel >= 2.0.0}
 BuildRequires:	unzip
 %ifarch %{ix86} ppc
