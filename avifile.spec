@@ -12,20 +12,6 @@ Release:	0.%{_snap}.4
 Epoch:		3
 License:	GPL
 Group:		X11/Libraries
-Group(cs):	X11/Knihovny
-Group(da):	X11/Biblioteker
-Group(de):	X11/Bibliotheken
-Group(es):	X11/Bibliotecas
-Group(fr):	X11/Librairies
-Group(it):	X11/Librerie
-Group(ja):	X11/•È•§•÷•È•Í
-Group(no):	X11/Biblioteker
-Group(pl):	X11/Biblioteki
-Group(pt_BR):	X11/Bibliotecas
-Group(pt):	X11/Bibliotecas
-Group(ru):	X11/‚…¬Ã…œ‘≈À…
-Group(sv):	X11/Bibliotek
-Group(uk):	X11/‚¶¬Ã¶œ‘≈À…
 URL:		http://avifile.sourceforge.net/
 Source0:	http://avifile.sourceforge.net/%{name}-%{version}-%{_snap}.tgz
 Source1:	%{name}.desktop
@@ -67,20 +53,6 @@ Do (de)kompresji uøywane s± pluginy (win32, FFMpeg, ...)
 Summary:	Header file required to build programs using libavifile
 Summary(pl):	Pliki nag≥Ûwkowe wymagane przez programy uøywaj±ce libavifile
 Group:		X11/Development/Libraries
-Group(cs):	X11/V˝vojovÈ prost¯edky/Knihovny
-Group(da):	X11/Udvikling/Biblioteker
-Group(de):	X11/Entwicklung/Bibliotheken
-Group(es):	X11/Desarrollo/Bibliotecas
-Group(fr):	X11/Development/Librairies
-Group(it):	X11/Sviluppo/Librerie
-Group(ja):	X11/≥´»Ø/•È•§•÷•È•Í
-Group(no):	X11/Applikasjoner/Biblioteker
-Group(pl):	X11/Programowanie/Biblioteki
-Group(pt_BR):	X11/Desenvolvimento/Bibliotecas
-Group(pt):	X11/Desenvolvimento/Bibliotecas
-Group(ru):	X11/Ú¡⁄“¡¬œ‘À¡/‚…¬Ã…œ‘≈À…
-Group(sv):	X11/Utveckling/Bibliotek
-Group(uk):	X11/Úœ⁄“œ¬À¡/‚¶¬Ã¶œ‘≈À…
 Requires:	XFree86-devel
 Requires:	%{name} = %{version}
 
@@ -95,18 +67,6 @@ libavifile.
 Summary:	Player for AVI/ASF/WMF files
 Summary(pl):	Odtwarzacz plikÛw AVI/ASF/WMF
 Group:		X11/Applications/Multimedia
-Group(cs):	X11/Aplikace/MultimÈdia
-Group(da):	X11/Programmer/Multimedie
-Group(de):	X11/Applikationen/Multimedia
-Group(es):	X11/Aplicaciones/Multimedia
-Group(fr):	X11/Applications/MultimÈdia
-Group(it):	X11/Applicazioni/Multimedia
-Group(ja):	•¢•◊•Í•±°º•∑•Á•Û/•ﬁ•Î•¡•·•«•£•¢
-Group(no):	X11/Programmer/Multimedia
-Group(pl):	X11/Aplikacje/Multimedia
-Group(pt):	X11/AplicaÁıes/MultimÈdia
-Group(ru):	X11/“…Ãœ÷≈Œ…—/Ì’Ãÿ‘…Õ≈ƒ…¡
-Group(sv):	X11/Till‰mpningar/Multimedia
 Requires:	%{name} = %{version}
 
 %description aviplay
@@ -120,18 +80,6 @@ odtwarzania z sieci.)
 Summary:	Sample programs using the avifile library
 Summary(pl):	Przyk≥adowe programy uøywaj±ce biblioteki avifile
 Group:		X11/Applications/Multimedia
-Group(cs):	X11/Aplikace/MultimÈdia
-Group(da):	X11/Programmer/Multimedie
-Group(de):	X11/Applikationen/Multimedia
-Group(es):	X11/Aplicaciones/Multimedia
-Group(fr):	X11/Applications/MultimÈdia
-Group(it):	X11/Applicazioni/Multimedia
-Group(ja):	•¢•◊•Í•±°º•∑•Á•Û/•ﬁ•Î•¡•·•«•£•¢
-Group(no):	X11/Programmer/Multimedia
-Group(pl):	X11/Aplikacje/Multimedia
-Group(pt):	X11/AplicaÁıes/MultimÈdia
-Group(ru):	X11/“…Ãœ÷≈Œ…—/Ì’Ãÿ‘…Õ≈ƒ…¡
-Group(sv):	X11/Till‰mpningar/Multimedia
 Requires:	%{name} = %{version}
 
 %description utils
@@ -149,20 +97,6 @@ s± tak intensywnie rozwijane jak odtwarzacz.
 Summary:	Win32 audio/video plugin
 Summary(pl):	Plugin audio/video win32
 Group:		X11/Libraries
-Group(cs):	X11/Knihovny
-Group(da):	X11/Biblioteker
-Group(de):	X11/Bibliotheken
-Group(es):	X11/Bibliotecas
-Group(fr):	X11/Librairies
-Group(it):	X11/Librerie
-Group(ja):	X11/•È•§•÷•È•Í
-Group(no):	X11/Biblioteker
-Group(pl):	X11/Biblioteki
-Group(pt_BR):	X11/Bibliotecas
-Group(pt):	X11/Bibliotecas
-Group(ru):	X11/‚…¬Ã…œ‘≈À…
-Group(sv):	X11/Bibliotek
-Group(uk):	X11/‚¶¬Ã¶œ‘≈À…
 Requires:	%{name} = %{version}
 Requires:	w32codec
 ExclusiveArch:	%{ix86}
@@ -179,20 +113,6 @@ bibliotek DLL Win32.
 Summary:	GPL MPEG4 codec
 Summary(pl):	Kodek MPEG4 na licencji GPL
 Group:		X11/Libraries
-Group(cs):	X11/Knihovny
-Group(da):	X11/Biblioteker
-Group(de):	X11/Bibliotheken
-Group(es):	X11/Bibliotecas
-Group(fr):	X11/Librairies
-Group(it):	X11/Librerie
-Group(ja):	X11/•È•§•÷•È•Í
-Group(no):	X11/Biblioteker
-Group(pl):	X11/Biblioteki
-Group(pt_BR):	X11/Bibliotecas
-Group(pt):	X11/Bibliotecas
-Group(ru):	X11/‚…¬Ã…œ‘≈À…
-Group(sv):	X11/Bibliotek
-Group(uk):	X11/‚¶¬Ã¶œ‘≈À…
 Requires:	%{name} = %{version}
 
 %description ffmpeg
@@ -217,20 +137,6 @@ kompatybilnego z AC3 strumienia.
 Summary:	Fast MPEG4 codec
 Summary(pl):	Szybki kodek MPEG4
 Group:		X11/Libraries
-Group(cs):	X11/Knihovny
-Group(da):	X11/Biblioteker
-Group(de):	X11/Bibliotheken
-Group(es):	X11/Bibliotecas
-Group(fr):	X11/Librairies
-Group(it):	X11/Librerie
-Group(ja):	X11/•È•§•÷•È•Í
-Group(no):	X11/Biblioteker
-Group(pl):	X11/Biblioteki
-Group(pt_BR):	X11/Bibliotecas
-Group(pt):	X11/Bibliotecas
-Group(ru):	X11/‚…¬Ã…œ‘≈À…
-Group(sv):	X11/Bibliotek
-Group(uk):	X11/‚¶¬Ã¶œ‘≈À…
 Requires:	%{name} = %{version}
 Requires:	divx4linux
 ExclusiveArch:	%{ix86}
@@ -245,20 +151,6 @@ Dekoder i koder MPEG-4 DivX.
 Summary:	Vorbis audio plugin
 Summary(pl):	Plugin vorbis audio.
 Group:		X11/Libraries
-Group(cs):	X11/Knihovny
-Group(da):	X11/Biblioteker
-Group(de):	X11/Bibliotheken
-Group(es):	X11/Bibliotecas
-Group(fr):	X11/Librairies
-Group(it):	X11/Librerie
-Group(ja):	X11/•È•§•÷•È•Í
-Group(no):	X11/Biblioteker
-Group(pl):	X11/Biblioteki
-Group(pt_BR):	X11/Bibliotecas
-Group(pt):	X11/Bibliotecas
-Group(ru):	X11/‚…¬Ã…œ‘≈À…
-Group(sv):	X11/Bibliotek
-Group(uk):	X11/‚¶¬Ã¶œ‘≈À…
 Requires:	%{name} = %{version}
 
 %description vorbis
@@ -271,20 +163,6 @@ Plugin do dekompresji strumieni audio Vorbis.
 Summary:	MAD - MPEG audio plugin
 Summary(pl):	MAD - plugin MPEG audio
 Group:		X11/Libraries
-Group(cs):	X11/Knihovny
-Group(da):	X11/Biblioteker
-Group(de):	X11/Bibliotheken
-Group(es):	X11/Bibliotecas
-Group(fr):	X11/Librairies
-Group(it):	X11/Librerie
-Group(ja):	X11/•È•§•÷•È•Í
-Group(no):	X11/Biblioteker
-Group(pl):	X11/Biblioteki
-Group(pt_BR):	X11/Bibliotecas
-Group(pt):	X11/Bibliotecas
-Group(ru):	X11/‚…¬Ã…œ‘≈À…
-Group(sv):	X11/Bibliotek
-Group(uk):	X11/‚¶¬Ã¶œ‘≈À…
 Requires:	%{name} = %{version}
 
 %description mad
@@ -297,20 +175,6 @@ Plugin do dekompresji strumieni dºwiÍkowych MPEG-1 Layer I/II/III.
 Summary:	MP3 audio encoder plugin
 Summary(pl):	Plugin enkoduj±cy dºwiÍk w formacie MP3
 Group:		X11/Libraries
-Group(cs):	X11/Knihovny
-Group(da):	X11/Biblioteker
-Group(de):	X11/Bibliotheken
-Group(es):	X11/Bibliotecas
-Group(fr):	X11/Librairies
-Group(it):	X11/Librerie
-Group(ja):	X11/•È•§•÷•È•Í
-Group(no):	X11/Biblioteker
-Group(pl):	X11/Biblioteki
-Group(pt_BR):	X11/Bibliotecas
-Group(pt):	X11/Bibliotecas
-Group(ru):	X11/‚…¬Ã…œ‘≈À…
-Group(sv):	X11/Bibliotek
-Group(uk):	X11/‚¶¬Ã¶œ‘≈À…
 Requires:	%{name} = %{version}
 
 %description lame_audioenc
