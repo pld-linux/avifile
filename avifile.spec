@@ -6,7 +6,7 @@ Summary:	Library for playing AVI files
 Summary(pl):	Biblioteka do odtwarzania plików AVI
 Name:		avifile
 Version:	%{_ver}
-Release:	0.%{_snap}.4
+Release:	0.%{_snap}.5
 Epoch:		3
 License:	GPL
 Group:		X11/Libraries
@@ -33,7 +33,7 @@ BuildRequires:	libtool
 BuildRequires:	libogg-devel
 BuildRequires:	libvorbis-devel
 BuildRequires:	lame-libs-devel
-%ifarch %{ix86}
+%ifarch %{ix86} ppc sparc sparc64 sparcv9
 BuildRequires:	xvid-devel
 %endif
 BuildConflicts:	wine-devel
@@ -333,7 +333,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/avifile*/libmp3lamebin_audioenc.so*
 %attr(755,root,root) %{_libdir}/avifile*/libmp3lamebin_audioenc.la
 
-%ifarch %{ix86}
+%ifarch %{ix86} ppc sparc sparc64 sparcv9
 %files xvid
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/avifile*/libxvid.so*
