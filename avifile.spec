@@ -19,6 +19,7 @@ Source0:	http://avifile.sourceforge.net/%{name}-%{version}-%{_snap}.tgz
 Source1:	%{name}.desktop
 Patch0:		%{name}-shareware.patch
 Patch1:		%{name}-no_libnsl.patch
+Patch2:		%{name}-vidix.patch
 URL:		http://avifile.sourceforge.net/
 BuildRequires:	SDL-devel >= 1.2.0
 BuildRequires:	XFree86-devel
@@ -214,6 +215,7 @@ Dekoder i koder XVID.
 %setup -q -n avifile0.7-%{version}
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 %build
 rm -f missing aclocal.m4
@@ -304,6 +306,7 @@ rm -rf $RPM_BUILD_ROOT
 %files aviplay
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/aviplay
+%{_mandir}/man1/aviplay.1*
 %{_datadir}/%{name}*
 %{_applnkdir}/Multimedia/*
 %{_pixmapsdir}/*
