@@ -70,7 +70,7 @@ Summary(pl):	Pliki nag³ówkowe wymagane przez programy u¿ywaj±ce libavifile
 Summary(pt_BR):	Componentes para desenvolvimento com a avifile
 Group:		X11/Development/Libraries
 Requires:	XFree86-devel
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{epoch}:%{version}
 
 %description devel
 Header files required to build programs using libavifile.
@@ -86,7 +86,7 @@ Componentes para desenvolvimento com a avifile.
 Summary:	Player for AVI/ASF/WMF files
 Summary(pl):	Odtwarzacz plików AVI/ASF/WMF
 Group:		X11/Applications/Multimedia
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{epoch}:%{version}
 
 %description aviplay
 Sample player for AVI, ASF, WFM (with straming support) files.
@@ -99,7 +99,7 @@ odtwarzania z sieci.)
 Summary:	Sample programs using the avifile library
 Summary(pl):	Przyk³adowe programy u¿ywaj±ce biblioteki avifile
 Group:		X11/Applications/Multimedia
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{epoch}:%{version}
 
 %description utils
 Qt-based AVI utilities with few other useful supporting tools for TV
@@ -116,7 +116,7 @@ s± tak intensywnie rozwijane jak odtwarzacz.
 Summary:	Win32 audio/video plugin
 Summary(pl):	Plugin audio/video win32
 Group:		X11/Libraries
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{epoch}:%{version}
 Requires:	w32codec
 
 %description win32
@@ -131,7 +131,7 @@ bibliotek DLL Win32.
 Summary:	GPL MPEG4 codec
 Summary(pl):	Kodek MPEG4 na licencji GPL
 Group:		X11/Libraries
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{epoch}:%{version}
 
 %description ffmpeg
 ffmpeg is a hyper fast realtime audio/video encoder, a streaming
@@ -155,7 +155,7 @@ kompatybilnego z AC3 strumienia.
 Summary:	Fast MPEG4 codec
 Summary(pl):	Szybki kodek MPEG4
 Group:		X11/Libraries
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{epoch}:%{version}
 Requires:	divx4linux
 Obsoletes:	avifile-divx4
 
@@ -169,7 +169,7 @@ Dekoder i koder MPEG-4 DivX.
 Summary:	Vorbis audio plugin
 Summary(pl):	Plugin vorbis audio
 Group:		X11/Libraries
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{epoch}:%{version}
 
 %description vorbis
 Plugin for decompression of Vorbis audio streams.
@@ -181,7 +181,7 @@ Plugin do dekompresji strumieni audio Vorbis.
 Summary:	MAD - MPEG audio plugin
 Summary(pl):	MAD - plugin MPEG audio
 Group:		X11/Libraries
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{epoch}:%{version}
 
 %description mad
 Plugin for decompression of MPEG-1 Layer I/II/III audio streams.
@@ -193,7 +193,7 @@ Plugin do dekompresji strumieni d¼wiêkowych MPEG-1 Layer I/II/III.
 Summary:	MP3 audio encoder plugin
 Summary(pl):	Plugin enkoduj±cy d¼wiêk w formacie MP3
 Group:		X11/Libraries
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{epoch}:%{version}
 
 %description lame_audioenc
 Plugin for mp3 encoding capability of avirecompress tool.
@@ -205,7 +205,7 @@ Plugin umo¿liwiaj±cy avirecompressowi kodowanie mp3.
 Summary:	XVID codec
 Summary(pl):	Kodek XVID
 Group:		X11/Libraries
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{epoch}:%{version}
 Requires:	xvid
 
 %description xvid
@@ -218,7 +218,7 @@ Dekoder i koder XVID.
 Summary:	VIDIX driver for generic FrameBuffer
 Summary(pl):	Sterownik VIDIX dla zwyk³ego FrameBuffera
 Group:		X11/Libraries
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{epoch}:%{version}
 
 %description vidix-driver-fb
 VIDIX driver for generic FrameBuffer.
@@ -230,7 +230,7 @@ Sterownik VIDIX dla zwyk³ego FrameBuffera.
 Summary:	VIDIX driver for ATI Mach64 video adapters
 Summary(pl):	Sterownik VIDIX dla kart graficznych ATI Mach64
 Group:		X11/Libraries
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{epoch}:%{version}
 
 %description vidix-driver-mach64
 VIDIX driver for ATI Mach64 adapters.
@@ -242,7 +242,7 @@ Sterownik vidix dla kart graficznych ATI Mach64.
 Summary:	VIDIX driver for ATI Rage128 video adapters
 Summary(pl):	Sterownik VIDIX dla kart graficznych ATI Rage128
 Group:		X11/Libraries
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{epoch}:%{version}
 
 %description vidix-driver-rage128
 VIDIX driver for ATI Rage128 video adapters.
@@ -254,7 +254,7 @@ Sterownik VIDIX dla kart graficznych ATI Rage128.
 Summary:	VIDIX driver for ATI Radeon video adapters
 Summary(pl):	Sterownik VIDIX dla kart graficznych ATI Radeon
 Group:		X11/Libraries
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{epoch}:%{version}
 
 %description vidix-driver-radeon
 VIDIX driver for ATI Radeon video adapters.
@@ -266,7 +266,7 @@ Sterownik VIDIX dla kart graficznych ATI Radeon.
 Summary:	VIDIX driver for MGA (Matrox) video adapters
 Summary(pl):	Sterownik VIDIX dla kart graficznych MGA (Matrox)
 Group:		X11/Libraries
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{epoch}:%{version}
 
 %description vidix-driver-mga
 VIDIX driver for MGA (Matrox) video adapters.
@@ -278,7 +278,7 @@ Sterownik VIDIX dla kart graficznych MGA (Matrox).
 Summary:	VIDIX driver for NVidia video adapters
 Summary(pl):	Sterownik VIDIX dla kart graficznych NVidia
 Group:		X11/Libraries
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{epoch}:%{version}
 
 %description vidix-driver-nvidia
 VIDIX driver for NVidia video adapters.
@@ -290,7 +290,7 @@ Sterownik VIDIX dla kart graficznych NVidia.
 Summary:	VIDIX driver for Permedia video adapters
 Summary(pl):	Sterownik VIDIX dla kart graficznych Permedia
 Group:		X11/Libraries
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{epoch}:%{version}
 
 %description vidix-driver-permedia
 VIDIX driver for Permedia video adapters.
