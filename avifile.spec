@@ -67,6 +67,7 @@ Group(pt_BR):	X11/Desenvolvimento/Bibliotecas
 Group(ru):	X11/Разработка/Библиотеки
 Group(uk):	X11/Розробка/Б╕бл╕отеки
 Requires:	XFree86-devel
+Requires:	%{name} = %{version}
 
 %description devel
 Header files required to build programs using libavifile.
@@ -81,7 +82,7 @@ Summary(pl):	Odtwarzacz plikСw AVI/ASF/WMF
 Group:		X11/Applications/Multimedia
 Group(de):	X11/Applikationen/Multimedia
 Group(pl):	X11/Aplikacje/Multimedia
-Requires:	%{name}
+Requires:	%{name} = %{version}
 
 %description aviplay
 Sample player for AVI, ASF, WFM (with straming support) files.
@@ -96,7 +97,7 @@ Summary(pl):	PrzykЁadowe programy u©ywaj╠ce biblioteki avifile
 Group:		X11/Applications/Multimedia
 Group(de):	X11/Applikationen/Multimedia
 Group(pl):	X11/Aplikacje/Multimedia
-Requires:	%{name}
+Requires:	%{name} = %{version}
 
 %description utils
 Qt-based AVI utilities with few other useful supporting tools for TV
@@ -120,7 +121,7 @@ Group(pl):	X11/Biblioteki
 Group(pt_BR):	X11/Bibliotecas
 Group(ru):	X11/Библиотеки
 Group(uk):	X11/Б╕бл╕отеки
-Requires:	%{name}
+Requires:	%{name} = %{version}
 Requires:	w32codecs
 ExclusiveArch:	%{ix86}
 
@@ -139,7 +140,7 @@ Group(pl):	X11/Biblioteki
 Group(pt_BR):	X11/Bibliotecas
 Group(ru):	X11/Библиотеки
 Group(uk):	X11/Б╕бл╕отеки
-Requires:	%{name}
+Requires:	%{name} = %{version}
 
 %description ffmpeg
 ffmpeg is a hyper fast realtime audio/video encoder, a streaming
@@ -161,7 +162,7 @@ Group(pl):	X11/Biblioteki
 Group(pt_BR):	X11/Bibliotecas
 Group(ru):	X11/Библиотеки
 Group(uk):	X11/Б╕бл╕отеки
-Requires:	%{name}
+Requires:	%{name} = %{version}
 Requires:	divx4linux
 ExclusiveArch:	%{ix86}
 
@@ -182,7 +183,7 @@ Group(pl):	X11/Biblioteki
 Group(pt_BR):	X11/Bibliotecas
 Group(ru):	X11/Библиотеки
 Group(uk):	X11/Б╕бл╕отеки
-Requires:	%{name}
+Requires:	%{name} = %{version}
 
 %description vorbis
 Plugin for decompression of Vorbis audio streams.
@@ -198,7 +199,7 @@ Group(pl):	X11/Biblioteki
 Group(pt_BR):	X11/Bibliotecas
 Group(ru):	X11/Библиотеки
 Group(uk):	X11/Б╕бл╕отеки
-Requires:	%{name}
+Requires:	%{name} = %{version}
 
 %description mad
 Plugin for decompression of MPEG-1 Layer I/II/III audio streams.
@@ -217,7 +218,7 @@ Group(pl):	X11/Biblioteki
 Group(pt_BR):	X11/Bibliotecas
 Group(ru):	X11/Библиотеки
 Group(uk):	X11/Б╕бл╕отеки
-Requires:	%{name}-utils
+Requires:	%{name} = %{version}
 
 %description lame_audioenc
 Plugin for mp3 encoding capability of avirecompress tool.
