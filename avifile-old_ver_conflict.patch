@@ -1,61 +1,39 @@
-diff -urN avifile-0.43.orig/player/Makefile.in avifile-0.43/player/Makefile.in
---- avifile-0.43.orig/player/Makefile.in	Thu Aug  3 19:20:53 2000
-+++ avifile-0.43/player/Makefile.in	Thu Aug  3 19:22:01 2000
+diff -ruN avifile-0.46.orig/samples/benchmark/Makefile.in avifile-0.46/samples/benchmark/Makefile.in
+--- avifile-0.46.orig/samples/benchmark/Makefile.in	Sun Aug 20 05:15:16 2000
++++ avifile-0.46/samples/benchmark/Makefile.in	Mon Aug 21 20:11:25 2000
 @@ -7,7 +7,7 @@
  
  MOC=@MOC@
- LIBS=@LIBS@ -lX11 -lXext -lqt -laviplay $(DGA_LDADD) $(ESD_LDADD)
--LIB_DIRS=$(QT_LDADD) -L/usr/X11R6/lib -L/usr/local/lib -L../lib
-+LIB_DIRS=$(QT_LDADD) -L../lib -L/usr/X11R6/lib -L/usr/local/lib
- CDOPT=@CD_OPT@
- LDOPT=@LD_OPT@
- ESD_LDADD=@ESD_LDADD@
-diff -urN avifile-0.43.orig/samples/avitest/Makefile.in avifile-0.43/samples/avitest/Makefile.in
---- avifile-0.43.orig/samples/avitest/Makefile.in	Thu Aug  3 19:20:52 2000
-+++ avifile-0.43/samples/avitest/Makefile.in	Thu Aug  3 19:22:38 2000
-@@ -1,5 +1,5 @@
- CPPFLAGS=-g -I/usr/local/include/avifile -I../../include
--LIBS=@LIBS@  -L/usr/X11R6/lib -lavi_io -lvideocodec -laviplay -L/usr/local/lib -L../../lib
-+LIBS=@LIBS@ -L../../lib -L/usr/X11R6/lib -lavi_io -lvideocodec -laviplay -L/usr/local/lib
- 
- OBJS=main.o
- 
-diff -urN avifile-0.43.orig/samples/benchmark/Makefile.in avifile-0.43/samples/benchmark/Makefile.in
---- avifile-0.43.orig/samples/benchmark/Makefile.in	Thu Aug  3 19:20:53 2000
-+++ avifile-0.43/samples/benchmark/Makefile.in	Thu Aug  3 19:22:00 2000
-@@ -7,7 +7,7 @@
- 
- MOC=@MOC@
- LIBS=@LIBS@ -lX11 -lXext -lqt -laviplay $(DGA_LDADD) $(ESD_LDADD)
+ LIBS=@LIBS@ -lX11 -lXext -lqt -laviplay $(DGA_LDADD) $(ESD_LDADD) @SDL_LIBS@
 -LIB_DIRS=$(QT_LDADD) -L/usr/X11R6/lib -L../../lib
 +LIB_DIRS=$(QT_LDADD) -L../../lib -L/usr/X11R6/lib
  CDOPT=@CD_OPT@
  LDOPT=@LD_OPT@
  ESD_LDADD=@ESD_LDADD@
-diff -urN avifile-0.43.orig/samples/ctest/Makefile.in avifile-0.43/samples/ctest/Makefile.in
---- avifile-0.43.orig/samples/ctest/Makefile.in	Thu Aug  3 19:20:52 2000
-+++ avifile-0.43/samples/ctest/Makefile.in	Thu Aug  3 19:23:26 2000
+diff -ruN avifile-0.46.orig/samples/ctest/Makefile.in avifile-0.46/samples/ctest/Makefile.in
+--- avifile-0.46.orig/samples/ctest/Makefile.in	Sat Aug 19 09:46:14 2000
++++ avifile-0.46/samples/ctest/Makefile.in	Mon Aug 21 20:12:14 2000
 @@ -1,6 +1,6 @@
  CFLAGS=-g -I../../include
  CPPFLAGS=-g -I../../include
 -LIBS=@X_LDFLAGS@ @LIBS@ -lloader -L../../lib
-+LIBS=@X_LDFLAGS@ -L../../lib @LIBS@ -lloader
++LIBS=-L../../lib @X_LDFLAGS@ @LIBS@ -lloader
  
  OBJS=test.o comptest.o
  
-diff -urN avifile-0.43.orig/samples/extractor/Makefile.in avifile-0.43/samples/extractor/Makefile.in
---- avifile-0.43.orig/samples/extractor/Makefile.in	Thu Aug  3 19:20:53 2000
-+++ avifile-0.43/samples/extractor/Makefile.in	Thu Aug  3 19:22:00 2000
+diff -ruN avifile-0.46.orig/samples/extractor/Makefile.in avifile-0.46/samples/extractor/Makefile.in
+--- avifile-0.46.orig/samples/extractor/Makefile.in	Sat Aug 19 09:46:14 2000
++++ avifile-0.46/samples/extractor/Makefile.in	Mon Aug 21 20:12:29 2000
 @@ -1,5 +1,5 @@
  CPPFLAGS=-g -I../../include
 -LIBS=@X_LDFLAGS@ @LIBS@ -laviplay -L../../lib
-+LIBS= -L../../lib @X_LDFLAGS@ @LIBS@ -laviplay
++LIBS=-L../../lib @X_LDFLAGS@ @LIBS@ -laviplay
  
  OBJS=extractor.o
  
-diff -urN avifile-0.43.orig/samples/plustest/Makefile.in avifile-0.43/samples/plustest/Makefile.in
---- avifile-0.43.orig/samples/plustest/Makefile.in	Thu Aug  3 19:20:52 2000
-+++ avifile-0.43/samples/plustest/Makefile.in	Thu Aug  3 19:23:57 2000
+diff -ruN avifile-0.46.orig/samples/plustest/Makefile.in avifile-0.46/samples/plustest/Makefile.in
+--- avifile-0.46.orig/samples/plustest/Makefile.in	Sat Aug 19 09:46:14 2000
++++ avifile-0.46/samples/plustest/Makefile.in	Mon Aug 21 20:12:46 2000
 @@ -1,6 +1,6 @@
  CPPFLAGS=-g -I../../include
  OPTFLAGS=-I..
