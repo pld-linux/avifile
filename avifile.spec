@@ -62,7 +62,7 @@ aclocal
 libtoolize --copy --force
 automake -a -c
 autoconf
-CD_OPT="%{?debug:-O -g}%{!?debug:$RPM_OPT_FLAGS}"; export CD_OPT
+CD_OPT="%{?debug:-O0 -g}%{!?debug:$RPM_OPT_FLAGS}"; export CD_OPT
 %configure \
 	--with-qt-includes=%{_includedir}/qt \
 	--enable-release
