@@ -1,6 +1,6 @@
 #
 # Conditional build:
-# bcond_off_arts - without arts support
+# _without_arts - without arts support
 #
 
 %define		snap	20010514
@@ -24,7 +24,7 @@ BuildRequires:	XFree86-devel
 BuildRequires:	SDL-devel >= 1.2.0
 BuildRequires:	ac3dec-devel >= 0.6.1
 BuildRequires:	libjpeg-devel
-%{!?bcond_off_arts:BuildRequires:	arts-devel}
+%{!?_without_arts:BuildRequires:	arts-devel}
 BuildRequires:	unzip
 BuildRequires:	qt-devel
 BuildConflicts:	wine-devel
