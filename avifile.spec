@@ -20,7 +20,6 @@ BuildRequires:	ac3dec-devel >= 0.6.1
 BuildRequires:	libjpeg-devel
 BuildRequires:	unzip
 BuildRequires:	qt-devel
-BuildRequires:	alsa-lib-devel
 BuildRequires:	divx4linux-devel
 BuildConflicts:	wine-devel
 ExclusiveArch:	%{ix86}
@@ -97,22 +96,23 @@ install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir},/usr/lib/win32}
 %{__make} install \
 	DESTDIR="$RPM_BUILD_ROOT"
 
-cp include/fourcc.h $RPM_BUILD_ROOT/%{_includedir}/%{name}
+cp -f include/fourcc.h $RPM_BUILD_ROOT/%{_includedir}/%{name}
 
 gzip -9nf README doc/{CREDITS,EXCEPTIONS,KNOWN_BUGS,LICENSING} \
 	doc/{README-DEVEL,TODO,VIDEO-PERFORMANCE,WARNINGS}
 
-%post	-p /sbin/ldconfig
-%postun	-p /sbin/ldconfig
-
 %clean
 rm -rf $RPM_BUILD_ROOT
+
+%post	-p /sbin/ldconfig
+%postun	-p /sbin/ldconfig
 
 %files
 %defattr(644,root,root,755)
 %doc *.gz doc/{CREDITS,EXCEPTIONS,KNOWN_BUGS,LICENSING}.gz
 %doc doc/{TODO,VIDEO-PERFORMANCE,WARNINGS}.gz
-%attr(755,root,root) %{_bindir}/*
+%attr(755,root,root) %{_bindir}/avi[bcmprt]*
+%attr(755,root,root) %{_bindir}/kv4lsetup
 %attr(755,root,root) %{_libdir}/lib*.so.*.*
 %dir %{_libdir}/avifile*
 %attr(755,root,root) %{_libdir}/avifile*/lib*.so*
@@ -123,6 +123,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc doc/README-DEVEL*
 %attr(755,root,root) %{_bindir}/avifile-config
+%attr(755,root,root) %{_bindir}/mmxnow-config
 %attr(755,root,root) %{_libdir}/lib*.la
 %{_libdir}/lib*.so
 %{_includedir}/%{name}
