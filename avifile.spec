@@ -29,6 +29,7 @@ Patch8:		%{name}-no_libnsl.patch
 Patch9:		%{name}-system-libmad.patch
 Patch10:	%{name}-ffmpeg-alpha.patch
 Patch11:	%{name}-opt.patch
+Patch12:	%{name}-ffmpeg-ppc.patch
 URL:		http://avifile.sourceforge.net/
 BuildRequires:	SDL-devel >= 1.2.0
 BuildRequires:	XFree86-devel
@@ -323,6 +324,7 @@ Sterownik VIDIX dla kart graficznych Permedia.
 %patch9 -p1
 %patch10 -p1
 %patch11 -p1
+%patch12 -p1
 
 %build
 %{__libtoolize}
