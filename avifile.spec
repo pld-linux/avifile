@@ -1,4 +1,4 @@
-%define		snap	20010624
+%define		snap	20010713
 Summary:	Library and sample program for playing AVI files
 Summary(pl):	Biblioteka i przyk³adowy program do odtwarzania plików AVI
 Name:		avifile
@@ -14,8 +14,7 @@ Patch0:		%{name}-shareware.patch
 Patch1:		%{name}-deplib.patch
 Patch2:		%{name}-ac3.patch
 Patch3:		%{name}-mga.patch
-Patch4:		%{name}-opt.patch
-Patch5:		%{name}-stdio.patch
+Patch4:		%{name}-ffmpeg.patch
 BuildRequires:	XFree86-devel
 BuildRequires:	SDL-devel >= 1.2.0
 BuildRequires:	ac3dec-devel >= 0.6.1
@@ -61,7 +60,6 @@ libaviplay.
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
-%patch5 -p1
 
 %build
 rm -f missing
@@ -71,8 +69,9 @@ autoconf
 automake -a -c --foreign
 %configure \
 	--with-qt-includes=%{_includedir}/qt \
+	--with-libac3-path=%{_prefix} \
 	--enable-release \
-	--with-libac3-path=%{_prefix}
+	--disable-ffmpeg
 
 touch lib/dummy.cpp
 gcc -c plugins/libwin32/loader/stubs.s -o plugins/libwin32/loader/stubs.lo
