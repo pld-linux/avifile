@@ -1,7 +1,7 @@
-diff -urN avifile-0.43.orig/Makefile.in avifile-0.43/Makefile.in
---- avifile-0.43.orig/Makefile.in	Thu Aug  3 18:26:34 2000
-+++ avifile-0.43/Makefile.in	Thu Aug  3 18:43:24 2000
-@@ -35,17 +35,16 @@
+diff -ur avifile-0.47.1.orig/Makefile.in avifile-0.47.1/Makefile.in
+--- avifile-0.47.1.orig/Makefile.in	Sun Sep 10 14:55:06 2000
++++ avifile-0.47.1/Makefile.in	Thu Sep 14 16:43:55 2000
+@@ -41,24 +41,24 @@
  	-find . -name Makefile -exec rm \{\} \;
  
  install:
@@ -13,9 +13,6 @@ diff -urN avifile-0.43.orig/Makefile.in avifile-0.43/Makefile.in
 -	$(INSTALL_PROGRAM) ./include/wine/*.h $(includedir)/avifile/wine
 -	$(INSTALL_PROGRAM) ./bin/aviplay $(bindir)
 -	$(INSTALL_PROGRAM) ./bin/benchmark $(bindir)
--	$(INSTALL_PROGRAM) ./bin/*.ppm $(datadir)/avifile
--	$(INSTALL_PROGRAM) ./bin/*.png $(datadir)/avifile
--	/sbin/ldconfig
 +	$(INSTALL_PROGRAM) -d $(DESTDIR)$(datadir)
 +	$(INSTALL_PROGRAM) -d $(DESTDIR)$(includedir)/avifile/wine
 +	$(INSTALL_PROGRAM) -d $(DESTDIR)$(datadir)/avifile
@@ -24,8 +21,22 @@ diff -urN avifile-0.43.orig/Makefile.in avifile-0.43/Makefile.in
 +	$(INSTALL_PROGRAM) ./include/wine/*.h $(DESTDIR)$(includedir)/avifile/wine
 +	$(INSTALL_PROGRAM) ./bin/aviplay $(DESTDIR)$(bindir)
 +	$(INSTALL_PROGRAM) ./bin/benchmark $(DESTDIR)$(bindir)
+ ifeq (@USE_VIDCAP@,1)
+-	$(INSTALL_PROGRAM) ./bin/qtvidcap $(bindir)
+-	$(INSTALL_PROGRAM) -m4755 ./bin/kv4lsetup $(bindir)
++	$(INSTALL_PROGRAM) ./bin/qtvidcap $(DESTDIR)$(bindir)
++	$(INSTALL_PROGRAM) -m4755 ./bin/kv4lsetup $(DESTDIR)$(bindir)
+ endif	
+-	$(INSTALL_PROGRAM) ./bin/*.ppm $(datadir)/avifile
+-	$(INSTALL_PROGRAM) ./bin/*.png $(datadir)/avifile
 +	$(INSTALL_PROGRAM) ./bin/*.ppm $(DESTDIR)$(datadir)/avifile
 +	$(INSTALL_PROGRAM) ./bin/*.png $(DESTDIR)$(datadir)/avifile
+ ifeq (@USE_JPEGLIB@,1)
+-	$(INSTALL_PROGRAM) ./lib/libavi_mjpeg.so @WIN32_PATH@
++	-mkdir $(DESTDIR)@WIN32_PATH@
++	$(INSTALL_PROGRAM) ./lib/libavi_mjpeg.so $(DESTDIR)@WIN32_PATH@
+ endif
+-	/sbin/ldconfig
  
  devinst:
  	$(INSTALL_PROGRAM) -d $(datadir)/avifile
