@@ -1,19 +1,17 @@
 # It's sick.
-%define		_snapver	20011220
-%define		_snapsubver	admin
-%define		_snap		%{_snapver}%{_snapsubver}
-%define		_ver	0.6
-%define		_subver	.0
+%define		_snapver	20020412
+%define		_snap		%{_snapver}
+%define		_ver	0.7
 Summary:	Library for playing AVI files
 Summary(pl):	Biblioteka do odtwarzania plików AVI
 Name:		avifile
-Version:	%{_ver}%{_subver}
-Release:	0.%{_snap}.5
+Version:	%{_ver}
+Release:	0.%{_snap}.1
 Epoch:		3
 License:	GPL
 Group:		X11/Libraries
 URL:		http://avifile.sourceforge.net/
-Source0:	http://avifile.sourceforge.net/%{name}-%{version}-%{_snap}.tgz
+Source0:	http://avifile.sourceforge.net/%{name}%{version}-%{_snap}.tar.gz
 Source1:	%{name}.desktop
 Patch0:		%{name}-shareware.patch
 Patch1:		%{name}-deplib.patch
@@ -26,7 +24,9 @@ BuildRequires:	ac3dec-devel >= 0.6.1
 BuildRequires:	libjpeg-devel
 BuildRequires:	unzip
 BuildRequires:	qt-devel
+%ifarch %{ix86}
 BuildRequires:	divx4linux-devel
+%endif
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	libtool
@@ -93,13 +93,13 @@ Kilka u¿ytecznych narzêdzi do przechwytywania TV, rekompresji AVI,
 benchmarkowania, ³±czenia plików AVI. Maj± wiêcej b³êdów, poniewa¿ nie
 s± tak intensywnie rozwijane jak odtwarzacz.
 
+%ifarch %{ix86}
 %package win32
 Summary:	Win32 audio/video plugin
 Summary(pl):	Plugin audio/video win32
 Group:		X11/Libraries
 Requires:	%{name} = %{version}
 Requires:	w32codec
-ExclusiveArch:	%{ix86}
 
 %description win32
 Plugin for using Win32 DLL libraries in avifile located in
@@ -108,6 +108,7 @@ Plugin for using Win32 DLL libraries in avifile located in
 %description win32 -l pl
 Plugin do u¿ywania w avifile zlokalizowanych w /usr/lib/win32
 bibliotek DLL Win32.
+%endif
 
 %package ffmpeg
 Summary:	GPL MPEG4 codec
@@ -133,6 +134,7 @@ je do kilku formatów plików opartych na kodowaniu DCT/kompensacji
 ruchu. D¼wiêk jest kompresowany w MPEG audio layer 2 lub u¿ywaj±c
 kompatybilnego z AC3 strumienia.
 
+%ifarch %{ix86}
 %package divx4
 Summary:	Fast MPEG4 codec
 Summary(pl):	Szybki kodek MPEG4
@@ -146,6 +148,7 @@ DivX MPEG-4 decoder and encoder.
 
 %description divx4 -l pl
 Dekoder i koder MPEG-4 DivX.
+%endif
 
 %package vorbis
 Summary:	Vorbis audio plugin
@@ -284,20 +287,24 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/avi[bcmrt]*
 %attr(755,root,root) %{_bindir}/kv4lsetup
 
+%ifarch %{ix86}
 %files win32
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/avifile*/libwin32.so*
 %attr(755,root,root) %{_libdir}/avifile*/libwin32.la
+%endif
 
 %files ffmpeg
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/avifile*/libffmpeg.so*
 %attr(755,root,root) %{_libdir}/avifile*/libffmpeg.la
 
+%ifarch %{ix86}
 %files divx4
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/avifile*/libdivx4.so*
 %attr(755,root,root) %{_libdir}/avifile*/libdivx4.la
+%endif
 
 %files vorbis
 %defattr(644,root,root,755)
