@@ -1,0 +1,9 @@
+--- avifile-0.6/lib/common/Makefile.am.orig	Fri Apr 20 18:57:42 2001
++++ avifile-0.6/lib/common/Makefile.am	Thu May 24 00:07:15 2001
+@@ -12,5 +12,3 @@
+  util.cpp \
+  ldt_keeper.cpp \
+  mmx.cpp 
+-
+-CXXFLAGS=-g -O2
+\ No newline at end of file

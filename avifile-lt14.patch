@@ -1,0 +1,37 @@
+diff -Nur avifile-0.6.orig/plugins/libaudiodec/Makefile.am avifile-0.6/plugins/libaudiodec/Makefile.am
+--- avifile-0.6.orig/plugins/libaudiodec/Makefile.am	Thu May 24 00:06:52 2001
++++ avifile-0.6/plugins/libaudiodec/Makefile.am	Thu May 24 00:08:27 2001
+@@ -7,4 +7,4 @@
+ libaudiodec_la_LDFLAGS = @AC3_LIBS@ @AC3_LDADD@ -module
+ CXXFLAGS = @CXXFLAGS@ @AC3_CFLAGS@
+ 
+-LIBS=-L../../lib/.libs -laviplay -lstdc++
++LIBS=-L../../lib -laviplay -lstdc++
+diff -Nur avifile-0.6.orig/plugins/libmp3lame_audioenc/Makefile.am avifile-0.6/plugins/libmp3lame_audioenc/Makefile.am
+--- avifile-0.6.orig/plugins/libmp3lame_audioenc/Makefile.am	Thu May 24 00:06:52 2001
++++ avifile-0.6/plugins/libmp3lame_audioenc/Makefile.am	Thu May 24 00:08:40 2001
+@@ -4,4 +4,4 @@
+ libmp3lame_audioenc_la_SOURCES = audioencoder.cpp mp3encoder.cpp mp3encoder.h fillplugins.h
+ libmp3lame_audioenc_la_LDFLAGS = -module
+ 
+-LIBS=-L../../lib/.libs -laviplay -lstdc++
++LIBS=-L../../lib -laviplay -lstdc++
+diff -Nur avifile-0.6.orig/plugins/libmpeg_audiodec/Makefile.am avifile-0.6/plugins/libmpeg_audiodec/Makefile.am
+--- avifile-0.6.orig/plugins/libmpeg_audiodec/Makefile.am	Thu May 24 00:06:52 2001
++++ avifile-0.6/plugins/libmpeg_audiodec/Makefile.am	Thu May 24 00:08:49 2001
+@@ -11,5 +11,5 @@
+ # -finline-functions 
+ CXXFLAGS = $(OPTFLG) @CXXFLAGS@ 
+ 
+-LIBS = -L../../lib/.libs -laviplay -lstdc++
++LIBS = -L../../lib -laviplay -lstdc++
+ 
+diff -Nur avifile-0.6.orig/plugins/libwin32/Makefile.am avifile-0.6/plugins/libwin32/Makefile.am
+--- avifile-0.6.orig/plugins/libwin32/Makefile.am	Thu May 24 00:06:52 2001
++++ avifile-0.6/plugins/libwin32/Makefile.am	Thu May 24 00:08:58 2001
+@@ -14,4 +14,4 @@
+ 
+ CPPFLAGS = @CPPFLAGS@ -Iloader -Iloader/wine -Ivideocodec -Iaudiodec -IDirectShow
+ 
+-LIBS = @AVILIBDEPLIB@  -L../../lib/.libs -laviplay -lstdc++
++LIBS = @AVILIBDEPLIB@  -L../../lib -laviplay -lstdc++

@@ -20,6 +20,8 @@ Patch1:		%{name}-deplib.patch
 Patch2:		%{name}-ac3.patch
 Patch3:		%{name}-mga.patch
 Patch4:		%{name}-libtool.patch
+Patch5:		%{name}-opt.patch
+Patch6:		%{name}-lt14.patch
 BuildRequires:	XFree86-devel
 BuildRequires:	SDL-devel >= 1.2.0
 BuildRequires:	ac3dec-devel >= 0.6.1
@@ -65,13 +67,17 @@ libaviplay.
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
+%patch6 -p1
 
 %build
-rm missing
+rm -f missing
 libtoolize --copy --force
 aclocal
 autoconf
 automake -a -c --foreign
+# don't always add "-g" - it's in CXXFLAGS in %debug version
+CPPFLAGS=" "; export CPPFLAGS
 %configure \
 	--with-qt-includes=%{_includedir}/qt \
 	--enable-release \
@@ -85,6 +91,14 @@ gcc -c plugins/libwin32/loader/stubs.s -o plugins/libwin32/loader/stubs.lo
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir},/usr/lib/win32}
 
+# avoid relinking
+for f in plugins/libwin32/libwin32.la plugins/libaudiodec/libaudiodec.la \
+  plugins/libmp3lame_audioenc/libmp3lame_audioenc.la \
+  plugins/libmpeg_audiodec/libmpeg_audiodec.la ; do
+	sed -e '/^relink_command/d' $f > $f.new
+	mv -f $f.new $f
+done
+	
 %{__make} install \
 	DESTDIR="$RPM_BUILD_ROOT"
 
@@ -108,7 +122,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/asf*
 %attr(755,root,root) %{_libdir}/lib*.so.*.*
 %dir %{_libdir}/avifile
-%attr(755,root,root) %{_libdir}/avifile/lib*
+%attr(755,root,root) %{_libdir}/avifile/lib*.so*
 %{_datadir}/%{name}
 
 %files devel
@@ -116,5 +130,6 @@ rm -rf $RPM_BUILD_ROOT
 %doc doc/README-DEVEL*
 %attr(755,root,root) %{_bindir}/avifile-config
 %attr(755,root,root) %{_libdir}/lib*.la
+%attr(755,root,root) %{_libdir}/avifile/lib*.la
 %{_libdir}/lib*.so
 %{_includedir}/%{name}
