@@ -5,12 +5,12 @@ Version:	0.43
 Release:	1
 Group:		X11/Applications/Multimedia
 Group(pl):	X11/Aplikacje/Multimedia
-Copyright:	GPL
+License:	GPL
 Source0:	http://divx.euro.ru/%{name}-%{version}.tar.gz
-Patch1:		avifile-DESTDIR.patch
-Patch2:		avifile-old_ver_conflict.patch
-# Note: using non-standard optimizations generated non-working binary.
-#Patch3:		avifile-OPT_FLAGS.patch
+Patch1:		%{name}-DESTDIR.patch
+Patch2:		%{name}-old_ver_conflict.patch
+# Note:		using non-standard optimizations generated non-working binary.
+#Patch3:	%{name}-OPT_FLAGS.patch
 Requires:	avi-codecs
 BuildRequires:	unzip
 BuildRequires:	libstdc++-devel
@@ -21,13 +21,13 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		_mandir		%{_prefix}/man
 
 %description
-Library and sample program for playing AVI files. It uses windows codecs and
-parts of Wine (http://www.winehq.com) code to load them.
+Library and sample program for playing AVI files. It uses windows
+codecs and parts of Wine (http://www.winehq.com) code to load them.
 
 %description -l pl
-Biblioteka i przyk³adowy program do odtwarzania plików AVI. Wykorzystuje
-dekompresory dla Windows oraz fragmenty kody Wine (http://www.winehq.com) aby
-je za³adowaæ.
+Biblioteka i przyk³adowy program do odtwarzania plików AVI.
+Wykorzystuje dekompresory dla Windows oraz fragmenty kody Wine
+(http://www.winehq.com) aby je za³adowaæ.
 
 %package devel
 Summary:	Header file required to build programs using libaviplay
@@ -76,7 +76,7 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/*
-%attr(755,root,root)%{_libdir}/*
+%attr(755,root,root) %{_libdir}/*
 %{_datadir}/%{name}
 %doc *gz doc/*gz
 
