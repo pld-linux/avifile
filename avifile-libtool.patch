@@ -314,7 +314,7 @@ diff -urN avifile-0.6.org/configure.in avifile-0.6/configure.in
  AM_PROG_LIBTOOL
 -dnl - some bad is with the current version of automake in Debian unstable
 -dnl - so temporaly using this ugly fix - using link to system's binary
--if test x$USER = xkabi; then
+-if test x$USER = xkkabi; then
 -   rm libtool
 -   ln -s /usr/bin/libtool
 -else
