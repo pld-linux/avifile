@@ -1,0 +1,22 @@
+Something wrong with code or bug in gcc?
+With this "const" and -O2 optimization these structs were initialized only partially.
+--- avifile-0.7-0.7.38/player/main.cpp.orig	2003-05-25 01:24:42.000000000 +0200
++++ avifile-0.7-0.7.38/player/main.cpp	2003-12-30 02:34:20.895903992 +0100
+@@ -57,7 +57,7 @@
+     AviPlayerInitParams apip;
+     apip.x = apip.y = 0x7fffffff;
+ 
+-    static const avm::Args::Option sizesubopts[] =
++    static avm::Args::Option sizesubopts[] =
+     {
+ 	{ avm::Args::Option::INT, "w", "width", "window width", &apip.width, 8, 8192 },
+ 	{ avm::Args::Option::INT, "h", "height", "window height", &apip.height, 2, 8192 },
+@@ -66,7 +66,7 @@
+ 	{ avm::Args::Option::NONE }
+     };
+ 
+-    static const avm::Args::Option opts[] =
++    static avm::Args::Option opts[] =
+     {
+ 	{ avm::Args::Option::BOOL, "a", "auto", "use autoquality for postprocessing", &apip.quiet },
+ 	{ avm::Args::Option::SUBOPTIONS, "s", "size", "set windows size", (void*) &sizesubopts },
