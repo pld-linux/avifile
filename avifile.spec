@@ -10,7 +10,7 @@ Summary(pl):	Biblioteka do odtwarzania plików AVI
 Summary(pt_BR):	Biblioteca para reproduzir formatos de áudio e vídeo usando binários win32
 Name:		avifile
 Version:	0.7.38
-Release:	3%{?_with_divx:+divx}
+Release:	4%{?with_divx:+divx}
 Epoch:		3
 License:	GPL
 Group:		X11/Libraries
@@ -44,6 +44,10 @@ BuildRequires:	autoconf
 BuildRequires:	automake
 %{?with_divx:BuildRequires:	divx4linux-devel}
 BuildRequires:	faad2-devel
+%ifarch ppc
+# version with altivec support fixed
+BuildRequires:	gcc >= 5:3.3.2-3
+%endif
 BuildRequires:	lame-libs-devel
 BuildRequires:	libjpeg-devel
 BuildRequires:	libmad-devel
@@ -328,7 +332,7 @@ VIDIX driver for Permedia video adapters.
 Sterownik VIDIX dla kart graficznych Permedia.
 
 %prep
-%setup -q -n avifile-0.7-%{version}
+%setup -q -n %{name}-0.7-%{version}
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
@@ -350,14 +354,8 @@ Sterownik VIDIX dla kart graficznych Permedia.
 
 # unwanted hack
 rm -f m4/as.m4
-# original file containst only m4/*.m4; must exist because of AC_INIT parameter
+# original file contains only m4/*.m4; must exist because of AC_INIT parameter
 > acinclude.m4
-
-%ifarch ppc
-# temporarily disable altivec compiling due to gcc 3.3.x bug target/11793
-sed -e 's/\(enable_ppcopt=\)yes/\1no/;s/AC_DEFINE(ARCH_POWERPC,/dnl &/' configure.in > configure.in.tmp
-mv -f configure.in.tmp configure.in
-%endif
 
 %build
 %{__libtoolize}
