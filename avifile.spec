@@ -247,7 +247,8 @@ for f in $GEN_MOC; do moc -o "${f%.[!.]*}.moc" "$f"; done
 %endif
 
 %configure \
-	CPPFLAGS="-I/usr/include/divx -I/usr/include/xvid" AS="%{__cc}" \
+	CPPFLAGS="-I/usr/include/divx -I/usr/include/xvid -I/usr/include/freetype2" \
+	AS="%{__cc}" \
 	FFMPEG_CFLAGS="%{rpmcflags} -ffast-math %{!?debug:-fomit-frame-pointer}" \
 	--with-qt-includes=%{_includedir}/qt \
 	--with-qt-libraries=%{_libdir} \
