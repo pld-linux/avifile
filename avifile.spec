@@ -6,7 +6,7 @@ Summary:	Library for playing AVI files
 Summary(pl):	Biblioteka do odtwarzania plików AVI
 Name:		avifile
 Version:	%{_ver}
-Release:	0.%{_snap}.1
+Release:	0.%{_snap}.2
 Epoch:		3
 License:	GPL
 Group:		X11/Libraries
@@ -219,7 +219,8 @@ for f in $GEN_MOC; do moc -o "${f%.[!.]*}.moc" "$f"; done
 	--with-qt-includes=%{_includedir}/qt \
 	--with-libac3-path=%{_prefix} \
 	--enable-release \
-	--enable-ffmpeg
+	--enable-ffmpeg \
+	--disable-x86opt
 
 touch lib/dummy.cpp
 %{__make}
