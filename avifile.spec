@@ -85,10 +85,14 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc *gz
-%attr(755,root,root) %{_bindir}/*
-%attr(755,root,root) %{_libdir}/*
+%attr(755,root,root) %{_bindir}/aviplay
+%attr(755,root,root) %{_bindir}/[bkq]*
+%attr(755,root,root) %{_libdir}/lib*.so.*.*
 %{_datadir}/%{name}
 
 %files devel
 %defattr(644,root,root,755)
+%attr(755,root,root) %{_bindir}/avifile-config
+%attr(755,root,root) %{_libdir}/lib*.la
+%{_libdir}/lib*.so
 %{_includedir}/%name
