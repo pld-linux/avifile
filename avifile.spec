@@ -3,7 +3,7 @@ Summary:	Library and sample program for playing AVI files
 Summary(pl):	Biblioteka i przyk³adowy program do odtwarzania plików AVI
 Name:		avifile
 Version:	0.6
-Release:	0.%{snap}.1
+Release:	0.%{snap}.2
 Epoch:		3
 License:	GPL
 Group:		X11/Applications/Multimedia
@@ -91,6 +91,8 @@ install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir},/usr/lib/win32}
 	
 %{__make} install \
 	DESTDIR="$RPM_BUILD_ROOT"
+
+cp include/fourcc.h $RPM_BUILD_ROOT/%{_includedir}/%{name}
 
 gzip -9nf README doc/{CREDITS,EXCEPTIONS,KNOWN_BUGS,LICENSING} \
 	doc/{README-DEVEL,TODO,VIDEO-PERFORMANCE,WARNINGS}
