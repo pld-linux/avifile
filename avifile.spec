@@ -2,7 +2,7 @@ Summary:	Library and sample program for playing AVI files
 Summary(pl):	Biblioteka i przyk³adowy program do odtwarzania plików AVI
 Name:		avifile
 Version:	0.6.0
-Release:	0.beta4.3
+Release:	0.beta4
 Epoch:		1
 License:	GPL
 Group:		X11/Applications/Multimedia
@@ -21,6 +21,7 @@ BuildRequires:	SDL-devel >= 1.1.3
 BuildRequires:	XFree86-devel
 BuildRequires:	libjpeg-devel
 BuildRequires:	arts-devel
+BuildRequires:	ac3dec-devel >= 0.6.1
 BuildConflicts:	wine-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -66,7 +67,8 @@ CFLAGS="%{?debug:-O0 -g}%{!?debug:$RPM_OPT_FLAGS} -D_LARGEFILE64_SOURCE"; export
 CXXFLAGS="%{?debug:-O0 -g}%{!?debug:$RPM_OPT_FLAGS} -D_LARGEFILE64_SOURCE"; export CXXFLAGS
 %configure \
 	--with-qt-includes=%{_includedir}/qt \
-	--enable-release
+	--enable-release \
+	--with-libac3-path=%{_prefix}
 
 touch lib/dummy.cpp
 %{__make}
