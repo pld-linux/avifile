@@ -6,7 +6,7 @@ Summary:	Library for playing AVI files
 Summary(pl):	Biblioteka do odtwarzania plików AVI
 Name:		avifile
 Version:	%{_ver}
-Release:	0.%{_snap}.6
+Release:	0.%{_snap}.7
 Epoch:		3
 License:	GPL
 Group:		X11/Libraries
@@ -32,7 +32,7 @@ BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	libtool
 BuildRequires:	libogg-devel
-BuildRequires:	libvorbis-devel
+BuildRequires:	libvorbis-devel >= 1:1.0
 BuildRequires:	lame-libs-devel
 %ifarch %{ix86} ppc sparc sparc64 sparcv9
 BuildRequires:	xvid-devel
