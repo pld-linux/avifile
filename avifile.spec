@@ -2,7 +2,7 @@ Summary:	Library and sample program for playing AVI files
 Summary(pl):	Biblioteka i przyk³adowy program do odtwarzania plików AVI
 Name:		avifile
 Version:	0.6.0
-Release:	0.beta4.1
+Release:	0.beta4.2
 Epoch:		1
 License:	GPL
 Group:		X11/Applications/Multimedia
@@ -12,6 +12,7 @@ Source0:	http://divx.euro.ru/%{name}-%{version}-beta4.tar.gz
 Patch0:		%{name}-shareware.patch
 Patch1:		%{name}-opt.patch
 Patch2:		%{name}-am_fix.patch
+Patch3:		%{name}-deplib.patch
 Requires:	avi-codecs
 BuildRequires:	unzip
 BuildRequires:	libstdc++-devel
@@ -55,6 +56,7 @@ libaviplay.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 libtoolize --copy --force
@@ -77,7 +79,7 @@ install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir},/usr/lib/win32}
 %{__make} install \
 	DESTDIR="$RPM_BUILD_ROOT"
 
-install samples/misc/{asfdump,asftest,benchmark} $RPM_BUILD_ROOT%{_bindir}
+install samples/misc/.libs/{asfdump,asftest,benchmark} $RPM_BUILD_ROOT%{_bindir}
 
 gzip -9nf README doc/{CREDITS,EXCEPTIONS,KNOWN_BUGS,LICENSING} \
 	doc/{README-DEVEL,TODO,VIDEO-PERFORMANCE,WARNINGS}
