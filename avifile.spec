@@ -6,7 +6,7 @@ Summary:	Library for playing AVI files
 Summary(pl):	Biblioteka do odtwarzania plików AVI
 Name:		avifile
 Version:	%{_ver}
-Release:	0.%{_snap}.3
+Release:	0.%{_snap}.4
 Epoch:		3
 License:	GPL
 Group:		X11/Libraries
