@@ -2,7 +2,7 @@ Summary:	Library and sample program for playing AVI files
 Summary(pl):	Biblioteka i przyk³adowy program do odtwarzania plików AVI
 Name:		avifile
 Version:	0.50
-Release:	3
+Release:	4
 License:	GPL
 Group:		X11/Applications/Multimedia
 Group(de):	X11/Applikationen/Multimedia
@@ -30,7 +30,7 @@ codecs and parts of Wine (http://www.winehq.com) code to load them.
 
 %description -l pl
 Biblioteka i przyk³adowy program do odtwarzania plików AVI.
-Wykorzystuje dekompresory dla Windows oraz fragmenty kody Wine
+Wykorzystuje dekompresory dla Windows oraz fragmenty kodu Wine
 (http://www.winehq.com) aby je za³adowaæ.
 
 %package devel
@@ -59,7 +59,7 @@ find . -exec touch {} \;
 %build
 autoconf
 CD_OPT="$RPM_OPT_FLAGS" ; export CD_OPT
-%configure
+%configure --with-qt-includes=%{_includedir}/qt
 
 %{__make}
 
