@@ -2,7 +2,7 @@ Summary:	Library and sample program for playing AVI files
 Summary(pl):	Biblioteka i przyk³adowy program do odtwarzania plików AVI
 Name:		avifile
 Version:	0.6.0
-Release:	0.beta3.1
+Release:	0.beta4
 Epoch:		1
 License:	GPL
 Group:		X11/Applications/Multimedia
@@ -21,6 +21,9 @@ BuildRequires:	xmps-devel
 BuildRequires:	qt-devel
 BuildRequires:	SDL-devel >= 1.1.3
 BuildRequires:	XFree86-devel
+BuildRequires:	libjpeg-devel
+BuildRequires:	arts-devel
+BuildConflicts:	wine-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_prefix		/usr/X11R6
@@ -58,9 +61,9 @@ libaviplay.
 %patch4 -p1
 
 %build
-aclocal
 libtoolize --copy --force
-automake -a -c
+aclocal
+automake -a -c --foreign
 autoconf
 CD_OPT="%{?debug:-O0 -g}%{!?debug:$RPM_OPT_FLAGS}"; export CD_OPT
 %configure \
