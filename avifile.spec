@@ -1,16 +1,19 @@
 Summary:	Library and sample program for playing AVI files
 Summary(pl):	Biblioteka i przyk³adowy program do odtwarzania plików AVI
 Name:		avifile
-Version:	0.53.1
-Release:	1
+Version:	0.6.0
+Release:	0.beta2.1
+Epoch:		1
 License:	GPL
 Group:		X11/Applications/Multimedia
 Group(de):	X11/Applikationen/Multimedia
 Group(pl):	X11/Aplikacje/Multimedia
-Source0:	http://divx.euro.ru/%{name}-%{version}.tar.gz
-Patch0:		http://www.emulinks.de/divx/%{name}-0.52.bitrate.patch
-Patch1:		http://www.emulinks.de/divx/%{name}-0.50.shareware.patch
+Source0:	http://divx.euro.ru/%{name}-%{version}-beta1.tar.gz
+Patch100:	avifile-0.6-beta1-beta2.diff.gz
+Patch0:		%{name}-bitrate.patch
+Patch1:		%{name}-shareware.patch
 Patch2:		%{name}-DESTDIR.patch
+Patch3:		%{name}-opt.patch
 Requires:	avi-codecs
 BuildRequires:	unzip
 BuildRequires:	libstdc++-devel
@@ -47,12 +50,12 @@ Pliki nag³ówkowe niezbêdne do kompilacji programów korzystaj±cych z
 libaviplay.
 
 %prep
-%setup -q -n %{name}-0.53
+%setup -q
+%patch100 -p0
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
-cp configure.in configure.in.old
-sed -e "s#-march=i586##g" configure.in.old > configure.in
+%patch3 -p1
 
 %build
 aclocal
@@ -74,7 +77,10 @@ install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir},/usr/lib/win32}
 %{__make} install \
 	DESTDIR="$RPM_BUILD_ROOT"
 
-gzip -9nf README doc/{CREDITS,EXCEPTIONS,TODO,VIDEO-PERFORMANCE,WARNINGS}
+install samples/misc/{asfdump,asftest,benchmark} $RPM_BUILD_ROOT%{_bindir}
+
+gzip -9nf README doc/{CREDITS,EXCEPTIONS,KNOWN_BUGS,LICENSING} \
+	doc/{README-DEVEL,TODO,VIDEO-PERFORMANCE,WARNINGS}
 
 %post	-p /sbin/ldconfig
 %postun	-p /sbin/ldconfig
@@ -84,15 +90,20 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc *gz
+%doc *.gz doc/{CREDITS,EXCEPTIONS,KNOWN_BUGS,LICENSING}.gz
+%doc doc/{TODO,VIDEO-PERFORMANCE,WARNINGS}.gz
 %attr(755,root,root) %{_bindir}/aviplay
+%attr(755,root,root) %{_bindir}/asf*
 %attr(755,root,root) %{_bindir}/[bkq]*
 %attr(755,root,root) %{_libdir}/lib*.so.*.*
+%attr(755,root,root) /usr/lib/win32/lib*.la
+%attr(755,root,root) /usr/lib/win32/lib*.so.*
 %{_datadir}/%{name}
 
 %files devel
 %defattr(644,root,root,755)
+%doc doc/README-DEVEL*
 %attr(755,root,root) %{_bindir}/avifile-config
 %attr(755,root,root) %{_libdir}/lib*.la
 %{_libdir}/lib*.so
-%{_includedir}/%name
+%{_includedir}/%{name}
