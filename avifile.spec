@@ -233,10 +233,10 @@ Requires:	libmp3lame.so.0
 Requires:	lame-libs
 
 %description lame_audioenc
-Plugin for mp3 encoding capability of avirecompress tool.
+Plugin for MP3 encoding capability of avirecompress tool.
 
 %description lame_audioenc -l pl
-Plugin umo¿liwiaj±cy avirecompressowi kodowanie mp3.
+Plugin umo¿liwiaj±cy avirecompressowi kodowanie MP3.
 
 %package xvid
 Summary:	XVID codec
