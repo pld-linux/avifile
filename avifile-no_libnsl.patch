@@ -1,22 +1,23 @@
---- avifile0.7-0.7.15/configure.in~	Sun Sep 15 19:44:35 2002
-+++ avifile0.7-0.7.15/configure.in	Sun Sep 15 19:44:35 2002
-@@ -90,7 +90,7 @@
+--- configure.ac	Tue Mar 18 13:17:08 2003
++++ configure.ac~	Fri Apr  4 14:15:26 2003
+@@ -168,7 +168,7 @@
  AC_CHECK_LIB(dl, dlopen)
  AC_CHECK_LIB(posix4, nanosleep)
  AC_CHECK_LIB(socket, socket)
 -AC_CHECK_LIB(nsl, gethostbyname)
 +AC_CHECK_FUNC(gethostbyname, [], AC_CHECK_LIB(nsl, gethostbyname))
- dnl AC_SUBST(LIBSOCKET)
- dnl AC_SUBST(LIBNSL)
- 
---- avifile0.7-0.7.32/configure.ac.orig	Wed Feb 19 19:33:30 2003
-+++ avifile0.7-0.7.32/configure.ac	Wed Feb 26 08:43:02 2003
-@@ -91,7 +91,7 @@
- AC_CHECK_LIB(dl, dlopen)
- AC_CHECK_LIB(posix4, nanosleep)
- AC_CHECK_LIB(socket, socket)
--AC_CHECK_LIB(nsl, gethostbyname)
-+AC_CHECK_FUNC(gethostbyname, [], AC_CHECK_LIB(nsl, gethostbyname))
- dnl AC_SUBST(LIBSOCKET)
- dnl AC_SUBST(LIBNSL)
  AC_CHECK_LIB(kstat, kstat_open)
+ AC_CHECK_LIB(c, lseek64, AC_DEFINE(HAVE_LSEEK64, 1, [Define if you have 'lseek64' function.]))
+ dnl AC_SUBST(LIBSOCKET)
+
+--- configure.in	Tue Mar 18 13:17:08 2003
++++ configure.in~	Fri Apr  4 14:17:38 2003
+@@ -168,7 +168,7 @@
+ AC_CHECK_LIB(dl, dlopen)
+ AC_CHECK_LIB(posix4, nanosleep)
+ AC_CHECK_LIB(socket, socket)
+-AC_CHECK_LIB(nsl, gethostbyname)
++AC_CHECK_FUNC(gethostbyname, [], AC_CHECK_LIB(nsl, gethostbyname))
+ AC_CHECK_LIB(kstat, kstat_open)
+ AC_CHECK_LIB(c, lseek64, AC_DEFINE(HAVE_LSEEK64, 1, [Define if you have 'lseek64' function.]))
+ dnl AC_SUBST(LIBSOCKET)
