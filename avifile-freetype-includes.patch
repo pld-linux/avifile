@@ -1,0 +1,12 @@
+--- avifile-0.7-0.7.38/lib/video/sub_ft.cpp.orig	2002-11-01 12:08:06.000000000 +0100
++++ avifile-0.7-0.7.38/lib/video/sub_ft.cpp	2003-12-29 22:24:46.258394920 +0100
+@@ -6,7 +6,8 @@
+ 
+ #ifdef HAVE_LIBFREETYPE
+ 
+-#include <freetype/freetype.h>
++#include <ft2build.h>
++#include FT_FREETYPE_H
+ 
+ #if (FREETYPE_MAJOR > 2) || (FREETYPE_MAJOR == 2 && FREETYPE_MINOR >= 1)
+ #define HAVE_FREETYPE21
