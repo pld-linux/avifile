@@ -3,7 +3,7 @@
 # bcond_off_arts - without arts support
 #
 
-%define		snap	20010411
+%define		snap	20010501
 Summary:	Library and sample program for playing AVI files
 Summary(pl):	Biblioteka i przyk³adowy program do odtwarzania plików AVI
 Name:		avifile
@@ -19,6 +19,7 @@ Patch0:		%{name}-shareware.patch
 Patch1:		%{name}-deplib.patch
 Patch2:		%{name}-ac3.patch
 Patch3:		%{name}-mga.patch
+Patch4:		%{name}-libtool.patch
 BuildRequires:	XFree86-devel
 BuildRequires:	SDL-devel >= 1.2.0
 BuildRequires:	ac3dec-devel >= 0.6.1
@@ -63,11 +64,12 @@ libaviplay.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 %build
+rm missing
 libtoolize --copy --force
 aclocal
-rm -f missing
 autoconf
 automake -a -c --foreign
 %configure \
