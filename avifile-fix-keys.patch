@@ -1,0 +1,24 @@
+--- avifile0.7-0.7.16/player/playercontrol.cpp~	Wed Sep  4 20:56:10 2002
++++ avifile0.7-0.7.16/player/playercontrol.cpp	Tue Nov 19 03:04:57 2002
+@@ -786,8 +786,8 @@
+     case Qt::Key_End:
+ 	player->ReseekExact(player->GetLengthTime() - 1.);
+ 	return;
+-    case Qt::Key_Down:
+-    case Qt::Key_PageDown:
++    case Qt::Key_Up:
++    case Qt::Key_PageUp:
+ 	{
+             double sktime = (kevent->key() == Qt::Key_Down) ? 60. : 10.;
+ 	    double o = player->GetTime();
+@@ -803,8 +803,8 @@
+ 		player->NextKeyFrame();
+ 	}
+ 	return;
+-    case Qt::Key_Up:
+-    case Qt::Key_PageUp:
++    case Qt::Key_Down:
++    case Qt::Key_PageDown:
+ 	{
+             double sktime = (kevent->key() == Qt::Key_Up) ? 60. : 10.;
+ 	    double p = player->GetTime() - sktime;
