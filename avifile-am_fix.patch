@@ -43,3 +43,38 @@
 -DIST_SUBDIRS=misc artsplug qtvidcap qtrecompress mjpeg_plugin
 \ No newline at end of file
 +DIST_SUBDIRS=misc artsplug qtvidcap qtrecompress mjpeg_plugin
+--- avifile-0.6.0/samples/Makefile.am~	Thu Feb 15 22:28:59 2001
++++ avifile-0.6.0/samples/Makefile.am	Thu Feb 15 22:29:14 2001
+@@ -1,10 +1,9 @@
+ BASE_SUBDIRS=misc
+ 
+-EXTRA_SUBDIRS=
+ if AM_USE_JPEGLIB
+-	SUBDIRS_JPEG=mjpeg_plugin
++SUBDIRS_JPEG=mjpeg_plugin
+ else
+-	SUBDIRS_JPEG=
++SUBDIRS_JPEG=
+ endif    
+ if AM_USE_VIDCAP
+ if AM_USE_QTRECOMP
+@@ -20,15 +19,14 @@
+ endif
+ endif
+ if AM_USE_QT
+-	EXTRA_SUBDIRS=$(SUBDIRS_QT) $(SUBDIRS_JPEG)
++EXTRA_SUBDIRS=$(SUBDIRS_QT) $(SUBDIRS_JPEG)
+ else    
+-	EXTRA_SUBDIRS=$(SUBDIRS_JPEG)
++EXTRA_SUBDIRS=$(SUBDIRS_JPEG)
+ endif
+-SUBDIRS_ARTS=
+ if AM_USE_ARTS
+-	SUBDIRS_ARTS=artsplug
++SUBDIRS_ARTS=artsplug
+ else
+-	SUBDIRS_ARTS=
++SUBDIRS_ARTS=
+ endif
+ SUBDIRS=$(SUBDIRS_ARTS) $(BASE_SUBDIRS) $(EXTRA_SUBDIRS)
+ 
