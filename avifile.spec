@@ -133,17 +133,18 @@ je do kilku formatów plików opartych na kodowaniu DCT/kompensacji
 ruchu. D¼wiêk jest kompresowany w MPEG audio layer 2 lub u¿ywaj±c
 kompatybilnego z AC3 strumienia.
 
-%package divx4
+%package divx
 Summary:	Fast MPEG4 codec
 Summary(pl):	Szybki kodek MPEG4
 Group:		X11/Libraries
 Requires:	%{name} = %{version}
 Requires:	divx4linux
+Obsoletes:	avifile-divx4
 
-%description divx4
+%description divx
 DivX MPEG-4 decoder and encoder.
 
-%description divx4 -l pl
+%description divx -l pl
 Dekoder i koder MPEG-4 DivX.
 
 %package vorbis
@@ -309,10 +310,10 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/avifile*/ffmpeg.la
 
 %ifarch %{ix86}
-%files divx4
+%files divx
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/avifile*/divx4.so*
-%attr(755,root,root) %{_libdir}/avifile*/divx4.la
+%attr(755,root,root) %{_libdir}/avifile*/divx*.so*
+%attr(755,root,root) %{_libdir}/avifile*/divx*.la
 %endif
 
 %files vorbis
