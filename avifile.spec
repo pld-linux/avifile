@@ -16,7 +16,6 @@ Patch3:		%{name}-deplib.patch
 Requires:	avi-codecs
 BuildRequires:	unzip
 BuildRequires:	libstdc++-devel
-BuildRequires:	xmps-devel
 BuildRequires:	qt-devel
 BuildRequires:	SDL-devel >= 1.1.3
 BuildRequires:	XFree86-devel
