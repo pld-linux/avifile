@@ -1,64 +1,22 @@
-diff -urN avifile-0.48.orig/samples/benchmark/Makefile.in avifile-0.48/samples/benchmark/Makefile.in
---- avifile-0.48.orig/samples/benchmark/Makefile.in	Wed Sep 27 16:46:06 2000
-+++ avifile-0.48/samples/benchmark/Makefile.in	Wed Sep 27 16:46:23 2000
+diff -urN avifile-0.50.org/samples/benchmark/Makefile.in avifile-0.50/samples/benchmark/Makefile.in
+--- avifile-0.50.org/samples/benchmark/Makefile.in	Mon Oct 30 00:43:43 2000
++++ avifile-0.50/samples/benchmark/Makefile.in	Mon Oct 30 00:48:17 2000
 @@ -6,7 +6,7 @@
      
  
- LIBS=@LIBS@ -lX11 -lXext -lqt -laviplay @DGA_LDADD@ @SDL_LIBS@
+ LIBS=@LIBS@ -lX11 -lXext @QT_NAME@ -laviplay @DGA_LDADD@ @SDL_LIBS@
 -LIB_DIRS=@QT_LDFLAGS@ -L/usr/X11R6/lib -L../../lib
-+LIB_DIRS=-L../../lib @QT_LDFLAGS@ -L/usr/X11R6/lib 
++LIB_DIRS=-L../../lib @QT_LDFLAGS@ -L/usr/X11R6/lib -L../../lib
  
  MOC=@MOC@
  CDOPT=@CD_OPT@
-diff -urN avifile-0.48.orig/samples/extractor/Makefile.in avifile-0.48/samples/extractor/Makefile.in
---- avifile-0.48.orig/samples/extractor/Makefile.in	Wed Sep 27 16:46:06 2000
-+++ avifile-0.48/samples/extractor/Makefile.in	Wed Sep 27 16:46:23 2000
+diff -urN avifile-0.50.org/samples/extractor/Makefile.in avifile-0.50/samples/extractor/Makefile.in
+--- avifile-0.50.org/samples/extractor/Makefile.in	Mon Oct 30 00:43:43 2000
++++ avifile-0.50/samples/extractor/Makefile.in	Mon Oct 30 00:48:29 2000
 @@ -1,5 +1,5 @@
  CPPFLAGS=-g -I../../include
 -LIBS=@X_LDFLAGS@ @LIBS@ -laviplay -L../../lib
-+LIBS=-L../../lib @X_LDFLAGS@ @LIBS@ -laviplay 
++LIBS= -L../../lib @X_LDFLAGS@ @LIBS@ -laviplay -L../../lib
  
  OBJS=extractor.o
  
-diff -urN avifile-0.48.orig/samples/plustest/Makefile.in avifile-0.48/samples/plustest/Makefile.in
---- avifile-0.48.orig/samples/plustest/Makefile.in	Wed Sep 27 16:46:06 2000
-+++ avifile-0.48/samples/plustest/Makefile.in	Wed Sep 27 16:46:23 2000
-@@ -1,6 +1,6 @@
- CPPFLAGS=-g -I../../include
- OPTFLAGS=-I..
--LIBS=@X_LDFLAGS@ @LIBS@ -laviplay -L../../lib
-+LIBS=-L../../lib @X_LDFLAGS@ @LIBS@ -laviplay 
- 
- OBJS=main.o
- 
-diff -urN avifile-0.48.orig/samples/qtvidcap/Makefile.in avifile-0.48/samples/qtvidcap/Makefile.in
---- avifile-0.48.orig/samples/qtvidcap/Makefile.in	Wed Sep 27 16:46:06 2000
-+++ avifile-0.48/samples/qtvidcap/Makefile.in	Wed Sep 27 16:47:24 2000
-@@ -9,7 +9,7 @@
- 
- MOC=@MOC@
- LIBS=@LIBS@ -lX11 -lXext -lqt -laviplay $(DGA_LDADD) @SDL_LIBS@
--LIB_DIRS=$(QT_LDADD) -L/usr/X11R6/lib -L../../lib
-+LIB_DIRS=-L../../lib $(QT_LDADD) -L/usr/X11R6/lib
- CDOPT=@CD_OPT@
- LDOPT=@LD_OPT@
- QT_LDADD=@QT_LDFLAGS@
-diff -urN avifile-0.48.orig/samples/recompressor/Makefile.in avifile-0.48/samples/recompressor/Makefile.in
---- avifile-0.48.orig/samples/recompressor/Makefile.in	Wed Sep 27 16:46:06 2000
-+++ avifile-0.48/samples/recompressor/Makefile.in	Wed Sep 27 16:46:23 2000
-@@ -1,5 +1,5 @@
- CPPFLAGS=-g -I../../include
--LIBS=@X_LDFLAGS@ @LIBS@ -laviplay -L../../lib
-+LIBS=-L../../lib @X_LDFLAGS@ @LIBS@ -laviplay 
- 
- OBJS=recompr.o
- 
-diff -urN avifile-0.48.orig/samples/regeditor/Makefile.in avifile-0.48/samples/regeditor/Makefile.in
---- avifile-0.48.orig/samples/regeditor/Makefile.in	Wed Sep 27 16:46:06 2000
-+++ avifile-0.48/samples/regeditor/Makefile.in	Wed Sep 27 16:46:23 2000
-@@ -13,4 +13,4 @@
- 	$(CC) $(CFLAGS) $(DEFINES) -c $<
- 
- regeditor:  $(LIB_OBJECTS)
--	$(CC)  $(LIB_OBJECTS)  -lloader -L../../lib -o ../../bin/regeditor
-+	$(CC)  $(LIB_OBJECTS)  -L../../lib -lloader -o ../../bin/regeditor

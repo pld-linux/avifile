@@ -1,42 +1,79 @@
-diff -ur avifile-0.47.1.orig/Makefile.in avifile-0.47.1/Makefile.in
---- avifile-0.47.1.orig/Makefile.in	Sun Sep 10 14:55:06 2000
-+++ avifile-0.47.1/Makefile.in	Thu Sep 14 16:43:55 2000
-@@ -41,24 +41,24 @@
+diff -urN avifile-0.50.org/Makefile.in avifile-0.50/Makefile.in
+--- avifile-0.50.org/Makefile.in	Mon Oct 30 00:43:41 2000
++++ avifile-0.50/Makefile.in	Mon Oct 30 00:46:09 2000
+@@ -49,48 +49,48 @@
  	-find . -name Makefile -exec rm \{\} \;
  
- install:
--	$(INSTALL_PROGRAM) -d $(datadir)
--	$(INSTALL_PROGRAM) -d $(includedir)/avifile/wine
+ stable-install:
 -	$(INSTALL_PROGRAM) -d $(datadir)/avifile
+-	$(INSTALL_PROGRAM) -d $(libdir)
+-	$(INSTALL_PROGRAM) -d $(bindir)
 -	$(INSTALL_PROGRAM) ./lib/libaviplay.so $(libdir)
--	$(INSTALL_PROGRAM) ./include/*.h $(includedir)/avifile
--	$(INSTALL_PROGRAM) ./include/wine/*.h $(includedir)/avifile/wine
++	$(INSTALL_PROGRAM) -d $(DESTDIR)$(datadir)/avifile
++	$(INSTALL_PROGRAM) -d $(DESTDIR)$(libdir)
++	$(INSTALL_PROGRAM) -d $(DESTDIR)$(bindir)
++	$(INSTALL_PROGRAM) ./lib/libaviplay.so $(DESTDIR)$(libdir)
+ ifeq (@USE_QT@,1)
 -	$(INSTALL_PROGRAM) ./bin/aviplay $(bindir)
 -	$(INSTALL_PROGRAM) ./bin/benchmark $(bindir)
-+	$(INSTALL_PROGRAM) -d $(DESTDIR)$(datadir)
-+	$(INSTALL_PROGRAM) -d $(DESTDIR)$(includedir)/avifile/wine
-+	$(INSTALL_PROGRAM) -d $(DESTDIR)$(datadir)/avifile
-+	$(INSTALL_PROGRAM) ./lib/libaviplay.so $(DESTDIR)$(libdir)
-+	$(INSTALL_PROGRAM) ./include/*.h $(DESTDIR)$(includedir)/avifile
-+	$(INSTALL_PROGRAM) ./include/wine/*.h $(DESTDIR)$(includedir)/avifile/wine
+-	$(INSTALL_PROGRAM) ./bin/*.ppm $(datadir)/avifile
+-	$(INSTALL_PROGRAM) ./bin/*.png $(datadir)/avifile
 +	$(INSTALL_PROGRAM) ./bin/aviplay $(DESTDIR)$(bindir)
 +	$(INSTALL_PROGRAM) ./bin/benchmark $(DESTDIR)$(bindir)
++	$(INSTALL_PROGRAM) ./bin/*.ppm $(DESTDIR)$(datadir)/avifile
++	$(INSTALL_PROGRAM) ./bin/*.png $(DESTDIR)$(datadir)/avifile
  ifeq (@USE_VIDCAP@,1)
 -	$(INSTALL_PROGRAM) ./bin/qtvidcap $(bindir)
 -	$(INSTALL_PROGRAM) -m4755 ./bin/kv4lsetup $(bindir)
 +	$(INSTALL_PROGRAM) ./bin/qtvidcap $(DESTDIR)$(bindir)
 +	$(INSTALL_PROGRAM) -m4755 ./bin/kv4lsetup $(DESTDIR)$(bindir)
  endif	
--	$(INSTALL_PROGRAM) ./bin/*.ppm $(datadir)/avifile
--	$(INSTALL_PROGRAM) ./bin/*.png $(datadir)/avifile
-+	$(INSTALL_PROGRAM) ./bin/*.ppm $(DESTDIR)$(datadir)/avifile
-+	$(INSTALL_PROGRAM) ./bin/*.png $(DESTDIR)$(datadir)/avifile
- ifeq (@USE_JPEGLIB@,1)
--	$(INSTALL_PROGRAM) ./lib/libavi_mjpeg.so @WIN32_PATH@
-+	-mkdir $(DESTDIR)@WIN32_PATH@
-+	$(INSTALL_PROGRAM) ./lib/libavi_mjpeg.so $(DESTDIR)@WIN32_PATH@
  endif
--	/sbin/ldconfig
+-	$(INSTALL_PROGRAM) -m0755 ./avifile-config $(bindir)
++	$(INSTALL_PROGRAM) -m0755 ./avifile-config $(DESTDIR)$(bindir)
+ 
+ install:
+-	-$(INSTALL_PROGRAM) -d $(datadir)
+-	-$(INSTALL_PROGRAM) -d $(includedir)/avifile/wine
+-	-$(INSTALL_PROGRAM) -d $(datadir)/avifile
+-	-$(INSTALL_PROGRAM) -d $(libdir)
+-	-$(INSTALL_PROGRAM) -d $(bindir)
+-	-$(INSTALL_PROGRAM) ./lib/libaviplay.so $(libdir)
+-	-$(INSTALL_PROGRAM) ./include/*.h $(includedir)/avifile
+-	-$(INSTALL_PROGRAM) ./include/wine/*.h $(includedir)/avifile/wine
++	-$(INSTALL_PROGRAM) -d $(DESTDIR)$(datadir)
++	-$(INSTALL_PROGRAM) -d $(DESTDIR)$(includedir)/avifile/wine
++	-$(INSTALL_PROGRAM) -d $(DESTDIR)$(datadir)/avifile
++	-$(INSTALL_PROGRAM) -d $(DESTDIR)$(libdir)
++	-$(INSTALL_PROGRAM) -d $(DESTDIR)$(bindir)
++	-$(INSTALL_PROGRAM) ./lib/libaviplay.so $(DESTDIR)$(libdir)
++	-$(INSTALL_PROGRAM) ./include/*.h $(DESTDIR)$(includedir)/avifile
++	-$(INSTALL_PROGRAM) ./include/wine/*.h $(DESTDIR)$(includedir)/avifile/wine
+ ifeq (@USE_QT@,1)	
+-	-$(INSTALL_PROGRAM) ./bin/aviplay $(bindir)
+-	-$(INSTALL_PROGRAM) ./bin/benchmark $(bindir)
+-	-$(INSTALL_PROGRAM) ./bin/*.ppm $(datadir)/avifile
+-	-$(INSTALL_PROGRAM) ./bin/*.png $(datadir)/avifile
++	-$(INSTALL_PROGRAM) ./bin/aviplay $(DESTDIR)$(bindir)
++	-$(INSTALL_PROGRAM) ./bin/benchmark $(DESTDIR)$(bindir)
++	-$(INSTALL_PROGRAM) ./bin/*.ppm $(DESTDIR)$(datadir)/avifile
++	-$(INSTALL_PROGRAM) ./bin/*.png $(DESTDIR)$(datadir)/avifile
+ ifeq (@USE_VIDCAP@,1)
+-	-$(INSTALL_PROGRAM) ./bin/qtvidcap $(bindir)
+-	-$(INSTALL_PROGRAM) -m4755 ./bin/kv4lsetup $(bindir)
++	-$(INSTALL_PROGRAM) ./bin/qtvidcap $(DESTDIR)$(bindir)
++	-$(INSTALL_PROGRAM) -m4755 ./bin/kv4lsetup $(DESTDIR)$(bindir)
+ endif	
+ ifeq (@USE_QTRECOMP@,1)
+-	-$(INSTALL_PROGRAM) ./bin/qtrecompress $(bindir)
++	-$(INSTALL_PROGRAM) ./bin/qtrecompress $(DESTDIR)$(bindir)
+ endif
+ endif
+ ifeq (@USE_JPEGLIB@,1)
+ 	-$(INSTALL_PROGRAM) ./lib/libavi_mjpeg.so @WIN32_PATH@
+ endif
+-	-$(INSTALL_PROGRAM) -m0755 ./avifile-config $(bindir)
++	-$(INSTALL_PROGRAM) -m0755 ./avifile-config $(DESTDIR)$(bindir)
+ 	/sbin/ldconfig @LDCONFIGOPTS@
  
  devinst:
- 	$(INSTALL_PROGRAM) -d $(datadir)/avifile
