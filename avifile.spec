@@ -1,16 +1,20 @@
 # It's sick.
-%define		_snapver	20020412
+
+# Conditional build:
+# _without_qt - disables QT support 
+
+%define		_snapver	20020816
 %define		_snap		%{_snapver}
-%define		_ver	0.7
+%define		_ver	0.7.15
 Summary:	Library for playing AVI files
 Summary(pl):	Biblioteka do odtwarzania plików AVI
 Name:		avifile
 Version:	%{_ver}
-Release:	0.%{_snap}.10
+Release:	0.%{_snap}.0
 Epoch:		3
 License:	GPL
 Group:		X11/Libraries
-Source0:	http://avifile.sourceforge.net/%{name}%{version}-%{_snap}.tar.gz
+Source0:	http://avifile.sourceforge.net/%{name}-%{version}-%{_snap}.tgz
 Source1:	%{name}.desktop
 URL:		http://avifile.sourceforge.net/
 Patch0:		%{name}-shareware.patch
@@ -34,7 +38,7 @@ BuildRequires:	libogg-devel
 BuildRequires:	libtool
 BuildRequires:	libvorbis-devel >= 1:1.0
 BuildRequires:	nas-devel
-BuildRequires:	qt-devel >= 3.0.5
+%{?!_without_qt:BuildRequires:	qt-devel >= 3.0.5}
 BuildRequires:	unzip
 %ifarch %{ix86} ppc sparc sparc64 sparcv9
 BuildRequires:	xvid-devel
@@ -201,14 +205,14 @@ XVID decoder and encoder.
 Dekoder i koder XVID.
 
 %prep
-%setup -q -n avifile%{_ver}-%{_snapver}
+%setup -q -n avifile0.7-%{_ver}
 %patch0 -p1
 # was broken and need fixing; without this xmms and avi plugin is broken
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
-%patch4 -p1
-%patch5 -p1
+#%patch1 -p1
+#%patch2 -p1
+#%patch3 -p1
+#%patch4 -p1
+#%patch5 -p1
 
 %build
 rm -f missing aclocal.m4
@@ -235,7 +239,8 @@ for f in $GEN_MOC; do moc -o "${f%.[!.]*}.moc" "$f"; done
 	--with-libac3-path=%{_prefix} \
 	--enable-release \
 	--enable-ffmpeg \
-	--disable-x86opt
+	--disable-x86opt \
+	%{?_without_qt:--without-qt}
 
 touch lib/dummy.cpp
 %{__make}
@@ -245,7 +250,7 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir},/usr/lib/win32,%{_pixmapsdir},%{_applnkdir}/Multimedia}
 
 # avoid relinking
-for f in plugins/*/lib*.la ; do
+for f in plugins/*/*.la ; do
 	sed -e '/^relink_command/d' $f > $f.new
 	mv -f $f.new $f
 done
@@ -268,16 +273,16 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc README doc/{CREDITS,EXCEPTIONS,KNOWN_BUGS,LICENSING}
 %doc doc/{README-DEVEL,TODO,VIDEO-PERFORMANCE,WARNINGS}
-%attr(755,root,root) %{_libdir}/lib*.so.*.*
+%attr(755,root,root) %{_libdir}/*.so.*.*
 %dir %{_libdir}/avifile*
-%attr(755,root,root) %{_libdir}/avifile*/libaudiodec.so*
-%attr(755,root,root) %{_libdir}/avifile*/libaudiodec.la
-%attr(755,root,root) %{_libdir}/avifile*/libmpeg_audiodec.so*
-%attr(755,root,root) %{_libdir}/avifile*/libmpeg_audiodec.la
-%attr(755,root,root) %{_libdir}/avifile*/libac3pass.so*
-%attr(755,root,root) %{_libdir}/avifile*/libac3pass.la
-%attr(755,root,root) %{_libdir}/avifile*/libmjpeg.so*
-%attr(755,root,root) %{_libdir}/avifile*/libmjpeg.la
+%attr(755,root,root) %{_libdir}/avifile*/audiodec.so*
+%attr(755,root,root) %{_libdir}/avifile*/audiodec.la
+%attr(755,root,root) %{_libdir}/avifile*/mpeg_audiodec.so*
+%attr(755,root,root) %{_libdir}/avifile*/mpeg_audiodec.la
+%attr(755,root,root) %{_libdir}/avifile*/ac3pass.so*
+%attr(755,root,root) %{_libdir}/avifile*/ac3pass.la
+%attr(755,root,root) %{_libdir}/avifile*/mjpeg.so*
+%attr(755,root,root) %{_libdir}/avifile*/mjpeg.la
 
 %files devel
 %defattr(644,root,root,755)
@@ -288,55 +293,55 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/lib*.so
 %{_includedir}/%{name}
 
-%files aviplay
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/aviplay
-%{_datadir}/%{name}*
-%{_applnkdir}/Multimedia/*
-%{_pixmapsdir}/*
+%{?!_without_qt:%files aviplay}
+%{?!_without_qt:%defattr(644,root,root,755)}
+%{?!_without_qt:%attr(755,root,root) %{_bindir}/aviplay}
+%{?!_without_qt:%{_datadir}/%{name}*}
+%{?!_without_qt:%{_applnkdir}/Multimedia/*}
+%{?!_without_qt:%{_pixmapsdir}/*}
 
-%files utils
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/avi[bcmrt]*
-%attr(755,root,root) %{_bindir}/kv4lsetup
+%{?!_without_qt:%files utils}
+%{?!_without_qt:%defattr(644,root,root,755)}
+%{?!_without_qt:%attr(755,root,root) %{_bindir}/avi[bcmrt]*}
+%{?!_without_qt:%attr(755,root,root) %{_bindir}/kv4lsetup}
 
 %ifarch %{ix86}
 %files win32
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/avifile*/libwin32.so*
-%attr(755,root,root) %{_libdir}/avifile*/libwin32.la
+%attr(755,root,root) %{_libdir}/avifile*/win32.so*
+%attr(755,root,root) %{_libdir}/avifile*/win32.la
 %endif
 
 %files ffmpeg
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/avifile*/libffmpeg.so*
-%attr(755,root,root) %{_libdir}/avifile*/libffmpeg.la
+%attr(755,root,root) %{_libdir}/avifile*/ffmpeg.so*
+%attr(755,root,root) %{_libdir}/avifile*/ffmpeg.la
 
 %ifarch %{ix86}
 %files divx4
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/avifile*/libdivx4.so*
-%attr(755,root,root) %{_libdir}/avifile*/libdivx4.la
+%attr(755,root,root) %{_libdir}/avifile*/divx4.so*
+%attr(755,root,root) %{_libdir}/avifile*/divx4.la
 %endif
 
 %files vorbis
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/avifile*/libvorbis*.so*
-%attr(755,root,root) %{_libdir}/avifile*/libvorbis*.la
+%attr(755,root,root) %{_libdir}/avifile*/vorbis*.so*
+%attr(755,root,root) %{_libdir}/avifile*/vorbis*.la
 
 %files mad
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/avifile*/libmad*.so*
-%attr(755,root,root) %{_libdir}/avifile*/libmad*.la
+%attr(755,root,root) %{_libdir}/avifile*/mad*.so*
+%attr(755,root,root) %{_libdir}/avifile*/mad*.la
 
 %files lame_audioenc
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/avifile*/libmp3lamebin_audioenc.so*
-%attr(755,root,root) %{_libdir}/avifile*/libmp3lamebin_audioenc.la
+%attr(755,root,root) %{_libdir}/avifile*/mp3lamebin_audioenc.so*
+%attr(755,root,root) %{_libdir}/avifile*/mp3lamebin_audioenc.la
 
 %ifarch %{ix86} ppc sparc sparc64 sparcv9
 %files xvid
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/avifile*/libxvid.so*
-%attr(755,root,root) %{_libdir}/avifile*/libxvid.la
+%attr(755,root,root) %{_libdir}/avifile*/xvid.so*
+%attr(755,root,root) %{_libdir}/avifile*/xvid.la
 %endif
