@@ -1,8 +1,12 @@
 # It's sick.
-
+#
 # Conditional build:
-# _without_qt - disables QT support
-
+# _without_qt		- disables QT support
+# _without_divx4	- disables divx4linux support
+#
+%ifnarch %{ix86}
+%define		_without_divx4	1
+%endif
 %define		_snapver	20020816
 %define		_snap		%{_snapver}
 %define		_ver	0.7.15
@@ -10,32 +14,25 @@ Summary:	Library for playing AVI files
 Summary(pl):	Biblioteka do odtwarzania plików AVI
 Name:		avifile
 Version:	%{_ver}
-Release:	0.%{_snap}.1
+Release:	0.%{_snap}.2
 Epoch:		3
 License:	GPL
 Group:		X11/Libraries
 Source0:	http://avifile.sourceforge.net/%{name}-%{version}-%{_snap}.tgz
 Source1:	%{name}.desktop
-URL:		http://avifile.sourceforge.net/
 Patch0:		%{name}-shareware.patch
-Patch1:		%{name}-deplib.patch
-Patch2:		%{name}-ac3.patch
-Patch3:		%{name}-size_t.patch
-Patch4:		%{name}-amfix.patch
-Patch5:		%{name}-xvid.patch
+URL:		http://avifile.sourceforge.net/
 BuildRequires:	SDL-devel >= 1.2.0
 BuildRequires:	XFree86-devel
-BuildRequires:	ac3dec-devel >= 0.6.1
+BuildRequires:	a52dec-libs-devel
 BuildRequires:	audiofile-devel
 BuildRequires:	autoconf
 BuildRequires:	automake
-%ifarch %{ix86}
-BuildRequires:	divx4linux-devel
-%endif
+%{!?_without_divx4:BuildRequires:	divx4linux-devel}
 BuildRequires:	lame-libs-devel
 BuildRequires:	libjpeg-devel
 BuildRequires:	libogg-devel
-BuildRequires:	libtool
+BuildRequires:	libtool >= 0:1.4.2-9
 BuildRequires:	libvorbis-devel >= 1:1.0
 BuildRequires:	nas-devel
 %{?!_without_qt:BuildRequires:	qt-devel >= 3.0.5}
@@ -208,12 +205,6 @@ Dekoder i koder XVID.
 %prep
 %setup -q -n avifile0.7-%{_ver}
 %patch0 -p1
-# was broken and need fixing; without this xmms and avi plugin is broken
-#%patch1 -p1
-#%patch2 -p1
-#%patch3 -p1
-#%patch4 -p1
-#%patch5 -p1
 
 %build
 rm -f missing aclocal.m4
@@ -221,26 +212,33 @@ rm -f missing aclocal.m4
 aclocal
 autoheader
 %{__autoconf}
-automake -a -c --foreign
+%{__automake}
 
 cd plugins/libmad/libmad
-	%{__autoconf}
+%{__autoconf}
 cd ../../..
 
 cd libmmxnow
-	%{__autoconf}
+%{__autoconf}
 cd ..
 
 # This is The WRONG Way (tm)
 GEN_MOC="`grep -Rl '^ *Q_OBJECT$' *`"
 for f in $GEN_MOC; do moc -o "${f%.[!.]*}.moc" "$f"; done
 
-%configure CPPFLAGS="-I/usr/include/divx" AS="%{__cc}" \
+%configure \
+	CPPFLAGS="-I/usr/include/divx" AS="%{__cc}" \
+	FFMPEG_CFLAGS="%{rpmcflags} -ffast-math %{!?debug:-fomit-frame-pointer}" \
 	--with-qt-includes=%{_includedir}/qt \
-	--with-libac3-path=%{_prefix} \
+	--with-qt-libraries=%{_libdir} \
+	--enable-a52 \
 	--enable-release \
 	--enable-ffmpeg \
-	--disable-x86opt \
+	--enable-ffmpeg-a52 \
+	%{?_without_divx4:--disable-divx4} \
+%ifarch i586 i686 athlon
+	--enable-x86opt \
+%endif
 	%{?_without_qt:--without-qt}
 
 touch lib/dummy.cpp
@@ -250,14 +248,9 @@ touch lib/dummy.cpp
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir},/usr/lib/win32,%{_pixmapsdir},%{_applnkdir}/Multimedia}
 
-# avoid relinking
-for f in plugins/*/*.la ; do
-	sed -e '/^relink_command/d' $f > $f.new
-	mv -f $f.new $f
-done
-
 %{__make} install \
-	DESTDIR="$RPM_BUILD_ROOT"
+	DESTDIR="$RPM_BUILD_ROOT" \
+	m4datadir="%{_aclocaldir}"
 
 cp -f include/fourcc.h $RPM_BUILD_ROOT/%{_includedir}/%{name}
 
@@ -274,7 +267,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc README doc/{CREDITS,EXCEPTIONS,KNOWN_BUGS,LICENSING}
 %doc doc/{README-DEVEL,TODO,VIDEO-PERFORMANCE,WARNINGS}
-%attr(755,root,root) %{_libdir}/*.so.*.*
+%attr(755,root,root) %{_libdir}/lib*.so.*.*
 %dir %{_libdir}/avifile*
 %attr(755,root,root) %{_libdir}/avifile*/audiodec.so*
 %attr(755,root,root) %{_libdir}/avifile*/audiodec.la
@@ -293,18 +286,22 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/lib*.la
 %{_libdir}/lib*.so
 %{_includedir}/%{name}
+%{_includedir}/*.h
+%{_aclocaldir}/*.m4
 
-%{?!_without_qt:%files aviplay}
-%{?!_without_qt:%defattr(644,root,root,755)}
-%{?!_without_qt:%attr(755,root,root) %{_bindir}/aviplay}
-%{?!_without_qt:%{_datadir}/%{name}*}
-%{?!_without_qt:%{_applnkdir}/Multimedia/*}
-%{?!_without_qt:%{_pixmapsdir}/*}
+%if %{?_without_qt:0}%{!?_without_qt:1}
+%files aviplay
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_bindir}/aviplay
+%{_datadir}/%{name}*
+%{_applnkdir}/Multimedia/*
+%{_pixmapsdir}/*
 
-%{?!_without_qt:%files utils}
-%{?!_without_qt:%defattr(644,root,root,755)}
-%{?!_without_qt:%attr(755,root,root) %{_bindir}/avi[bcmrt]*}
-%{?!_without_qt:%attr(755,root,root) %{_bindir}/kv4lsetup}
+%files utils
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_bindir}/avi[bcmrt]*
+%attr(755,root,root) %{_bindir}/kv4lsetup
+%endif
 
 %ifarch %{ix86}
 %files win32
@@ -318,7 +315,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/avifile*/ffmpeg.so*
 %attr(755,root,root) %{_libdir}/avifile*/ffmpeg.la
 
-%ifarch %{ix86}
+%if %{?_without_divx4:0}%{!?_without_divx4:1}
 %files divx
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/avifile*/divx*.so*
