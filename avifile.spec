@@ -1,4 +1,4 @@
-%define		snap	20010528
+%define		snap	20010604
 Summary:	Library and sample program for playing AVI files
 Summary(pl):	Biblioteka i przyk³adowy program do odtwarzania plików AVI
 Name:		avifile
@@ -68,8 +68,6 @@ libtoolize --copy --force
 aclocal
 autoconf
 automake -a -c --foreign
-# don't always add "-g" - it's in CXXFLAGS in %debug version
-CPPFLAGS=" "; export CPPFLAGS
 %configure \
 	--with-qt-includes=%{_includedir}/qt \
 	--enable-release \
