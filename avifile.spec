@@ -12,7 +12,7 @@ Summary(pl):	Biblioteka do odtwarzania plików AVI
 Summary(pt_BR):	Biblioteca para reproduzir formatos de áudio e vídeo usando binários win32
 Name:		avifile
 Version:	0.7.16
-Release:	0.%{_snap}.3%{?_with_divx:+divx}
+Release:	0.%{_snap}.4%{?_with_divx:+divx}
 Epoch:		3
 License:	GPL
 Group:		X11/Libraries
@@ -23,6 +23,7 @@ Patch1:		%{name}-no_libnsl.patch
 Patch2:		%{name}-vidix.patch
 Patch3:		%{name}-configure.patch
 Patch4:		%{name}-compilation.patch
+Patch5:		%{name}-fix-keys.patch
 URL:		http://avifile.sourceforge.net/
 BuildRequires:	SDL-devel >= 1.2.0
 BuildRequires:	XFree86-devel
@@ -37,7 +38,7 @@ BuildRequires:	libogg-devel
 BuildRequires:	libtool >= 0:1.4.2-9
 BuildRequires:	libvorbis-devel >= 1:1.0
 BuildRequires:	nas-devel
-%{?!_without_qt:BuildRequires:	qt-devel >= 3.0.5}
+%{?!_without_qt:BuildRequires:	qt-devel >= 2.0.0}
 BuildRequires:	unzip
 %ifarch %{ix86} ppc
 BuildRequires:	xvid-devel
@@ -221,6 +222,7 @@ Dekoder i koder XVID.
 %patch2 -p1
 %patch3 -p1
 %patch4 -p0
+%patch5 -p1
 
 %build
 rm -f missing aclocal.m4
