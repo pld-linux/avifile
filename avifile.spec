@@ -214,6 +214,90 @@ XVID decoder and encoder.
 %description xvid -l pl
 Dekoder i koder XVID.
 
+%package xvid-driver-fb
+Summary:	XVID FB Driver
+Summary(pl):	Sterownik XVID dla FB
+Group:		X11/Libraries
+Requires:	xvid
+
+%description xvid-driver-fb
+XVID FB Driver.
+
+%description xvid-driver-fb -l pl
+Sterownik XVID dla FB.
+
+%package xvid-driver-mach64
+Summary:	XVID mach64 Driver
+Summary(pl):	Sterownik XVID dla mach64
+Group:		X11/Libraries
+Requires:	xvid
+
+%description xvid-driver-mach64
+XVID mach64 Driver.
+
+%description xvid-driver-mach64 -l pl
+Sterownik XVID dla mach64.
+
+%package xvid-driver-rage128
+Summary:	XVID rage128 Driver
+Summary(pl):	Sterownik XVID dla rage128
+Group:		X11/Libraries
+Requires:	xvid
+
+%description xvid-driver-rage128
+XVID rage128 Driver.
+
+%description xvid-driver-rage128 -l pl
+Sterownik XVID dla rage128.
+
+%package xvid-driver-radeon
+Summary:	XVID radeon Driver
+Summary(pl):	Sterownik XVID dla radeon
+Group:		X11/Libraries
+Requires:	xvid
+
+%description xvid-driver-radeon
+XVID radeon Driver.
+
+%description xvid-driver-radeon -l pl
+Sterownik XVID dla radeon.
+
+%package xvid-driver-mga
+Summary:	XVID MGA Driver
+Summary(pl):	Sterownik XVID dla MGA
+Group:		X11/Libraries
+Requires:	xvid
+
+%description xvid-driver-mga
+XVID MGA Driver.
+
+%description xvid-driver-mga -l pl
+Sterownik XVID dla MGA.
+
+%package xvid-driver-nvidia
+Summary:	XVID nvidia Driver
+Summary(pl):	Sterownik XVID dla nvidia
+Group:		X11/Libraries
+Requires:	xvid
+
+%description xvid-driver-nvidia
+XVID nvidia Driver.
+
+%description xvid-driver-nvidia -l pl
+Sterownik XVID dla nvidia.
+
+%package xvid-driver-permedia
+Summary:	XVID permedia Driver
+Summary(pl):	Sterownik XVID dla permedia
+Group:		X11/Libraries
+Requires:	xvid
+
+%description xvid-driver-permedia
+XVID permedia Driver.
+
+%description xvid-driver-permedia -l pl
+Sterownik XVID dla permedia.
+
 %prep
 %setup -q -n avifile0.7-%{version}
 %patch0 -p1
@@ -360,11 +444,62 @@ rm -rf $RPM_BUILD_ROOT
 %files lame_audioenc
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/avifile*/mp3lamebin_audioenc.so*
+%attr(755,root,root) %{_libdir}/avifile*/mp3lame_audioenc.so*
 %{_libdir}/avifile*/mp3lamebin_audioenc.la
+%{_libdir}/avifile*/mp3lame_audioenc.la
 
 %ifarch %{ix86} ppc
 %files xvid
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/avifile*/xvid.so*
 %{_libdir}/avifile*/xvid.la
+%endif
+
+%ifarch %{ix86} ppc
+%files xvid-driver-fb
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/avifile*/vidix/libgenfb.so*
+%{_libdir}/avifile*/vidix/libgenfb.la
+%endif
+
+%ifarch %{ix86} ppc
+%files xvid-driver-mach64
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/avifile*/vidix/libmach64.so*
+%{_libdir}/avifile*/vidix/libmach64.la
+%endif
+
+%ifarch %{ix86} ppc
+%files xvid-driver-rage128
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/avifile*/vidix/librage128.so*
+%{_libdir}/avifile*/vidix/librage128.la
+%endif
+
+%ifarch %{ix86} ppc
+%files xvid-driver-radeon
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/avifile*/vidix/libradeon.so*
+%{_libdir}/avifile*/vidix/libradeon.la
+%endif
+
+%ifarch %{ix86} ppc
+%files xvid-driver-mga
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/avifile*/vidix/libmga*.so*
+%{_libdir}/avifile*/vidix/libmga*.la
+%endif
+
+%ifarch %{ix86} ppc
+%files xvid-driver-nvidia
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/avifile*/vidix/libnvidia.so*
+%{_libdir}/avifile*/vidix/libnvidia.la
+%endif
+
+%ifarch %{ix86} ppc
+%files xvid-driver-permedia
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/avifile*/vidix/libpm3.so*
+%{_libdir}/avifile*/vidix/libpm3.la
 %endif
