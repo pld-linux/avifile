@@ -19,6 +19,7 @@ Group(pl):	X11/Biblioteki
 Group(pt_BR):	X11/Bibliotecas
 Group(ru):	X11/Библиотеки
 Group(uk):	X11/Б╕бл╕отеки
+URL:		http://avifile.sourceforge.net/
 Source0:	http://avifile.sourceforge.net/%{name}-%{version}-%{_snap}.tgz
 Source1:	%{name}.desktop
 Patch0:		%{name}-shareware.patch
