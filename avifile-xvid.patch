@@ -1,7 +1,7 @@
-diff -ur avifile0.7-20020412/include/fourcc.h avifile0.7-20020412.xvid/include/fourcc.h
---- avifile0.7-20020412/include/fourcc.h	Tue Apr  2 11:24:58 2002
-+++ avifile0.7-20020412.xvid/include/fourcc.h	Tue Jun 11 01:10:21 2002
-@@ -104,7 +104,8 @@
+diff -Nur avifile0.7-0.7.7.orig/include/fourcc.h avifile0.7-0.7.7/include/fourcc.h
+--- avifile0.7-0.7.7.orig/include/fourcc.h	Fri May 10 14:54:32 2002
++++ avifile0.7-0.7.7/include/fourcc.h	Wed Jun 12 15:03:51 2002
+@@ -106,7 +106,8 @@
  #define RIFFINFO_ASV2	mmioFOURCC('A', 'S', 'V', '2')
  
  /* let's give some FCC to Xvid */
@@ -11,7 +11,7 @@ diff -ur avifile0.7-20020412/include/fourcc.h avifile0.7-20020412.xvid/include/f
  
  /* Microsoft video */
  #define RIFFINFO_CRAM	mmioFOURCC('C', 'R', 'A', 'M')
-@@ -235,6 +236,7 @@
+@@ -239,6 +240,7 @@
  #define fccMJPG		RIFFINFO_MJPG
  #define fccmjpg		RIFFINFO_mjpg
  #define fccHFYU		RIFFINFO_HFYU
@@ -19,9 +19,9 @@ diff -ur avifile0.7-20020412/include/fourcc.h avifile0.7-20020412.xvid/include/f
  #define fccXVID		RIFFINFO_XVID
  #define fccCVID		RIFFINFO_CVID
  #define fcccvid		RIFFINFO_cvid
-diff -ur avifile0.7-20020412/plugins/libwin32/fillplugins.h avifile0.7-20020412.xvid/plugins/libwin32/fillplugins.h
---- avifile0.7-20020412/plugins/libwin32/fillplugins.h	Mon Apr  8 09:47:50 2002
-+++ avifile0.7-20020412.xvid/plugins/libwin32/fillplugins.h	Tue Jun 11 01:11:41 2002
+diff -Nur avifile0.7-0.7.7.orig/plugins/libwin32/fillplugins.h avifile0.7-0.7.7/plugins/libwin32/fillplugins.h
+--- avifile0.7-0.7.7.orig/plugins/libwin32/fillplugins.h	Sat May 11 17:52:57 2002
++++ avifile0.7-0.7.7/plugins/libwin32/fillplugins.h	Wed Jun 12 15:03:51 2002
 @@ -401,6 +401,7 @@
          "http://www.geocities.com/avihpit/xvid/post.html";
      static const fourcc_t xvid_codecs[] =
@@ -30,9 +30,9 @@ diff -ur avifile0.7-20020412/plugins/libwin32/fillplugins.h avifile0.7-20020412.
  	fccXVID,
  	fccDIVX, fccdivx, 0
      };
-diff -ur avifile0.7-20020412/plugins/libwin32/libwin32.cpp avifile0.7-20020412.xvid/plugins/libwin32/libwin32.cpp
---- avifile0.7-20020412/plugins/libwin32/libwin32.cpp	Thu Apr  4 22:16:07 2002
-+++ avifile0.7-20020412.xvid/plugins/libwin32/libwin32.cpp	Tue Jun 11 01:12:17 2002
+diff -Nur avifile0.7-0.7.7.orig/plugins/libwin32/libwin32.cpp avifile0.7-0.7.7/plugins/libwin32/libwin32.cpp
+--- avifile0.7-0.7.7.orig/plugins/libwin32/libwin32.cpp	Wed May  8 15:28:52 2002
++++ avifile0.7-0.7.7/plugins/libwin32/libwin32.cpp	Wed Jun 12 15:03:51 2002
 @@ -284,6 +284,7 @@
  	    || strcmp(attribute, "strSettings") == 0)
  	    return GetRegValue(vp31name, attribute, 0, &value, 0);
@@ -41,7 +41,7 @@ diff -ur avifile0.7-20020412/plugins/libwin32/libwin32.cpp avifile0.7-20020412.x
      case fccXVID:
  	return GetRegValue(xvidname, attribute, 0, &value, 0);
      case fccMJPG:
-@@ -370,6 +371,7 @@
+@@ -371,6 +372,7 @@
  	    || strcmp(attribute, "strSettings") == 0)
  	    return SetRegValue(vp31name, attribute, value, 0);
          break;
@@ -49,9 +49,9 @@ diff -ur avifile0.7-20020412/plugins/libwin32/libwin32.cpp avifile0.7-20020412.x
      case fccXVID:
  	return SetRegValue(xvidname, attribute, value, 0);
      case fccMJPG:
-diff -ur avifile0.7-20020412/plugins/libwin32/videocodec/VideoDecoder.cpp avifile0.7-20020412.xvid/plugins/libwin32/videocodec/VideoDecoder.cpp
---- avifile0.7-20020412/plugins/libwin32/videocodec/VideoDecoder.cpp	Mon Apr  8 09:47:51 2002
-+++ avifile0.7-20020412.xvid/plugins/libwin32/videocodec/VideoDecoder.cpp	Tue Jun 11 01:12:36 2002
+diff -Nur avifile0.7-0.7.7.orig/plugins/libwin32/videocodec/VideoDecoder.cpp avifile0.7-0.7.7/plugins/libwin32/videocodec/VideoDecoder.cpp
+--- avifile0.7-0.7.7.orig/plugins/libwin32/videocodec/VideoDecoder.cpp	Mon Apr  8 09:47:51 2002
++++ avifile0.7-0.7.7/plugins/libwin32/videocodec/VideoDecoder.cpp	Wed Jun 12 15:03:51 2002
 @@ -402,6 +402,7 @@
  
      switch (m_Info.fourcc)
@@ -60,14 +60,14 @@ diff -ur avifile0.7-20020412/plugins/libwin32/videocodec/VideoDecoder.cpp avifil
      case fccXVID:
  	if (m_bitrick.biCompression == 0 || m_bitrick.biCompression == 3)
  	    break;
-diff -ur avifile0.7-20020412/plugins/libxvid/fillplugins.h avifile0.7-20020412.xvid/plugins/libxvid/fillplugins.h
---- avifile0.7-20020412/plugins/libxvid/fillplugins.h	Mon Apr  8 09:47:51 2002
-+++ avifile0.7-20020412.xvid/plugins/libxvid/fillplugins.h	Tue Jun 11 01:11:15 2002
-@@ -11,6 +11,7 @@
-     static char xvid_about[] = "XviD Linux codec";
+diff -Nur avifile0.7-0.7.7.orig/plugins/libxvid/fillplugins.h avifile0.7-0.7.7/plugins/libxvid/fillplugins.h
+--- avifile0.7-0.7.7.orig/plugins/libxvid/fillplugins.h	Wed May  1 17:34:06 2002
++++ avifile0.7-0.7.7/plugins/libxvid/fillplugins.h	Wed Jun 12 15:05:02 2002
+@@ -44,6 +44,7 @@
+     static char xvid_about[] = "XviD MPEG-4 Video codec";
      static const fourcc_t xvid_codecs[] =
      {
 +        fccXviD, 
-         fccXVID, 
- 	fccDIVX, fccdivx, 0
+         fccXVID, fccDIVX, fccdivx, 0
      };
+ 
