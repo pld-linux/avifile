@@ -42,6 +42,7 @@ BuildRequires:	libvorbis-devel >= 1:1.0
 %{?_with_nas:BuildRequires:	nas-devel}
 %{?!_without_qt:BuildRequires:	qt-devel >= 2.0.0}
 BuildRequires:	unzip
+BuildRequires:	xft-devel
 %ifarch %{ix86} ppc
 BuildRequires:	xvid-devel
 %endif
@@ -69,8 +70,10 @@ Summary:	Header file required to build programs using libavifile
 Summary(pl):	Pliki nag³ówkowe wymagane przez programy u¿ywaj±ce libavifile
 Summary(pt_BR):	Componentes para desenvolvimento com a avifile
 Group:		X11/Development/Libraries
-Requires:	XFree86-devel
 Requires:	%{name} = %{epoch}:%{version}
+Requires:	XFree86-devel
+Requires:	xft-devel
+Requires:	zlib-devel
 
 %description devel
 Header files required to build programs using libavifile.
