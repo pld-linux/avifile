@@ -10,7 +10,7 @@ Summary(pl):	Biblioteka do odtwarzania plików AVI
 Summary(pt_BR):	Biblioteca para reproduzir formatos de áudio e vídeo usando binários win32
 Name:		avifile
 Version:	0.7.38
-Release:	1%{?_with_divx:+divx}
+Release:	2%{?_with_divx:+divx}
 Epoch:		3
 License:	GPL
 Group:		X11/Libraries
@@ -27,6 +27,8 @@ Patch6:		%{name}-link_shared.patch
 Patch7:		%{name}-avifile_config_fix.patch
 Patch8:		%{name}-no_libnsl.patch
 Patch9:		%{name}-system-libmad.patch
+Patch10:	%{name}-ffmpeg-alpha.patch
+Patch11:	%{name}-opt.patch
 URL:		http://avifile.sourceforge.net/
 BuildRequires:	SDL-devel >= 1.2.0
 BuildRequires:	XFree86-devel
@@ -319,6 +321,8 @@ Sterownik VIDIX dla kart graficznych Permedia.
 %patch7 -p1
 %patch8 -p1
 %patch9 -p1
+%patch10 -p1
+%patch11 -p1
 
 %build
 %{__libtoolize}
