@@ -63,8 +63,8 @@ aclocal
 rm -f missing
 automake -a -c --foreign
 autoconf
-CFLAGS="%{?debug:-O0 -g}%{!?debug:$RPM_OPT_FLAGS} -D_LARGEFILE64_SOURCE"; export CFLAGS
-CXXFLAGS="%{?debug:-O0 -g}%{!?debug:$RPM_OPT_FLAGS} -D_LARGEFILE64_SOURCE"; export CXXFLAGS
+CFLAGS="%{rpmcflags} -D_LARGEFILE64_SOURCE"; export CFLAGS
+CXXFLAGS="%{rpmcflags} -D_LARGEFILE64_SOURCE"; export CXXFLAGS
 %configure \
 	--with-qt-includes=%{_includedir}/qt \
 	--enable-release \
@@ -99,6 +99,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/asf*
 %attr(755,root,root) %{_bindir}/[bkq]*
 %attr(755,root,root) %{_libdir}/lib*.so.*.*
+%dir %{_libdir}/avifile
 %attr(755,root,root) %{_libdir}/avifile/lib*
 %{_datadir}/%{name}
 
