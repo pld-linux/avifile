@@ -6,7 +6,7 @@ Summary:	Library for playing AVI files
 Summary(pl):	Biblioteka do odtwarzania plików AVI
 Name:		avifile
 Version:	%{_ver}
-Release:	0.%{_snap}.5
+Release:	0.%{_snap}.6
 Epoch:		3
 License:	GPL
 Group:		X11/Libraries
@@ -18,6 +18,7 @@ Patch1:		%{name}-deplib.patch
 Patch2:		%{name}-ac3.patch
 Patch3:		%{name}-size_t.patch
 Patch4:		%{name}-amfix.patch
+Patch5:		%{name}-xvid.patch
 BuildRequires:	XFree86-devel
 BuildRequires:	SDL-devel >= 1.2.0
 BuildRequires:	ac3dec-devel >= 0.6.1
@@ -205,6 +206,7 @@ Dekoder i koder XVID.
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
 
 %build
 rm -f missing aclocal.m4
