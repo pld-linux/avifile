@@ -1,27 +1,27 @@
 #
 # Conditional build:
-%bcond_without qt	# disables QT support
-%bcond_with divx	# enables divx4linux support (proprietary, binary-only
+%bcond_without	qt	# don't build Qt-based utilities (incl. aviplay)
+%bcond_with	divx	# enables divx4linux support (proprietary, binary-only
 			# lib)  note: if disabled, divx is decoded by ffmpeg
-%bcond_with nas		# enables nas support
+%bcond_with	nas	# enable NAS support
 #
 Summary:	Library for playing AVI files
 Summary(pl):	Biblioteka do odtwarzania plików AVI
 Summary(pt_BR):	Biblioteca para reproduzir formatos de áudio e vídeo usando binários win32
 Name:		avifile
 Version:	0.7.38
-Release:	2%{?_with_divx:+divx}
+Release:	3%{?_with_divx:+divx}
 Epoch:		3
 License:	GPL
 Group:		X11/Libraries
-Source0:	http://dl.sourceforge.net/sourceforge/%{name}/%{name}-0.7-%{version}.tar.gz
+Source0:	http://dl.sourceforge.net/%{name}/%{name}-0.7-%{version}.tar.gz
 # Source0-md5:	db90c4bc0a8a8182b1ec084feca86bbb
 Source1:	%{name}.desktop
 Patch0:		%{name}-shareware.patch
 Patch1:		%{name}-fix-keys.patch
 Patch2:		%{name}-etc_dir.patch
 Patch3:		%{name}-aviplay_h.patch
-Patch4:		%{name}-without_qt.patch
+Patch4:		%{name}-am18.patch
 Patch5:		%{name}-no_aux_dir.patch
 Patch6:		%{name}-link_shared.patch
 Patch7:		%{name}-avifile_config_fix.patch
@@ -30,6 +30,11 @@ Patch9:		%{name}-system-libmad.patch
 Patch10:	%{name}-ffmpeg-alpha.patch
 Patch11:	%{name}-opt.patch
 Patch12:	%{name}-ffmpeg-ppc.patch
+Patch13:	%{name}-freetype-includes.patch
+Patch14:	%{name}-linux2.6.patch
+Patch15:	%{name}-xvid1.patch
+Patch16:	%{name}-opts.patch
+Patch17:	%{name}-mp3.patch
 URL:		http://avifile.sourceforge.net/
 BuildRequires:	SDL-devel >= 1.2.0
 BuildRequires:	XFree86-devel
@@ -50,7 +55,7 @@ BuildRequires:	pkgconfig
 %{?with_qt:BuildRequires:	qt-devel >= 2.0.0}
 BuildRequires:	unzip
 BuildRequires:	xft-devel
-BuildRequires:	xvid-devel
+BuildRequires:	xvid-devel >= 1:1.0.0
 BuildConflicts:	wine-devel
 Obsoletes:	avifile-vidix-nvidia
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -76,7 +81,7 @@ Summary:	Header file required to build programs using libavifile
 Summary(pl):	Pliki nag³ówkowe wymagane przez programy u¿ywaj±ce libavifile
 Summary(pt_BR):	Componentes para desenvolvimento com a avifile
 Group:		X11/Development/Libraries
-Requires:	%{name} = %{epoch}:%{version}
+Requires:	%{name} = %{epoch}:%{version}-%{release}
 Requires:	XFree86-devel
 Requires:	xft-devel
 Requires:	zlib-devel
@@ -91,11 +96,23 @@ libavifile.
 %description devel -l pt_BR
 Componentes para desenvolvimento com a avifile.
 
+%package qt
+Summary:	Qt-based AVI utilities
+Summary(pl):	Oparte na bibliotece Qt narzêdzia do plików AVI
+Group:		X11/Applications/Multimedia
+Requires:	%{name} = %{epoch}:%{version}-%{release}
+
+%description qt
+Qt-based AVI utilities.
+
+%description qt -l pl
+Oparte na bibliotece Qt narzêdzia do plików AVI.
+
 %package aviplay
 Summary:	Player for AVI/ASF/WMF files
 Summary(pl):	Odtwarzacz plików AVI/ASF/WMF
 Group:		X11/Applications/Multimedia
-Requires:	%{name} = %{epoch}:%{version}
+Requires:	%{name}-qt = %{epoch}:%{version}-%{release}
 
 %description aviplay
 Sample player for AVI, ASF, WFM (with straming support) files.
@@ -108,7 +125,7 @@ odtwarzania z sieci.)
 Summary:	Sample programs using the avifile library
 Summary(pl):	Przyk³adowe programy u¿ywaj±ce biblioteki avifile
 Group:		X11/Applications/Multimedia
-Requires:	%{name} = %{epoch}:%{version}
+Requires:	%{name} = %{epoch}:%{version}-%{release}
 
 %description utils
 Qt-based AVI utilities with few other useful supporting tools for TV
@@ -125,7 +142,7 @@ s± tak intensywnie rozwijane jak odtwarzacz.
 Summary:	Win32 audio/video plugin
 Summary(pl):	Plugin audio/video win32
 Group:		X11/Libraries
-Requires:	%{name} = %{epoch}:%{version}
+Requires:	%{name} = %{epoch}:%{version}-%{release}
 Requires:	w32codec
 
 %description win32
@@ -140,7 +157,7 @@ bibliotek DLL Win32.
 Summary:	GPL MPEG4 codec
 Summary(pl):	Kodek MPEG4 na licencji GPL
 Group:		X11/Libraries
-Requires:	%{name} = %{epoch}:%{version}
+Requires:	%{name} = %{epoch}:%{version}-%{release}
 
 %description ffmpeg
 ffmpeg is a hyper fast realtime audio/video encoder, a streaming
@@ -164,7 +181,7 @@ kompatybilnego z AC3 strumienia.
 Summary:	Fast MPEG4 codec
 Summary(pl):	Szybki kodek MPEG4
 Group:		X11/Libraries
-Requires:	%{name} = %{epoch}:%{version}
+Requires:	%{name} = %{epoch}:%{version}-%{release}
 Requires:	divx4linux
 Obsoletes:	avifile-divx4
 
@@ -178,7 +195,7 @@ Dekoder i koder MPEG-4 DivX.
 Summary:	Vorbis audio plugin
 Summary(pl):	Plugin vorbis audio
 Group:		X11/Libraries
-Requires:	%{name} = %{epoch}:%{version}
+Requires:	%{name} = %{epoch}:%{version}-%{release}
 
 %description vorbis
 Plugin for decompression of Vorbis audio streams.
@@ -190,7 +207,7 @@ Plugin do dekompresji strumieni audio Vorbis.
 Summary:	MAD - MPEG audio plugin
 Summary(pl):	MAD - plugin MPEG audio
 Group:		X11/Libraries
-Requires:	%{name} = %{epoch}:%{version}
+Requires:	%{name} = %{epoch}:%{version}-%{release}
 
 %description mad
 Plugin for decompression of MPEG-1 Layer I/II/III audio streams.
@@ -202,7 +219,7 @@ Plugin do dekompresji strumieni d¼wiêkowych MPEG-1 Layer I/II/III.
 Summary:	MP3 audio encoder plugin
 Summary(pl):	Plugin enkoduj±cy d¼wiêk w formacie MP3
 Group:		X11/Libraries
-Requires:	%{name} = %{epoch}:%{version}
+Requires:	%{name} = %{epoch}:%{version}-%{release}
 # this library is dlopened
 Requires:	libmp3lame.so.0
 Requires:	lame-libs
@@ -217,7 +234,7 @@ Plugin umo¿liwiaj±cy avirecompressowi kodowanie mp3.
 Summary:	XVID codec
 Summary(pl):	Kodek XVID
 Group:		X11/Libraries
-Requires:	%{name} = %{epoch}:%{version}
+Requires:	%{name} = %{epoch}:%{version}-%{release}
 Requires:	xvid
 
 %description xvid
@@ -230,7 +247,7 @@ Dekoder i koder XVID.
 Summary:	VIDIX driver for generic FrameBuffer
 Summary(pl):	Sterownik VIDIX dla zwyk³ego FrameBuffera
 Group:		X11/Libraries
-Requires:	%{name} = %{epoch}:%{version}
+Requires:	%{name} = %{epoch}:%{version}-%{release}
 
 %description vidix-driver-fb
 VIDIX driver for generic FrameBuffer.
@@ -242,7 +259,7 @@ Sterownik VIDIX dla zwyk³ego FrameBuffera.
 Summary:	VIDIX driver for ATI Mach64 video adapters
 Summary(pl):	Sterownik VIDIX dla kart graficznych ATI Mach64
 Group:		X11/Libraries
-Requires:	%{name} = %{epoch}:%{version}
+Requires:	%{name} = %{epoch}:%{version}-%{release}
 
 %description vidix-driver-mach64
 VIDIX driver for ATI Mach64 adapters.
@@ -254,7 +271,7 @@ Sterownik vidix dla kart graficznych ATI Mach64.
 Summary:	VIDIX driver for ATI Rage128 video adapters
 Summary(pl):	Sterownik VIDIX dla kart graficznych ATI Rage128
 Group:		X11/Libraries
-Requires:	%{name} = %{epoch}:%{version}
+Requires:	%{name} = %{epoch}:%{version}-%{release}
 
 %description vidix-driver-rage128
 VIDIX driver for ATI Rage128 video adapters.
@@ -266,7 +283,7 @@ Sterownik VIDIX dla kart graficznych ATI Rage128.
 Summary:	VIDIX driver for ATI Radeon video adapters
 Summary(pl):	Sterownik VIDIX dla kart graficznych ATI Radeon
 Group:		X11/Libraries
-Requires:	%{name} = %{epoch}:%{version}
+Requires:	%{name} = %{epoch}:%{version}-%{release}
 
 %description vidix-driver-radeon
 VIDIX driver for ATI Radeon video adapters.
@@ -278,7 +295,7 @@ Sterownik VIDIX dla kart graficznych ATI Radeon.
 Summary:	VIDIX driver for MGA (Matrox) video adapters
 Summary(pl):	Sterownik VIDIX dla kart graficznych MGA (Matrox)
 Group:		X11/Libraries
-Requires:	%{name} = %{epoch}:%{version}
+Requires:	%{name} = %{epoch}:%{version}-%{release}
 
 %description vidix-driver-mga
 VIDIX driver for MGA (Matrox) video adapters.
@@ -290,7 +307,7 @@ Sterownik VIDIX dla kart graficznych MGA (Matrox).
 Summary:	VIDIX driver for NVidia video adapters
 Summary(pl):	Sterownik VIDIX dla kart graficznych NVidia
 Group:		X11/Libraries
-Requires:	%{name} = %{epoch}:%{version}
+Requires:	%{name} = %{epoch}:%{version}-%{release}
 
 %description vidix-driver-nvidia
 VIDIX driver for NVidia video adapters.
@@ -302,7 +319,7 @@ Sterownik VIDIX dla kart graficznych NVidia.
 Summary:	VIDIX driver for Permedia video adapters
 Summary(pl):	Sterownik VIDIX dla kart graficznych Permedia
 Group:		X11/Libraries
-Requires:	%{name} = %{epoch}:%{version}
+Requires:	%{name} = %{epoch}:%{version}-%{release}
 
 %description vidix-driver-permedia
 VIDIX driver for Permedia video adapters.
@@ -325,6 +342,16 @@ Sterownik VIDIX dla kart graficznych Permedia.
 %patch10 -p1
 %patch11 -p1
 %patch12 -p1
+%patch13 -p1
+%patch14 -p1
+%patch15 -p1
+%patch16 -p1
+%patch17 -p1
+
+# unwanted hack
+rm -f m4/as.m4
+# original file containst only m4/*.m4; must exist because of AC_INIT parameter
+> acinclude.m4
 
 %ifarch ppc
 # temporarily disable altivec compiling due to gcc 3.3.x bug target/11793
@@ -334,16 +361,10 @@ mv -f configure.in.tmp configure.in
 
 %build
 %{__libtoolize}
-%{__aclocal}
+%{__aclocal} -I m4
 %{__autoconf}
 %{__autoheader}
 %{__automake}
-
-# This is The WRONG Way (tm)
-%if %{with qt}
-GEN_MOC="`grep -Rl '^ *Q_OBJECT$' *`"
-for f in $GEN_MOC; do moc -o "${f%.[!.]*}.moc" "$f"; done
-%endif
 
 %configure \
 	CPPFLAGS="-I/usr/include/divx" \
@@ -385,6 +406,8 @@ install bin/test.png $RPM_BUILD_ROOT%{_pixmapsdir}/avifile.png
 
 # avifile dlopens *.so
 rm -f $RPM_BUILD_ROOT%{_libdir}/avifile*/{,vidix/}*.la
+# API not exported
+rm -f $RPM_BUILD_ROOT%{_libdir}/libqavm*.{so,la}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -392,11 +415,14 @@ rm -rf $RPM_BUILD_ROOT
 %post	-p /sbin/ldconfig
 %postun	-p /sbin/ldconfig
 
+%post	qt -p /sbin/ldconfig
+%postun	qt -p /sbin/ldconfig
+
 %files
 %defattr(644,root,root,755)
 %doc README doc/{CREDITS,EXCEPTIONS,KNOWN_BUGS,LICENSING}
 %doc doc/{README-DEVEL,TODO,VIDEO-PERFORMANCE,WARNINGS}
-%attr(755,root,root) %{_libdir}/lib*.so.*.*
+%attr(755,root,root) %{_libdir}/libaviplay*.so.*.*
 %dir %{_libdir}/avifile*
 %attr(755,root,root) %{_libdir}/avifile*/audiodec.so*
 %attr(755,root,root) %{_libdir}/avifile*/mpeg_audiodec.so*
@@ -410,7 +436,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc doc/README-DEVEL*
 %attr(755,root,root) %{_bindir}/avifile-config
-%attr(755,root,root) %{_libdir}/lib*.so
+%attr(755,root,root) %{_libdir}/libaviplay*.so
 %{_libdir}/lib*.la
 %{_includedir}/%{name}
 %{_aclocaldir}/*.m4
@@ -418,6 +444,14 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/avifile-config.1*
 
 %if %{with qt}
+%files qt
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_bindir}/avicap
+%attr(755,root,root) %{_bindir}/avirecompress
+%attr(755,root,root) %{_libdir}/libqavm*.so.*.*
+%{_mandir}/man1/avicap.1*
+%{_mandir}/man1/avirecompress.1*
+
 %files aviplay
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/aviplay
@@ -429,20 +463,16 @@ rm -rf $RPM_BUILD_ROOT
 
 %files utils
 %defattr(644,root,root,755)
-%{?with_qt:%attr(755,root,root) %{_bindir}/avicap}
-%{?with_qt:%attr(755,root,root) %{_bindir}/avirecompress}
 %attr(755,root,root) %{_bindir}/avibench
 %attr(755,root,root) %{_bindir}/avicat
 %attr(755,root,root) %{_bindir}/avimake
-%{?with_qt:%attr(755,root,root) %{_bindir}/avirec}
+%attr(755,root,root) %{_bindir}/avirec
 %attr(755,root,root) %{_bindir}/avitype
 %attr(755,root,root) %{_bindir}/kv4lsetup
-%{?with_qt:%{_mandir}/man1/avicap.1*}
-%{?with_qt:%{_mandir}/man1/avirecompress.1*}
 %{_mandir}/man1/avibench.1*
 %{_mandir}/man1/avicat.1*
 %{_mandir}/man1/avimake.1*
-%{?with_qt:%{_mandir}/man1/avirec.1*}
+%{_mandir}/man1/avirec.1*
 %{_mandir}/man1/avitype.1*
 %{_mandir}/man1/kv4lsetup.1*
 
