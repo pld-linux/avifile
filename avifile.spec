@@ -4,7 +4,7 @@ Summary(pl):	Biblioteka i przyk³adowy program do odtwarzania plików AVI
 Name:		avifile
 Version:	0.6
 Release:	0.%{snap}.1
-Epoch:		2
+Epoch:		3
 License:	GPL
 Group:		X11/Applications/Multimedia
 Group(de):	X11/Applikationen/Multimedia
@@ -24,7 +24,7 @@ BuildRequires:	unzip
 BuildRequires:	qt-devel
 BuildConflicts:	wine-devel
 ExclusiveArch:	%{ix86}
-Requires:	avi-codecs
+Requires:	w32codec
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_prefix		/usr/X11R6
