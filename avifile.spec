@@ -35,7 +35,7 @@ BuildRequires:	libvorbis-devel >= 1:1.0
 BuildRequires:	nas-devel
 %{?!_without_qt:BuildRequires:	qt-devel >= 3.0.5}
 BuildRequires:	unzip
-%ifarch %{ix86} ppc sparc sparc64 sparcv9
+%ifarch %{ix86} ppc
 BuildRequires:	xvid-devel
 %endif
 BuildConflicts:	wine-devel
@@ -244,7 +244,7 @@ for f in $GEN_MOC; do moc -o "${f%.[!.]*}.moc" "$f"; done
 	--enable-release \
 	--enable-ffmpeg \
 	--enable-ffmpeg-a52 \
-	%{?_without_divx4:--disable-divx4} \
+	%{?_with_divx4:--enable-divx4} \
 %ifarch i586 i686 athlon
 	--enable-x86opt \
 %endif
@@ -324,7 +324,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/avifile*/ffmpeg.so*
 %attr(755,root,root) %{_libdir}/avifile*/ffmpeg.la
 
-%if %{?_without_divx4:0}%{!?_without_divx4:1}
+%if %{?_with_divx4:1}%{!?_without_divx4:0}
 %files divx
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/avifile*/divx*.so*
