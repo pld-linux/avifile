@@ -1,0 +1,19 @@
+--- avifile-0.6.0/plugins/libwin32/videocodec/Module.cpp~	Mon Jan 22 12:23:33 2001
++++ avifile-0.6.0/plugins/libwin32/videocodec/Module.cpp	Wed Jan 24 00:29:25 2001
+@@ -51,7 +51,7 @@
+ 	    int newkey;
+ 	    int bitrate;	
+     	    int count=4;
+-	    if(RegOpenKeyExA(HKEY_CURRENT_USER, "Software\\LinuxLoader\\div3", 0, 0, &newkey)!=0)
++	    if(RegOpenKeyExA(HKEY_CURRENT_USER, "Software\\LinuxLoader\\Div3", 0, 0, &newkey)!=0)
+ 	    {
+ //		cerr<<"Could not open Divx key"<<endl;
+ 		goto no_reg;
+@@ -63,6 +63,7 @@
+ 	        goto no_reg;
+     	    }    
+  
++	    cout << "::module bitrate: " << bitrate << endl;
+ 	    *(double*)((char*)_handle+0x14c0)=bitrate;
+ 	    RegCloseKey(newkey);
+ 	no_reg:
