@@ -1,8 +1,9 @@
 [Desktop Entry]
 Name=aviplay
 Comment=Player for AVI/ASF/WMF files
-Comment[pl]=Odtwarzacz plików AVI/ASF/WMF
+Comment[pl]=Odtwarzacz plikÃ³w AVI/ASF/WMF
 Icon=avifile.png
 Exec=/usr/X11R6/bin/aviplay
 Terminal=0
 Type=Application
+# vi: encoding=utf-8
