@@ -4,7 +4,7 @@
 %bcond_with divx	# enables divx4linux support (proprietary, binary-only
 			# lib)  note: if disabled, divx is decoded by ffmpeg
 %bcond_with nas		# enables nas support
-
+#
 Summary:	Library for playing AVI files
 Summary(pl):	Biblioteka do odtwarzania plików AVI
 Summary(pt_BR):	Biblioteca para reproduzir formatos de áudio e vídeo usando binários win32
@@ -390,7 +390,9 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/avifile*/mpeg_audiodec.so*
 %attr(755,root,root) %{_libdir}/avifile*/ac3pass.so*
 %attr(755,root,root) %{_libdir}/avifile*/mjpeg.so*
+%ifarch %{ix86}
 %dir %{_libdir}/avifile*/vidix
+%endif
 
 %files devel
 %defattr(644,root,root,755)
@@ -465,7 +467,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/avifile*/xvid.so*
 
-%ifnarch ppc
+%ifarch %{ix86}
 %files vidix-driver-fb
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/avifile*/vidix/libgenfb.so*
