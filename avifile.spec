@@ -211,15 +211,15 @@ rm -f missing aclocal.m4
 libtoolize --copy --force
 aclocal
 autoheader
-autoconf
+%{__autoconf}
 automake -a -c --foreign
 
 cd plugins/libmad/libmad
-autoconf
+%{__autoconf}
 cd ../../..
 
 cd libmmxnow
-autoconf
+%{__autoconf}
 cd ..
 
 # This is The WRONG Way (tm)
