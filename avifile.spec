@@ -1,4 +1,4 @@
-%define		snap	20010914
+%define		snap	20010929
 Summary:	Library and sample program for playing AVI files
 Summary(pl):	Biblioteka i przyk³adowy program do odtwarzania plików AVI
 Name:		avifile
@@ -74,6 +74,7 @@ rm -f missing aclocal.m4
 libtoolize --copy --force
 aclocal
 autoconf
+autoheader
 automake -a -c --foreign
 %configure CPPFLAGS="-I/usr/include/divx" \
 	--with-qt-includes=%{_includedir}/qt \
