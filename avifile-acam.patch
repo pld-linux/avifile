@@ -1,0 +1,69 @@
+--- avifile0.7-0.7.7/configure.in.orig	Wed May 22 13:46:25 2002
++++ avifile0.7-0.7.7/configure.in	Sun Jun 16 22:16:42 2002
+@@ -76,7 +76,8 @@
+ AM_PROG_LIBTOOL
+ dnl automatic updating of libtool configuration files
+ dnl not needed with automake AC_SUBST(LIBTOOL_DEPS)
+-dnl using rather hack for .lo creation AM_PROG_AS
++dnl using rather hack for .lo creation
++AM_PROG_AS
+ 
+ 
+ dnl
+--- avifile0.7-0.7.7/lib/aviplay/Makefile.am.orig	Fri May 10 12:57:27 2002
++++ avifile0.7-0.7.7/lib/aviplay/Makefile.am	Sun Jun 16 22:18:32 2002
+@@ -50,8 +50,9 @@
+ # just for testing speed
+ check_PROGRAMS = hqtest 
+ #res
+-hqtest_SOURCES = AudioFpHQResampler.cpp hqtest.cpp
++hqtest_SOURCES = hqtest.cpp
+ hqtest_LDFLAGS = ../libaviplay.la $(SDL_LDADD)
++hqtest_LDADD = AudioFpHQResampler.lo
+ 
+ #res_SOURCES = ResampleSinc.cpp
+ CLEANFILES = hqtest
+--- avifile0.7-0.7.7/plugins/libac3pass/Makefile.am.orig	Fri Jun 14 23:51:18 2002
++++ avifile0.7-0.7.7/plugins/libac3pass/Makefile.am	Sun Jun 16 22:19:14 2002
+@@ -9,7 +9,8 @@
+ EXTRA_DIST = Makefile.emu README.ac3pass
+ 
+ check_PROGRAMS = play_ac3
+-play_ac3_SOURCES = play-ac3.c ac3-iec958.c
++play_ac3_SOURCES = play-ac3.c
++play_ac3_LDADD = ac3-iec958.lo
+ 
+ LINE1=Digital L
+ LINE2=Digital R
+--- avifile0.7-0.7.7/acinclude.m4.orig	Wed May  8 12:20:37 2002
++++ avifile0.7-0.7.7/acinclude.m4	Sun Jun 16 22:29:10 2002
+@@ -1167,18 +1167,6 @@
+ 
+ 
+ 
+-# as.m4
+-# Figure out how to run the assembler.
+-
+-# AM_PROG_AS
+-AC_DEFUN([AM_PROG_AS],
+-[# By default we simply use the C compiler to build assembly code.
+-AC_REQUIRE([AC_PROG_CC])
+-: ${AS='$(CC)'}
+-# Set ASFLAGS if not already set.
+-: ${ASFLAGS='$(CFLAGS)'}
+-AC_SUBST(AS)
+-AC_SUBST(ASFLAGS)])
+ 
+ 
+ 
+--- avifile0.7-0.7.7/plugins/libmad/libmad/configure.in.orig	Sat Oct 27 03:28:47 2001
++++ avifile0.7-0.7.7/plugins/libmad/libmad/configure.in	Sun Jun 16 22:32:21 2002
+@@ -352,7 +352,7 @@
+ test -n "$optimize" && CFLAGS="$CFLAGS $optimize"
+ test -n "$profile"  && CFLAGS="$CFLAGS $profile" LDFLAGS="$LDFLAGS $profile"
+ 
+-LTLIBOBJS=`echo "$LIBOBJS" | sed -e 's/\.o/.lo/g'`
++LTLIBOBJS=`echo "$LIB@&t@OBJS" | sed -e 's/\.o/.lo/g'`
+ AC_SUBST(LTLIBOBJS)
+ 
+ AC_OUTPUT(Makefile)
