@@ -21,6 +21,9 @@ BuildRequires:	libjpeg-devel
 BuildRequires:	unzip
 BuildRequires:	qt-devel
 BuildRequires:	divx4linux-devel
+BuildRequires:	autoconf
+BuildRequires:	automake
+BuildRequires:	libtool
 BuildConflicts:	wine-devel
 ExclusiveArch:	%{ix86}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
