@@ -1,18 +1,18 @@
-diff -urN avifile-0.6.0.org/configure.in avifile-0.6.0/configure.in
---- avifile-0.6.0.org/configure.in	Fri Jan 26 16:57:14 2001
-+++ avifile-0.6.0/configure.in	Wed Mar 14 19:22:15 2001
-@@ -242,7 +242,7 @@
-  AC3_CFLAGS=-I$withval;
-  AC3_LDADD=-L$withval/libac3;
-  AC3_LIBS=-lac3;
-- AC3_LIBADD=ac3.o;
-+ AC3_LIBADD=;
+diff -urN avifile-0.6.org/configure.in avifile-0.6/configure.in
+--- avifile-0.6.org/configure.in	Mon Apr  2 15:57:50 2001
++++ avifile-0.6/configure.in	Mon Apr  2 15:58:07 2001
+@@ -372,7 +372,7 @@
+  AC3_CFLAGS=-I$withval
+  AC3_LDADD=-L$withval/libac3
+  AC3_LIBS=-lac3
+- AC3_LIBADD=ac3.o
++ AC3_LIBADD=
   HAVE_AC3=1)
  dnl AC_SUBST(HAVE_AC3)
  AC_SUBST(AC3_PATH)
-diff -urN avifile-0.6.0.org/plugins/libaudiodec/ac3.h avifile-0.6.0/plugins/libaudiodec/ac3.h
---- avifile-0.6.0.org/plugins/libaudiodec/ac3.h	Tue Jan 23 06:14:59 2001
-+++ avifile-0.6.0/plugins/libaudiodec/ac3.h	Wed Mar 14 19:22:38 2001
+diff -urN avifile-0.6.org/plugins/libaudiodec/ac3.h avifile-0.6/plugins/libaudiodec/ac3.h
+--- avifile-0.6.org/plugins/libaudiodec/ac3.h	Mon Apr  2 15:57:50 2001
++++ avifile-0.6/plugins/libaudiodec/ac3.h	Mon Apr  2 15:57:57 2001
 @@ -1,6 +1,6 @@
  #include <audiodecoder.h>
  extern "C" {
