@@ -16,21 +16,22 @@ Patch0:		%{name}-shareware.patch
 Patch1:		%{name}-deplib.patch
 Patch2:		%{name}-xvid.patch
 Patch3:		%{name}-xlibs.patch
-BuildRequires:	XFree86-devel
+Patch4:		%{name}-acam.patch
 BuildRequires:	SDL-devel >= 1.2.0
+BuildRequires:	XFree86-devel
 BuildRequires:  a52dec-libs-devel
-BuildRequires:	libjpeg-devel
-BuildRequires:	unzip
-BuildRequires:	qt-devel
-%ifarch %{ix86}
-BuildRequires:	divx4linux-devel
-%endif
 BuildRequires:	autoconf
 BuildRequires:	automake
-BuildRequires:	libtool
+%ifarch %{ix86}
+%{!?_without_divx4linux:BuildRequires:	divx4linux-devel}
+%endif
+BuildRequires:	libjpeg-devel
 BuildRequires:	libogg-devel
+BuildRequires:	libtool
 BuildRequires:	libvorbis-devel
 BuildRequires:	lame-libs-devel
+BuildRequires:	qt-devel
+BuildRequires:	unzip
 %ifarch %{ix86} ppc sparc sparc64 sparcv9
 BuildRequires:	xvid-devel
 %endif
@@ -203,14 +204,15 @@ Dekoder i koder XVID.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 %build
 rm -f missing aclocal.m4
-libtoolize --copy --force
+%{__libtoolize}
 aclocal
 autoheader
 %{__autoconf}
-automake -a -c --foreign
+%{__automake}
 
 cd plugins/libmad/libmad
 %{__autoconf}
@@ -228,10 +230,10 @@ for f in $GEN_MOC; do moc -o "${f%.[!.]*}.moc" "$f"; done
 	CPPFLAGS="-I/usr/include/divx" AS="%{__cc}" \
 	--with-qt-includes=%{_includedir}/qt \
 	--with-qt-libraries=%{_libdir} \
-    --enable-a52 \
+	--enable-a52 \
 	--enable-release \
 	--enable-ffmpeg \
-    --enable-ffmpeg-a52 \
+	--enable-ffmpeg-a52 \
 	--disable-x86opt
 
 touch lib/dummy.cpp
@@ -310,10 +312,12 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/avifile*/ffmpeg.la
 
 %ifarch %{ix86}
+%if %{?_without_divx4linux:0}%{!?_without_divx4linux:1}
 %files divx
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/avifile*/divx*.so*
 %attr(755,root,root) %{_libdir}/avifile*/divx*.la
+%endif
 %endif
 
 %files vorbis
