@@ -1,15 +1,20 @@
-%define		snap	20010929
+# It's sick.
+%define		_snapver	20011220
+%define		_snapsubver	admin
+%define		_snap		%{_snapver}%{_snapsubver}
+%define		_ver	0.6
+%define		_subver	.0
 Summary:	Library and sample program for playing AVI files
 Summary(pl):	Biblioteka i przyk³adowy program do odtwarzania plików AVI
 Name:		avifile
-Version:	0.6
-Release:	0.%{snap}.1
+Version:	%{_ver}%{_subver}
+Release:	0.%{_snap}.1
 Epoch:		3
 License:	GPL
 Group:		X11/Applications/Multimedia
 Group(de):	X11/Applikationen/Multimedia
 Group(pl):	X11/Aplikacje/Multimedia
-Source0:	http://divx.euro.ru/%{name}-%{version}-%{snap}.tar.gz
+Source0:	http://avifile.sourceforge.net/%{name}-%{version}-%{_snap}.tgz
 Patch0:		%{name}-shareware.patch
 Patch1:		%{name}-deplib.patch
 Patch2:		%{name}-ac3.patch
@@ -25,6 +30,9 @@ BuildRequires:	divx4linux-devel
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	libtool
+BuildRequires:	libogg-devel
+BuildRequires:	libvorbis-devel
+BuildRequires:	lame-libs-devel
 BuildConflicts:	wine-devel
 ExclusiveArch:	%{ix86}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -63,7 +71,7 @@ Pliki nag³ówkowe niezbêdne do kompilacji programów korzystaj±cych z
 libaviplay.
 
 %prep
-%setup -q -n avifile-%{version}
+%setup -q -n avifile%{_ver}-%{_snapver}
 %patch0 -p1
 # was broken and need fixing; without this xmms and avi plugin is broken
 %patch1 -p1
@@ -78,6 +86,19 @@ aclocal
 autoconf
 autoheader
 automake -a -c --foreign
+
+cd plugins/libmad/libmad
+autoconf
+cd ../../..
+
+cd libmmxnow
+autoconf
+cd ..
+
+# This is The WRONG Way (tm)
+GEN_MOC="`grep -Rl '^ *Q_OBJECT$' *`"
+for f in $GEN_MOC; do moc -o "${f%.[!.]*}.moc" "$f"; done
+
 %configure CPPFLAGS="-I/usr/include/divx" AS="%{__cc}" \
 	--with-qt-includes=%{_includedir}/qt \
 	--with-libac3-path=%{_prefix} \
