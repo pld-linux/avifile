@@ -14,6 +14,7 @@ Patch0:		%{name}-shareware.patch
 Patch1:		%{name}-deplib.patch
 Patch2:		%{name}-ac3.patch
 Patch3:		%{name}-size_t.patch
+Patch4:		%{name}-amfix.patch
 BuildRequires:	XFree86-devel
 BuildRequires:	SDL-devel >= 1.2.0
 BuildRequires:	ac3dec-devel >= 0.6.1
@@ -65,9 +66,10 @@ libaviplay.
 %setup -q -n avifile-%{version}
 %patch0 -p1
 # was broken and need fixing; without this xmms and avi plugin is broken
-# %patch1 -p1
+%patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 %build
 rm -f missing aclocal.m4
@@ -76,7 +78,7 @@ aclocal
 autoconf
 autoheader
 automake -a -c --foreign
-%configure CPPFLAGS="-I/usr/include/divx" \
+%configure CPPFLAGS="-I/usr/include/divx" AS="%{__cc}" \
 	--with-qt-includes=%{_includedir}/qt \
 	--with-libac3-path=%{_prefix} \
 	--enable-release \
@@ -89,13 +91,11 @@ touch lib/dummy.cpp
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir},/usr/lib/win32}
 
-## avoid relinking
-#for f in plugins/libwin32/libwin32.la plugins/libaudiodec/libaudiodec.la \
-#  plugins/libmp3lame_audioenc/libmp3lame_audioenc.la \
-#  plugins/libmpeg_audiodec/libmpeg_audiodec.la ; do
-#	sed -e '/^relink_command/d' $f > $f.new
-#	mv -f $f.new $f
-#done
+# avoid relinking
+for f in plugins/*/lib*.la ; do
+	sed -e '/^relink_command/d' $f > $f.new
+	mv -f $f.new $f
+done
 	
 %{__make} install \
 	DESTDIR="$RPM_BUILD_ROOT"
