@@ -2,17 +2,16 @@ Summary:	Library and sample program for playing AVI files
 Summary(pl):	Biblioteka i przyk³adowy program do odtwarzania plików AVI
 Name:		avifile
 Version:	0.50
-Release:	4
+Release:	5
 License:	GPL
 Group:		X11/Applications/Multimedia
 Group(de):	X11/Applikationen/Multimedia
 Group(pl):	X11/Aplikacje/Multimedia
 Source0:	http://divx.euro.ru/%{name}-%{version}.tar.gz
-Patch0:		%{name}-DESTDIR.patch
-Patch1:		%{name}-old_ver_conflict.patch
-Patch2:		http://www.emulinks.de/divx/%{name}-%{version}.bitrate.patch
-Patch3:		%{name}-OPT_FLAGS.patch
-Patch4:		%{name}-kernel2.4-test11.patch
+Patch0:		http://www.emulinks.de/divx/%{name}-%{version}.bitrate.patch
+Patch1:		%{name}-CVS-20001206.patch.gz
+Patch2:		%{name}-DESTDIR.patch
+Patch3:		%{name}-cout.patch
 Requires:	avi-codecs
 BuildRequires:	unzip
 BuildRequires:	libstdc++-devel
@@ -53,15 +52,19 @@ libaviplay.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
-%patch4 -p1
-find . -exec touch {} \;
+perl -pi -e "s|-march=i586||g" configure.in
 
 %build
+aclocal
+libtoolize --copy --force
+automake -a -c
 autoconf
 CD_OPT="%{!?debug:$RPM_OPT_FLAGS}%{?debug:-O -g}"; export CD_OPT
 %configure \
-	--with-qt-includes=%{_includedir}/qt
+	--with-qt-includes=%{_includedir}/qt \
+	--enable-release
 
+touch lib/dummy.cpp
 %{__make}
 
 %install
