@@ -1,16 +1,15 @@
-%define		snap	20010831
+%define		snap	20010914
 Summary:	Library and sample program for playing AVI files
 Summary(pl):	Biblioteka i przyk³adowy program do odtwarzania plików AVI
 Name:		avifile
-Version:	0.6.0
+Version:	0.6
 Release:	0.%{snap}.1
 Epoch:		3
 License:	GPL
-#Source0:	http://divx.euro.ru/%{name}-%{version}-%{snap}.tar.gz
 Group:		X11/Applications/Multimedia
 Group(de):	X11/Applikationen/Multimedia
 Group(pl):	X11/Aplikacje/Multimedia
-Source0:	http://divx.euro.ru/%{name}-%{version}-%{snap}.tgz
+Source0:	http://divx.euro.ru/%{name}-%{version}-%{snap}.tar.gz
 Patch0:		%{name}-shareware.patch
 Patch1:		%{name}-deplib.patch
 Patch2:		%{name}-ac3.patch
@@ -61,7 +60,7 @@ Pliki nag³ówkowe niezbêdne do kompilacji programów korzystaj±cych z
 libaviplay.
 
 %prep
-%setup -q -n avifile-%{version}.%{snap}
+%setup -q -n avifile-%{version}
 %patch0 -p1
 # was broken and need fixing; without this xmms and avi plugin is broken
 # %patch1 -p1
