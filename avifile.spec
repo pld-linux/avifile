@@ -1,4 +1,4 @@
-%define		snap	20010730
+%define		snap	20010809
 Summary:	Library and sample program for playing AVI files
 Summary(pl):	Biblioteka i przyk³adowy program do odtwarzania plików AVI
 Name:		avifile
@@ -14,8 +14,7 @@ Patch0:		%{name}-shareware.patch
 Patch1:		%{name}-deplib.patch
 Patch2:		%{name}-ac3.patch
 Patch3:		%{name}-mga.patch
-Patch4:		%{name}-ac250.patch
-Patch5:		%{name}-size_t.patch
+Patch4:		%{name}-size_t.patch
 BuildRequires:	XFree86-devel
 BuildRequires:	SDL-devel >= 1.2.0
 BuildRequires:	ac3dec-devel >= 0.6.1
@@ -62,7 +61,6 @@ libaviplay.
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
-%patch5 -p1
 
 %build
 rm -f missing aclocal.m4
@@ -83,18 +81,16 @@ touch lib/dummy.cpp
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir},/usr/lib/win32}
 
-# avoid relinking
-for f in plugins/libwin32/libwin32.la plugins/libaudiodec/libaudiodec.la \
-  plugins/libmp3lame_audioenc/libmp3lame_audioenc.la \
-  plugins/libmpeg_audiodec/libmpeg_audiodec.la ; do
-	sed -e '/^relink_command/d' $f > $f.new
-	mv -f $f.new $f
-done
+## avoid relinking
+#for f in plugins/libwin32/libwin32.la plugins/libaudiodec/libaudiodec.la \
+#  plugins/libmp3lame_audioenc/libmp3lame_audioenc.la \
+#  plugins/libmpeg_audiodec/libmpeg_audiodec.la ; do
+#	sed -e '/^relink_command/d' $f > $f.new
+#	mv -f $f.new $f
+#done
 	
 %{__make} install \
 	DESTDIR="$RPM_BUILD_ROOT"
-
-install samples/misc/{asfdump,.libs/{asftest,benchmark}} $RPM_BUILD_ROOT%{_bindir}
 
 gzip -9nf README doc/{CREDITS,EXCEPTIONS,KNOWN_BUGS,LICENSING} \
 	doc/{README-DEVEL,TODO,VIDEO-PERFORMANCE,WARNINGS}
@@ -109,14 +105,12 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc *.gz doc/{CREDITS,EXCEPTIONS,KNOWN_BUGS,LICENSING}.gz
 %doc doc/{TODO,VIDEO-PERFORMANCE,WARNINGS}.gz
-%attr(755,root,root) %{_bindir}/[^a]*
-%attr(755,root,root) %{_bindir}/aviplay
-%attr(755,root,root) %{_bindir}/asf*
+%attr(755,root,root) %{_bindir}/*
 %attr(755,root,root) %{_libdir}/lib*.so.*.*
-%dir %{_libdir}/avifile
-%attr(755,root,root) %{_libdir}/avifile/lib*.so*
-%attr(755,root,root) %{_libdir}/avifile/lib*.la
-%{_datadir}/%{name}
+%dir %{_libdir}/avifile*
+%attr(755,root,root) %{_libdir}/avifile*/lib*.so*
+%attr(755,root,root) %{_libdir}/avifile*/lib*.la
+%{_datadir}/%{name}*
 
 %files devel
 %defattr(644,root,root,755)
