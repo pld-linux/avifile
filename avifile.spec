@@ -12,7 +12,7 @@ Summary(pt_BR):	Biblioteca para reproduzir formatos de áudio e vídeo usando biná
 Name:		avifile
 Version:	0.7.16
 Release:	0.%{_snap}.1
-Epoch:		3
+Epoch:		4
 License:	GPL
 Group:		X11/Libraries
 Source0:	http://avifile.sourceforge.net/%{name}-%{version}-%{_snap}.tgz
