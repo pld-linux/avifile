@@ -1,15 +1,17 @@
-%define		snap	20011207
-Summary:	Library and sample program for playing AVI files
-Summary(pl):	Biblioteka i przyk³adowy program do odtwarzania plików AVI
+# It's sick.
+%define		_snap		20020523
+%define		_ver	0.7
+Summary:	Library for playing AVI files
+Summary(pl):	Biblioteka do odtwarzania plików AVI
 Name:		avifile
-Version:	0.6.0
-Release:	0.%{snap}.1
+Version:	%{_ver}.7
+Release:	0.%{_snap}.1
 Epoch:		3
 License:	GPL
-Group:		X11/Applications/Multimedia
-Group(de):	X11/Applikationen/Multimedia
-Group(pl):	X11/Aplikacje/Multimedia
-Source0:	http://divx.euro.ru/%{name}-%{version}.%{snap}.tar.gz
+Group:		X11/Libraries
+URL:		http://avifile.sourceforge.net/
+Source0:	http://avifile.sourceforge.net/%{name}-%{version}-%{_snap}.tgz
+Source1:	%{name}.desktop
 Patch0:		%{name}-shareware.patch
 Patch1:		%{name}-deplib.patch
 Patch2:		%{name}-ac3.patch
@@ -17,7 +19,7 @@ Patch3:		%{name}-size_t.patch
 Patch4:		%{name}-wma2wav.patch
 BuildRequires:	XFree86-devel
 BuildRequires:	SDL-devel >= 1.2.0
-BuildRequires:	ac3dec-devel >= 0.6.1
+BuildRequires:	a52dec-libs-devel
 BuildRequires:	libjpeg-devel
 BuildRequires:	unzip
 BuildRequires:	qt-devel
@@ -63,7 +65,7 @@ Pliki nag³ówkowe niezbêdne do kompilacji programów korzystaj±cych z
 libaviplay.
 
 %prep
-%setup -q -n avifile-%{version}.%{snap}
+%setup -q -n avifile%{_ver}-%{version}
 %patch0 -p1
 # was broken and need fixing; without this xmms and avi plugin is broken
 %patch1 -p1
@@ -83,10 +85,11 @@ automake -a -c --foreign
 %configure \
 	CPPFLAGS="-I/usr/include/divx" AS="%{__cc}" \
 	--with-qt-includes=%{_includedir}/qt \
-	--with-libac3-path=%{_prefix} \
-	--enable-iconv \
+    --enable-a52 \
+	--enable-release \
 	--enable-ffmpeg \
-	--enable-release 
+    --enable-ffmpeg-a52 \
+	--disable-x86opt
 
 touch lib/dummy.cpp
 %{__make}
