@@ -141,7 +141,6 @@ Summary(pl):	Szybki kodek MPEG4
 Group:		X11/Libraries
 Requires:	%{name} = %{version}
 Requires:	divx4linux
-ExclusiveArch:	%{ix86}
 
 %description divx4
 DivX MPEG-4 decoder and encoder.
@@ -191,7 +190,6 @@ Summary(pl):	Kodek XVID
 Group:		X11/Libraries
 Requires:	%{name} = %{version}
 Requires:	xvid
-ExclusiveArch:	%{ix86}
 
 %description xvid
 XVID decoder and encoder.
