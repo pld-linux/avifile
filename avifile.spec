@@ -1,16 +1,16 @@
 Summary:	Library and sample program for playing AVI files
 Summary(pl):	Biblioteka i przyk³adowy program do odtwarzania plików AVI
 Name:		avifile
-Version:	0.33
+Version:	0.43
 Release:	1
 Group:		X11/Applications/Multimedia
 Group(pl):	X11/Aplikacje/Multimedia
 Copyright:	GPL
 Source0:	http://divx.euro.ru/%{name}-%{version}.tar.gz
-Patch0:		http://divx.euro.ru/avifile-0.33-0.33.3.diff.gz
 Patch1:		avifile-DESTDIR.patch
+Patch2:		avifile-old_ver_conflict.patch
 # Note: using non-standard optimizations generated non-working binary.
-#Patch2:		avifile-OPT_FLAGS.patch
+#Patch3:		avifile-OPT_FLAGS.patch
 Requires:	avi-codecs
 BuildRequires:	unzip
 BuildRequires:	libstdc++-devel
@@ -44,9 +44,9 @@ libaviplay.
 
 %prep
 %setup -q
-%patch0 -p1
 %patch1 -p1
-#%patch2 -p1
+%patch2 -p1
+find . -exec touch {} \;
 
 %build
 #autoheader;autoconf;automake; 
@@ -55,7 +55,7 @@ LDFLAGS="-s" ; export LDFLAGS
 #CXXFLAGS="$RPM_OPT_FLAGS"; export CXXFLAGS
 %configure 
 
-%{__make} #OPT_FLAGS="$RPM_OPT_FLAGS"
+%{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -65,7 +65,7 @@ install -d "$RPM_BUILD_ROOT"{%{_bindir},%{_libdir}}
 %{__make} install \
 	DESTDIR="$RPM_BUILD_ROOT"
 
-gzip -9nf README CREDITS TODO
+gzip -9nf README doc/{CREDITS,EXCEPTIONS,TODO,VIDEO-PERFORMANCE,WARNINGS}
 
 %post	-p /sbin/ldconfig
 %postun	-p /sbin/ldconfig
@@ -78,7 +78,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/*
 %attr(755,root,root)%{_libdir}/*
 %{_datadir}/%{name}
-%doc *gz
+%doc *gz doc/*gz
 
 %files devel
 %defattr(644,root,root,755)
