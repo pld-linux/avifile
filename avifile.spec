@@ -18,6 +18,7 @@ Epoch:		3
 License:	GPL
 Group:		X11/Libraries
 Source0:	http://avifile.sourceforge.net/%{name}-%{version}-%{_snap}.tgz
+# Source0-md5: 5b3a831ed3d12a5d12d23b8d9673b88d
 Source1:	%{name}.desktop
 Patch0:		%{name}-shareware.patch
 Patch1:		%{name}-no_libnsl.patch
