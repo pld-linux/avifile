@@ -41,7 +41,7 @@ diff -Nur avifile0.7-0.7.7.orig/plugins/libffmpeg/Makefile.am avifile0.7-0.7.7/p
  ffmpeg_la_SOURCES = libffmpeg.cpp FFAudioDecoder.cpp FFVideoDecoder.cpp FFVideoEncoder.cpp
  #  FFVideoEncoder.cpp
 -ffmpeg_la_LIBADD = ../../ffmpeg/libavcodec/libavcodec.la
-+ffmpeg_la_LIBADD = libavcodec/libavcodec.la ../../lib/libaviplay.la -lstdc++
++ffmpeg_la_LIBADD = ../../ffmpeg/libavcodec/libavcodec.la ../../lib/libaviplay.la -lstdc++
  #ffmpeg_la_LIBADD = ../../ffmpeg/libavcodec/libavcodec.a
  ffmpeg_la_LDFLAGS = -module -avoid-version 
  
