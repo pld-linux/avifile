@@ -23,6 +23,7 @@ Patch3:		%{name}-aviplay_h.patch
 Patch4:		%{name}-without_qt.patch
 Patch5:		%{name}-no_aux_dir.patch
 Patch6:		%{name}-link_shared.patch
+Patch7:		%{name}-avifile_config_fix.patch
 URL:		http://avifile.sourceforge.net/
 BuildRequires:	SDL-devel >= 1.2.0
 BuildRequires:	XFree86-devel
@@ -314,6 +315,7 @@ Sterownik VIDIX dla kart graficznych Permedia.
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
+%patch7 -p1
 
 %build
 %{__libtoolize}
