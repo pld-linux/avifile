@@ -96,7 +96,6 @@ Kilka u¿ytecznych narzêdzi do przechwytywania TV, rekompresji AVI,
 benchmarkowania, ³±czenia plików AVI. Maj± wiêcej b³êdów, poniewa¿ nie
 s± tak intensywnie rozwijane jak odtwarzacz.
 
-%ifarch %{ix86}
 %package win32
 Summary:	Win32 audio/video plugin
 Summary(pl):	Plugin audio/video win32
@@ -111,7 +110,6 @@ Plugin for using Win32 DLL libraries in avifile located in
 %description win32 -l pl
 Plugin do u¿ywania w avifile zlokalizowanych w /usr/lib/win32
 bibliotek DLL Win32.
-%endif
 
 %package ffmpeg
 Summary:	GPL MPEG4 codec
@@ -137,7 +135,6 @@ je do kilku formatów plików opartych na kodowaniu DCT/kompensacji
 ruchu. D¼wiêk jest kompresowany w MPEG audio layer 2 lub u¿ywaj±c
 kompatybilnego z AC3 strumienia.
 
-%ifarch %{ix86}
 %package divx4
 Summary:	Fast MPEG4 codec
 Summary(pl):	Szybki kodek MPEG4
@@ -151,7 +148,6 @@ DivX MPEG-4 decoder and encoder.
 
 %description divx4 -l pl
 Dekoder i koder MPEG-4 DivX.
-%endif
 
 %package vorbis
 Summary:	Vorbis audio plugin
@@ -189,7 +185,6 @@ Plugin for mp3 encoding capability of avirecompress tool.
 %description lame_audioenc -l pl
 Plugin umo¿liwiaj±cy avirecompressowi kodowanie mp3.
 
-%ifarch %{ix86}
 %package xvid
 Summary:	XVID codec
 Summary(pl):	Kodek XVID
@@ -203,7 +198,6 @@ XVID decoder and encoder.
 
 %description xvid -l pl
 Dekoder i koder XVID.
-%endif
 
 %prep
 %setup -q -n avifile%{_ver}-%{_snapver}
@@ -218,8 +212,8 @@ Dekoder i koder XVID.
 rm -f missing aclocal.m4
 libtoolize --copy --force
 aclocal
-autoconf
 autoheader
+autoconf
 automake -a -c --foreign
 
 cd plugins/libmad/libmad
