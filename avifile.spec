@@ -252,7 +252,8 @@ for f in plugins/*/*.la ; do
 done
 
 %{__make} install \
-	DESTDIR="$RPM_BUILD_ROOT"
+	DESTDIR="$RPM_BUILD_ROOT" \
+	m4datadir="%{_aclocaldir}"
 
 cp -f include/fourcc.h $RPM_BUILD_ROOT/%{_includedir}/%{name}
 
@@ -288,6 +289,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/lib*.la
 %{_libdir}/lib*.so
 %{_includedir}/%{name}
+%{_includedir}/*.h
+%{_aclocaldir}/*.m4
 
 %files aviplay
 %defattr(644,root,root,755)
