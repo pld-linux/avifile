@@ -21,6 +21,7 @@ Group:		X11/Libraries
 Source0:	http://avifile.sourceforge.net/%{name}-%{version}-%{_snap}.tgz
 Source1:	%{name}.desktop
 Patch0:		%{name}-shareware.patch
+Patch1:		%{name}-no_libnsl.patch
 URL:		http://avifile.sourceforge.net/
 BuildRequires:	SDL-devel >= 1.2.0
 BuildRequires:	XFree86-devel
@@ -205,11 +206,12 @@ Dekoder i koder XVID.
 %prep
 %setup -q -n avifile0.7-%{_ver}
 %patch0 -p1
+%patch1 -p1
 
 %build
 rm -f missing aclocal.m4
 %{__libtoolize}
-aclocal
+%{__aclocal}
 autoheader
 %{__autoconf}
 %{__automake}
