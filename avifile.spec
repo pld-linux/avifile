@@ -3,7 +3,7 @@
 # bcond_off_arts - without arts support
 #
 
-%define		snap	20010501
+%define		snap	20010514
 Summary:	Library and sample program for playing AVI files
 Summary(pl):	Biblioteka i przyk³adowy program do odtwarzania plików AVI
 Name:		avifile
@@ -78,6 +78,7 @@ automake -a -c --foreign
 	--with-libac3-path=%{_prefix}
 
 touch lib/dummy.cpp
+gcc -c plugins/libwin32/loader/stubs.s -o plugins/libwin32/loader/stubs.lo
 %{__make}
 
 %install
