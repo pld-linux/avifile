@@ -67,8 +67,8 @@ libaviplay.
 rm -f missing
 libtoolize --copy --force
 aclocal
-autoconf
 automake -a -c --foreign
+autoconf
 %configure \
 	--with-qt-includes=%{_includedir}/qt \
 	--enable-release \
