@@ -1,11 +1,10 @@
 # It's sick.
-#
-# Conditional build:
-# _without_qt		- disables QT support
-# _with_divx		- enables divx4linux support (proprietary, binary-only
-#			  lib)  note: if disabled, divx is decoded by ffmpeg
-# _with_nas		- enables nas support
-#
+
+%bcond_without qt	# disables QT support
+%bcond_with divx	# enables divx4linux support (proprietary, binary-only
+			# lib)  note: if disabled, divx is decoded by ffmpeg
+%bcond_with nas		# enables nas support
+
 %define		_snapver	20030522
 %define		_snap		%{_snapver}
 Summary:	Library for playing AVI files
@@ -27,6 +26,7 @@ Patch3:		%{name}-etc_dir.patch
 Patch4:		%{name}-nolibtooltest.patch
 Patch5:		%{name}-aviplay_h.patch
 Patch6:		%{name}-system-libmad.patch
+Patch7:		%{name}-without_qt.patch
 URL:		http://avifile.sourceforge.net/
 BuildRequires:	SDL-devel >= 1.2.0
 BuildRequires:	XFree86-devel
@@ -34,7 +34,7 @@ BuildRequires:	a52dec-libs-devel
 BuildRequires:	audiofile-devel
 BuildRequires:	autoconf
 BuildRequires:	automake
-%{?_with_divx:BuildRequires:	divx4linux-devel}
+%{?with_divx:BuildRequires:	divx4linux-devel}
 BuildRequires:	faad2-devel
 BuildRequires:	lame-libs-devel
 BuildRequires:	libjpeg-devel
@@ -42,9 +42,9 @@ BuildRequires:	libmad-devel
 BuildRequires:	libogg-devel
 BuildRequires:	libtool >= 1:1.4.3
 BuildRequires:	libvorbis-devel >= 1:1.0
-%{?_with_nas:BuildRequires:	nas-devel}
+%{?with_nas:BuildRequires:	nas-devel}
 BuildRequires:	pkgconfig
-%{?!_without_qt:BuildRequires:	qt-devel >= 2.0.0}
+%{?with_qt:BuildRequires:	qt-devel >= 2.0.0}
 BuildRequires:	unzip
 BuildRequires:	xft-devel
 %ifarch %{ix86} ppc
@@ -318,6 +318,7 @@ Sterownik VIDIX dla kart graficznych Permedia.
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
+%patch7 -p1
 
 # configure.ac is enough
 rm configure.in
@@ -330,7 +331,7 @@ rm configure.in
 %{__automake}
 
 # This is The WRONG Way (tm)
-%if %{!?_without_qt:1}%{?_without_qt:0}
+%if %{with qt}
 GEN_MOC="`grep -Rl '^ *Q_OBJECT$' *`"
 for f in $GEN_MOC; do moc -o "${f%.[!.]*}.moc" "$f"; done
 %endif
@@ -342,7 +343,7 @@ for f in $GEN_MOC; do moc -o "${f%.[!.]*}.moc" "$f"; done
 	--with-qt-includes=%{_includedir}/qt \
 	--with-qt-libraries=%{_libdir} \
 	--enable-a52 \
-	%{?_with_divx:--enable-divx4} \
+	%{?with_divx:--enable-divx4} \
 	--enable-ffmpeg \
 	--enable-ffmpeg-a52 \
 	--enable-lamebin \
@@ -354,8 +355,8 @@ for f in $GEN_MOC; do moc -o "${f%.[!.]*}.moc" "$f"; done
 %else
 	--disable-x86opt \
 %endif
-	%{?_without_qt:--without-qt} \
-	%{?_without_qt:--disable-samples}
+	%{!?with_qt:--without-qt} \
+	%{!?with_qt:--disable-samples}
 
 touch lib/dummy.cpp
 %{__make}
@@ -407,7 +408,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_pkgconfigdir}/%{name}.pc
 %{_mandir}/man1/avifile-config.1*
 
-%if %{?_without_qt:0}%{!?_without_qt:1}
+%if %{with qt}
 %files aviplay
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/aviplay
@@ -419,20 +420,20 @@ rm -rf $RPM_BUILD_ROOT
 
 %files utils
 %defattr(644,root,root,755)
-%{?!_without_qt:%attr(755,root,root) %{_bindir}/avicap}
-%{?!_without_qt:%attr(755,root,root) %{_bindir}/avirecompress}
+%{?with_qt:%attr(755,root,root) %{_bindir}/avicap}
+%{?with_qt:%attr(755,root,root) %{_bindir}/avirecompress}
 %attr(755,root,root) %{_bindir}/avibench
 %attr(755,root,root) %{_bindir}/avicat
 %attr(755,root,root) %{_bindir}/avimake
-%attr(755,root,root) %{_bindir}/avirec
+%{?with_qt:%attr(755,root,root) %{_bindir}/avirec}
 %attr(755,root,root) %{_bindir}/avitype
 %attr(755,root,root) %{_bindir}/kv4lsetup
-%{?!_without_qt:%{_mandir}/man1/avicap.1*}
-%{?!_without_qt:%{_mandir}/man1/avirecompress.1*}
+%{?with_qt:%{_mandir}/man1/avicap.1*}
+%{?with_qt:%{_mandir}/man1/avirecompress.1*}
 %{_mandir}/man1/avibench.1*
 %{_mandir}/man1/avicat.1*
 %{_mandir}/man1/avimake.1*
-%{_mandir}/man1/avirec.1*
+%{?with_qt:%{_mandir}/man1/avirec.1*}
 %{_mandir}/man1/avitype.1*
 %{_mandir}/man1/kv4lsetup.1*
 
@@ -446,7 +447,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/avifile*/ffmpeg.so*
 
-%if %{?_with_divx:1}%{!?_with_divx:0}
+%if %{with divx}
 %files divx
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/avifile*/divx*.so*
