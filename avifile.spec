@@ -405,12 +405,18 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}*
 %{_applnkdir}/Multimedia/*
 %{_pixmapsdir}/*
+%endif
 
 %files utils
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/avi[bcmrt]*
+%{?!_without_qt:%attr(755,root,root) %{_bindir}/avicap}
+%{?!_without_qt:%attr(755,root,root) %{_bindir}/avirecompress}
+%attr(755,root,root) %{_bindir}/avibench
+%attr(755,root,root) %{_bindir}/avicat
+%attr(755,root,root) %{_bindir}/avimake
+%attr(755,root,root) %{_bindir}/avirec
+%attr(755,root,root) %{_bindir}/avitype
 %attr(755,root,root) %{_bindir}/kv4lsetup
-%endif
 
 %ifarch %{ix86}
 %files win32
