@@ -7,5 +7,5 @@ Icon=avifile.png
 Exec=aviplay
 Terminal=false
 Type=Application
-Categories=Application;AudioVideo;
+Categories=Video;Player;
 # vi: encoding=utf-8
