@@ -1,128 +1,135 @@
-diff -ur avifile-0.6.0.20011207-/plugins/libac3pass/Makefile.am avifile-0.6.0.20011207/plugins/libac3pass/Makefile.am
---- avifile-0.6.0.20011207-/plugins/libac3pass/Makefile.am	Thu Nov  8 23:36:14 2001
-+++ avifile-0.6.0.20011207/plugins/libac3pass/Makefile.am	Wed Dec 19 00:48:26 2001
-@@ -1,6 +1,7 @@
- pkglib_LTLIBRARIES = libac3pass.la
- noinst_HEADERS = ac3-iec958.h fillplugins.h
+diff -Nur avifile0.7-0.7.7.orig/plugins/libac3pass/Makefile.am avifile0.7-0.7.7/plugins/libac3pass/Makefile.am
+--- avifile0.7-0.7.7.orig/plugins/libac3pass/Makefile.am	Fri Apr 26 13:12:13 2002
++++ avifile0.7-0.7.7/plugins/libac3pass/Makefile.am	Wed Jun 12 14:12:56 2002
+@@ -3,6 +3,7 @@
  
-+libac3pass_la_LIBADD = ../../lib/libaviplay.la -lstdc++
- libac3pass_la_SOURCES = ac3-iec958.c libac3pass.cpp
- libac3pass_la_LDFLAGS = -module -avoid-version 
+ ac3pass_la_SOURCES = ac3-iec958.c libac3pass.cpp
+ ac3pass_la_LDFLAGS = -module -avoid-version -no-undefined
++ac3pass_la_LIBADD = ../../lib/libaviplay.la -lstdc++
  #-release $(LT_RELEASE)
-diff -ur avifile-0.6.0.20011207-/plugins/libaudiodec/Makefile.am avifile-0.6.0.20011207/plugins/libaudiodec/Makefile.am
---- avifile-0.6.0.20011207-/plugins/libaudiodec/Makefile.am	Tue Nov 27 22:04:53 2001
-+++ avifile-0.6.0.20011207/plugins/libaudiodec/Makefile.am	Wed Dec 19 00:43:13 2001
-@@ -3,7 +3,7 @@
- 	gsm61dec.cpp pcm.cpp aulaw.cpp xa_gsm.c
- noinst_HEADERS = ac3.h adpcm.h adpcm_impl.h gsm61dec.h pcm.h xa_gsm.h \
+ 
+ EXTRA_DIST = Makefile.emu README.ac3pass
+diff -Nur avifile0.7-0.7.7.orig/plugins/libaudiodec/Makefile.am avifile0.7-0.7.7/plugins/libaudiodec/Makefile.am
+--- avifile0.7-0.7.7.orig/plugins/libaudiodec/Makefile.am	Mon Apr 29 18:17:42 2002
++++ avifile0.7-0.7.7/plugins/libaudiodec/Makefile.am	Wed Jun 12 14:09:28 2002
+@@ -20,7 +20,7 @@
+ 	gsm61dec.cpp pcm.cpp aulaw.cpp xa_gsm.c \
+         $(SRC_A52)
+ 
+-audiodec_la_LIBADD = $(LIB_A52)
++audiodec_la_LIBADD = $(LIB_A52) ../../lib/libaviplay.la -lstdc++
+ 
+ noinst_HEADERS = adpcm.h adpcm_impl.h gsm61dec.h pcm.h xa_gsm.h \
  	xa_gsm_state.h aulaw.h fillplugins.h
--libaudiodec_la_LIBADD = $(AC3_LIBADD)
-+libaudiodec_la_LIBADD = $(AC3_LIBADD) ../../lib/libaviplay.la -lstdc++
- libaudiodec_la_LDFLAGS = $(AC3_LIBS) $(AC3_LDADD) -module -avoid-version 
- #-release $(LT_RELEASE)
+diff -Nur avifile0.7-0.7.7.orig/plugins/libdivx4/Makefile.am avifile0.7-0.7.7/plugins/libdivx4/Makefile.am
+--- avifile0.7-0.7.7.orig/plugins/libdivx4/Makefile.am	Sat Apr 27 21:09:04 2002
++++ avifile0.7-0.7.7/plugins/libdivx4/Makefile.am	Wed Jun 12 14:08:27 2002
+@@ -1,7 +1,7 @@
+ pkglib_LTLIBRARIES = divx4.la
  
-diff -ur avifile-0.6.0.20011207-/plugins/libdivx4/Makefile.am avifile-0.6.0.20011207/plugins/libdivx4/Makefile.am
---- avifile-0.6.0.20011207-/plugins/libdivx4/Makefile.am	Thu Nov 29 18:57:49 2001
-+++ avifile-0.6.0.20011207/plugins/libdivx4/Makefile.am	Wed Dec 19 00:45:36 2001
-@@ -3,7 +3,7 @@
- DIVX4LIBS = -L/usr/local/lib -ldivxdecore -ldivxencore
+ divx4_la_SOURCES = divx4.cpp
+-divx4_la_LIBADD = $(DIVX4_LIBS)
++divx4_la_LIBADD = $(DIVX4_LIBS) ../../lib/libaviplay.la -lstdc++
+ divx4_la_LDFLAGS = -module -avoid-version
  
- libdivx4_la_SOURCES = divx4.cpp
--libdivx4_la_LIBADD = $(DIVX4LIBS)
-+libdivx4_la_LIBADD = $(DIVX4LIBS) ../../lib/libaviplay.la -lstdc++
- libdivx4_la_LDFLAGS = -module -avoid-version
- AM_CXXFLAGS = -DLINUX
- noinst_HEADERS = fillplugins.h
-diff -ur avifile-0.6.0.20011207-/plugins/libffmpeg/Makefile.am avifile-0.6.0.20011207/plugins/libffmpeg/Makefile.am
---- avifile-0.6.0.20011207-/plugins/libffmpeg/Makefile.am	Tue Nov 27 14:20:25 2001
-+++ avifile-0.6.0.20011207/plugins/libffmpeg/Makefile.am	Wed Dec 19 00:46:06 2001
-@@ -4,7 +4,7 @@
- noinst_HEADERS = FFAudioDecoder.h FFVideoDecoder.h fillplugins.h bswap.h
- libffmpeg_la_SOURCES = libffmpeg.cpp FFAudioDecoder.cpp FFVideoDecoder.cpp 
- #\  FFVideoEncoder.cpp
--libffmpeg_la_LIBADD = libavcodec/libavcodec.la
-+libffmpeg_la_LIBADD = libavcodec/libavcodec.la ../../lib/libaviplay.la -lstdc++
- libffmpeg_la_LDFLAGS = -module -avoid-version 
- #-release $(LT_RELEASE)
- 
-diff -ur avifile-0.6.0.20011207-/plugins/libmad/Makefile.am avifile-0.6.0.20011207/plugins/libmad/Makefile.am
---- avifile-0.6.0.20011207-/plugins/libmad/Makefile.am	Tue Nov 27 22:04:53 2001
-+++ avifile-0.6.0.20011207/plugins/libmad/Makefile.am	Wed Dec 19 00:47:56 2001
-@@ -4,12 +4,12 @@
- # or system library
- 
- if AMM_USE_LIBMAD
--libmad_audiodec_la_LIBADD = $(MAD_LDADD)
-+libmad_audiodec_la_LIBADD = $(MAD_LDADD) ../../lib/libaviplay.la -lstdc++
- CUSTOMFLAGS =
- else
- SUBDIRS = libmad
- CUSTOMFLAGS = -I$(SUBDIRS)
--libmad_audiodec_la_LIBADD = $(SUBDIRS)/libmad.la
-+libmad_audiodec_la_LIBADD = $(SUBDIRS)/libmad.la ../../lib/libaviplay.la -lstdc++
- endif
- 
- AM_CXXFLAGS = $(CUSTOMFLAGS)
-diff -ur avifile-0.6.0.20011207-/plugins/libmp3lame_audioenc/Makefile.am avifile-0.6.0.20011207/plugins/libmp3lame_audioenc/Makefile.am
---- avifile-0.6.0.20011207-/plugins/libmp3lame_audioenc/Makefile.am	Thu Nov  8 23:36:14 2001
-+++ avifile-0.6.0.20011207/plugins/libmp3lame_audioenc/Makefile.am	Wed Dec 19 00:46:48 2001
+ AM_CPPFLAGS = -DLINUX $(DIVX4_CFLAGS)
+diff -Nur avifile0.7-0.7.7.orig/plugins/libffmpeg/Makefile.am avifile0.7-0.7.7/plugins/libffmpeg/Makefile.am
+--- avifile0.7-0.7.7.orig/plugins/libffmpeg/Makefile.am	Wed May 22 20:09:14 2002
++++ avifile0.7-0.7.7/plugins/libffmpeg/Makefile.am	Wed Jun 12 14:14:11 2002
 @@ -2,7 +2,7 @@
- pkglib_LTLIBRARIES = libmp3lame_audioenc.la
- noinst_HEADERS = mp3encoder.h fillplugins.h
- libmp3lame_audioenc_la_SOURCES = audioencoder.cpp mp3encoder.cpp 
--libmp3lame_audioenc_la_LIBADD = lame3.70/libmp3lame.la
-+libmp3lame_audioenc_la_LIBADD = lame3.70/libmp3lame.la ../../lib/libaviplay.la -lstdc++
- libmp3lame_audioenc_la_LDFLAGS = -module -avoid-version 
- #-release $(LT_RELEASE)
- MAINTAINERCLEANFILES = Makefile.in
-diff -ur avifile-0.6.0.20011207-/plugins/libmp3lamebin_audioenc/Makefile.am avifile-0.6.0.20011207/plugins/libmp3lamebin_audioenc/Makefile.am
---- avifile-0.6.0.20011207-/plugins/libmp3lamebin_audioenc/Makefile.am	Tue Nov 27 22:04:53 2001
-+++ avifile-0.6.0.20011207/plugins/libmp3lamebin_audioenc/Makefile.am	Wed Dec 19 00:48:56 2001
-@@ -2,6 +2,7 @@
- noinst_HEADERS = fillplugins.h lame.h lameencoder.h
- libmp3lamebin_audioenc_la_SOURCES = audioencoder.cpp lameencoder.cpp
- libmp3lamebin_audioenc_la_LDFLAGS = -module -avoid-version 
-+libmp3lamebin_audioenc_la_LIBADD = ../../lib/libaviplay.la -lstdc++
- MAINTAINERCLEANFILES = Makefile.in
+ noinst_HEADERS = FFAudioDecoder.h FFVideoDecoder.h FFVideoEncoder.h fillplugins.h
+ ffmpeg_la_SOURCES = libffmpeg.cpp FFAudioDecoder.cpp FFVideoDecoder.cpp FFVideoEncoder.cpp
+ #  FFVideoEncoder.cpp
+-ffmpeg_la_LIBADD = ../../ffmpeg/libavcodec/libavcodec.la
++ffmpeg_la_LIBADD = libavcodec/libavcodec.la ../../lib/libaviplay.la -lstdc++
+ #ffmpeg_la_LIBADD = ../../ffmpeg/libavcodec/libavcodec.a
+ ffmpeg_la_LDFLAGS = -module -avoid-version 
  
- #
-diff -ur avifile-0.6.0.20011207-/plugins/libmpeg_audiodec/Makefile.am avifile-0.6.0.20011207/plugins/libmpeg_audiodec/Makefile.am
---- avifile-0.6.0.20011207-/plugins/libmpeg_audiodec/Makefile.am	Tue Nov 27 22:04:53 2001
-+++ avifile-0.6.0.20011207/plugins/libmpeg_audiodec/Makefile.am	Wed Dec 19 00:44:53 2001
-@@ -5,10 +5,11 @@
- libmpeg_audiodec_la_LDFLAGS = -module -avoid-version 
- #-release $(LT_RELEASE)
- noinst_HEADERS = mpegsound.h mpegsound_locals.h fillplugins.h
-+libmpeg_audiodec_la_LIBADD = ../../lib/libaviplay.la -lstdc++
- 
- # currently it has to be compiled with optimalizations (inline has to work)
--OPTFLG = -O2 -ffast-math -fomit-frame-pointer -funroll-loops
-+##OPTFLG = -O2 -ffast-math -fomit-frame-pointer -funroll-loops
- #-D__NO_STRING_INLINES -DDEBUG
- # -finline-functions 
--AM_CXXFLAGS = $(OPTFLG)
-+##AM_CXXFLAGS = $(OPTFLG)
- MAINTAINERCLEANFILES = Makefile.in
-diff -ur avifile-0.6.0.20011207-/plugins/libvorbis/Makefile.am avifile-0.6.0.20011207/plugins/libvorbis/Makefile.am
---- avifile-0.6.0.20011207-/plugins/libvorbis/Makefile.am	Tue Nov 27 22:04:53 2001
-+++ avifile-0.6.0.20011207/plugins/libvorbis/Makefile.am	Wed Dec 19 00:49:25 2001
-@@ -1,6 +1,6 @@
- pkglib_LTLIBRARIES = libvorbis_audio.la
+diff -Nur avifile0.7-0.7.7.orig/plugins/libmad/Makefile.am avifile0.7-0.7.7/plugins/libmad/Makefile.am
+--- avifile0.7-0.7.7.orig/plugins/libmad/Makefile.am	Fri Apr 19 20:59:32 2002
++++ avifile0.7-0.7.7/plugins/libmad/Makefile.am	Wed Jun 12 14:13:06 2002
+@@ -16,7 +16,7 @@
+ pkglib_LTLIBRARIES = mad_audiodec.la
  noinst_HEADERS = fillplugins.h
- libvorbis_audio_la_SOURCES = libvorbis.cpp
--libvorbis_audio_la_LIBADD = -lvorbisfile -lvorbis
-+libvorbis_audio_la_LIBADD = -lvorbisfile -lvorbis ../../lib/libaviplay.la -lstdc++
- libvorbis_audio_la_LDFLAGS = -module -avoid-version
+ mad_audiodec_la_SOURCES = libmad.cpp
+-mad_audiodec_la_LIBADD = $(CUSTOMLDADD)
++mad_audiodec_la_LIBADD = $(CUSTOMLDADD) ../../lib/libaviplay.la -lstdc++
+ mad_audiodec_la_LDFLAGS = -module -avoid-version
+ 
+ AM_CPPFLAGS = $(CUSTOMFLAGS)
+diff -Nur avifile0.7-0.7.7.orig/plugins/libmp3lame_audioenc/Makefile.am avifile0.7-0.7.7/plugins/libmp3lame_audioenc/Makefile.am
+--- avifile0.7-0.7.7.orig/plugins/libmp3lame_audioenc/Makefile.am	Fri Apr 19 21:01:14 2002
++++ avifile0.7-0.7.7/plugins/libmp3lame_audioenc/Makefile.am	Wed Jun 12 14:09:56 2002
+@@ -2,6 +2,6 @@
+ pkglib_LTLIBRARIES = mp3lame_audioenc.la
+ noinst_HEADERS = mp3encoder.h fillplugins.h
+ mp3lame_audioenc_la_SOURCES = audioencoder.cpp mp3encoder.cpp
+-mp3lame_audioenc_la_LIBADD = lame3.70/libmp3lame.la
++mp3lame_audioenc_la_LIBADD = lame3.70/libmp3lame.la ../../lib/libaviplay.la -lstdc++
+ mp3lame_audioenc_la_LDFLAGS = -module -avoid-version
  MAINTAINERCLEANFILES = Makefile.in
-diff -ur avifile-0.6.0.20011207-/plugins/libwin32/Makefile.am avifile-0.6.0.20011207/plugins/libwin32/Makefile.am
---- avifile-0.6.0.20011207-/plugins/libwin32/Makefile.am	Tue Nov 27 22:04:53 2001
-+++ avifile-0.6.0.20011207/plugins/libwin32/Makefile.am	Wed Dec 19 00:37:40 2001
+diff -Nur avifile0.7-0.7.7.orig/plugins/libmp3lamebin_audioenc/Makefile.am avifile0.7-0.7.7/plugins/libmp3lamebin_audioenc/Makefile.am
+--- avifile0.7-0.7.7.orig/plugins/libmp3lamebin_audioenc/Makefile.am	Fri Apr 26 11:41:06 2002
++++ avifile0.7-0.7.7/plugins/libmp3lamebin_audioenc/Makefile.am	Wed Jun 12 14:15:36 2002
+@@ -1,7 +1,7 @@
+ pkglib_LTLIBRARIES = mp3lamebin_audioenc.la
+ noinst_HEADERS = fillplugins.h lame.h
+ mp3lamebin_audioenc_la_SOURCES = lameencoder.cpp
+-mp3lamebin_audioenc_la_LIBADD = -lm
++mp3lamebin_audioenc_la_LIBADD = -lm ../../lib/libaviplay.la -lstdc++
+ mp3lamebin_audioenc_la_LDFLAGS = -module -avoid-version
+ MAINTAINERCLEANFILES = Makefile.in
+ 
+diff -Nur avifile0.7-0.7.7.orig/plugins/libmpeg_audiodec/Makefile.am avifile0.7-0.7.7/plugins/libmpeg_audiodec/Makefile.am
+--- avifile0.7-0.7.7.orig/plugins/libmpeg_audiodec/Makefile.am	Fri Apr 19 21:04:11 2002
++++ avifile0.7-0.7.7/plugins/libmpeg_audiodec/Makefile.am	Wed Jun 12 14:14:29 2002
+@@ -3,6 +3,7 @@
+ 	huffmantable.cpp mpeglayer1.cpp mpeglayer2.cpp mpeglayer3.cpp \
+ 	mpegtable.cpp mpegtoraw.cpp
+ mpeg_audiodec_la_LDFLAGS = -module -avoid-version
++mpeg_audiodec_la_LIBADD = ../../lib/libaviplay.la -lstdc++
+ 
+ noinst_HEADERS = mpegsound.h mpegsound_locals.h fillplugins.h
+ 
+@@ -10,5 +11,5 @@
+ OPTFLG = -O2 -ffast-math -fomit-frame-pointer -funroll-loops
+ #-D__NO_STRING_INLINES -DDEBUG
+ 
+-AM_CXXFLAGS = $(OPTFLG)
++AM_CXXFLAGS = @CXXFLAGS@
+ MAINTAINERCLEANFILES = Makefile.in
+diff -Nur avifile0.7-0.7.7.orig/plugins/libvorbis/Makefile.am avifile0.7-0.7.7/plugins/libvorbis/Makefile.am
+--- avifile0.7-0.7.7.orig/plugins/libvorbis/Makefile.am	Fri Apr 19 21:04:26 2002
++++ avifile0.7-0.7.7/plugins/libvorbis/Makefile.am	Wed Jun 12 14:10:23 2002
+@@ -1,6 +1,6 @@
+ pkglib_LTLIBRARIES = vorbis_audio.la
+ noinst_HEADERS = fillplugins.h
+ vorbis_audio_la_SOURCES = libvorbis.cpp
+-vorbis_audio_la_LIBADD = -lvorbisfile -lvorbis
++vorbis_audio_la_LIBADD = -lvorbisfile -lvorbis ../../lib/libaviplay.la -lstdc++
+ vorbis_audio_la_LDFLAGS = -module -avoid-version
+ MAINTAINERCLEANFILES = Makefile.in
+diff -Nur avifile0.7-0.7.7.orig/plugins/libwin32/Makefile.am avifile0.7-0.7.7/plugins/libwin32/Makefile.am
+--- avifile0.7-0.7.7.orig/plugins/libwin32/Makefile.am	Tue Apr 23 15:43:35 2002
++++ avifile0.7-0.7.7/plugins/libwin32/Makefile.am	Wed Jun 12 14:06:15 2002
 @@ -7,7 +7,7 @@
- libwin32_la_LIBADD = \
+ win32_la_LIBADD = \
    audiodec/libaudiodec.la \
    loader/libloader.la \
 -  videocodec/libvideocodec.la
 +  videocodec/libvideocodec.la ../../lib/libaviplay.la -lstdc++
+ win32_la_LDFLAGS = -module -avoid-version
  
- libwin32_la_LDFLAGS = -module -avoid-version
+ #
+diff -Nur avifile0.7-0.7.7.orig/plugins/libxvid/Makefile.am avifile0.7-0.7.7/plugins/libxvid/Makefile.am
+--- avifile0.7-0.7.7.orig/plugins/libxvid/Makefile.am	Mon Apr 29 18:17:42 2002
++++ avifile0.7-0.7.7/plugins/libxvid/Makefile.am	Wed Jun 12 14:13:36 2002
+@@ -1,7 +1,7 @@
+ pkglib_LTLIBRARIES = xvid.la
  
+ xvid_la_SOURCES = xvid.cpp
+-xvid_la_LIBADD = $(XVID_LIBS)
++xvid_la_LIBADD = $(XVID_LIBS) ../../lib/libaviplay.la -lstdc++
+ xvid_la_LDFLAGS = -module -avoid-version
+ 
+ AM_CPPFLAGS = $(XVID_CFLAGS)
