@@ -50,6 +50,9 @@ libaviplay.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
+%patch2 -p1
+%patch3 -p1
 cp configure.in configure.in.old
 sed -e "s#-march=i586##g" configure.in.old > configure.in
 
