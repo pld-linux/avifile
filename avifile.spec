@@ -8,11 +8,12 @@ License:	GPL
 Group:		X11/Applications/Multimedia
 Group(de):	X11/Applikationen/Multimedia
 Group(pl):	X11/Aplikacje/Multimedia
-Source0:	http://divx.euro.ru/%{name}-%{version}-beta4.1.tar.gz
+Source0:	http://divx.euro.ru/%{name}-%{version}-beta4.tar.gz
 Patch0:		%{name}-shareware.patch
 Patch1:		%{name}-opt.patch
 Patch2:		%{name}-am_fix.patch
 Patch3:		%{name}-deplib.patch
+Patch4:		%{name}-ac3.patch
 Requires:	avi-codecs
 BuildRequires:	unzip
 BuildRequires:	libstdc++-devel
@@ -56,7 +57,8 @@ libaviplay.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
-#%patch3 -p1
+%patch3 -p1
+%patch4 -p1
 
 %build
 libtoolize --copy --force
