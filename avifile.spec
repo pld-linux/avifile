@@ -20,7 +20,7 @@ Source1:	%{name}.desktop
 Patch0:		%{name}-shareware.patch
 Patch1:		%{name}-no_libnsl.patch
 Patch2:		%{name}-vidix.patch
-Patch2:		%{name}-configure.patch
+Patch3:		%{name}-configure.patch
 URL:		http://avifile.sourceforge.net/
 BuildRequires:	SDL-devel >= 1.2.0
 BuildRequires:	XFree86-devel
