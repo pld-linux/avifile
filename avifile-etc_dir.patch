@@ -1,16 +1,13 @@
 diff -Nru avifile0.7-0.7.32/lib/common/Registry.cpp avifile0.7-0.7.32.new/lib/common/Registry.cpp
 --- avifile0.7-0.7.32/lib/common/Registry.cpp	Fri Oct  4 09:07:33 2002
 +++ avifile0.7-0.7.32.new/lib/common/Registry.cpp	Sun Mar 23 13:59:08 2003
-@@ -33,15 +33,22 @@
+@@ -33,11 +33,15 @@
      if (!config)
      {
  	char* home;
 -	home = getenv("HOME");
--	if (home == 0)
-+	int etc_dir_used = 0;
-+	home = getenv("ETC_DIR");
-+	if (home) etc_dir_used = 1;
-+	else
++	home = getenv("HOME_ETC");
+ 	if (home == 0)
  	{
 -	    struct passwd* pwent = getpwuid(getuid());
 -	    home = pwent->pw_dir;
@@ -23,9 +20,3 @@ diff -Nru avifile0.7-0.7.32/lib/common/Registry.cpp avifile0.7-0.7.32.new/lib/co
  	}
  	avm::string s(home);
  	if (!sConfigDir)
--	    s += "/.avm";
-+		if (etc_dir_used) s+= "/avm";
-+	    else s += "/.avm";
- 	else
- 	{
- 	    s += "/";

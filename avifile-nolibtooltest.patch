@@ -1,5 +1,5 @@
---- avifile0.7-0.7.34/configure.ac.orig	Sat Apr 12 00:44:20 2003
-+++ avifile0.7-0.7.34/configure.ac	Sat Apr 12 00:55:18 2003
+--- avifile0.7-0.7.37/configure.ac.orig	Sat Apr 12 00:44:20 2003
++++ avifile0.7-0.7.37/configure.ac	Sat Apr 12 00:55:18 2003
 @@ -927,11 +927,6 @@
  CFLAGS=$COPTFLAGS
  CXXFLAGS=$CXXOPTFLAGS
@@ -13,11 +13,11 @@
  AM_CONDITIONAL(AMM_USE_QT, test x$with_qt = xyes )
  AM_CONDITIONAL(AMM_USE_SDL, test "$with_sdl" = yes)
 @@ -959,7 +954,7 @@
- AM_CONDITIONAL(AMM_USE_FAST_BUILD, test x$enable_fast_build = xyes )
  AM_CONDITIONAL(AMM_USE_VIDIX, test x$enable_vidix = xyes )
  AM_CONDITIONAL(AMM_USE_LINUX, test x$enable_linux = xyes )
+ AM_CONDITIONAL(AMM_USE_FAST_BUILD, test x$enable_fast_build = xyes )
 -AM_CONDITIONAL(AMM_LINK_SHARED, test $lt_major_version -ge 1 -a $lt_minor_version -ge 4 -a $lt_micro_version -ge 3 )
 +AM_CONDITIONAL(AMM_LINK_SHARED, true )
  
- dnl Arts plugin disabled - it is unusable anyway
- dnl artsc_config_test_path=$prefix/bin:$exec_prefix/bin:$KDEDIR/bin:$PATH
+ AM_CONDITIONAL(AMM_FF_A52BIN, test x$enable_ffmpeg_a52bin = xyes)
+ AM_CONDITIONAL(AMM_FF_FAAD, test x$have_faad = xyes )

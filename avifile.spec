@@ -26,6 +26,7 @@ Patch2:		%{name}-fix-keys.patch
 Patch3:		%{name}-etc_dir.patch
 Patch4:		%{name}-nolibtooltest.patch
 Patch5:		%{name}-aviplay_h.patch
+Patch6:		%{name}-system-libmad.patch
 URL:		http://avifile.sourceforge.net/
 BuildRequires:	SDL-devel >= 1.2.0
 BuildRequires:	XFree86-devel
@@ -34,12 +35,15 @@ BuildRequires:	audiofile-devel
 BuildRequires:	autoconf
 BuildRequires:	automake
 %{?_with_divx:BuildRequires:	divx4linux-devel}
+BuildRequires:	faad2-devel
 BuildRequires:	lame-libs-devel
 BuildRequires:	libjpeg-devel
+BuildRequires:	libmad-devel
 BuildRequires:	libogg-devel
 BuildRequires:	libtool >= 1:1.4.3
 BuildRequires:	libvorbis-devel >= 1:1.0
 %{?_with_nas:BuildRequires:	nas-devel}
+BuildRequires:	pkgconfig
 %{?!_without_qt:BuildRequires:	qt-devel >= 2.0.0}
 BuildRequires:	unzip
 BuildRequires:	xft-devel
@@ -47,6 +51,7 @@ BuildRequires:	xft-devel
 BuildRequires:	xvid-devel
 %endif
 BuildConflicts:	wine-devel
+Obsoletes:	avifile-vidix-nvidia
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -197,6 +202,9 @@ Summary:	MP3 audio encoder plugin
 Summary(pl):	Plugin enkoduj±cy d¼wiêk w formacie MP3
 Group:		X11/Libraries
 Requires:	%{name} = %{epoch}:%{version}
+# this library is dlopened
+Requires:	libmp3lame.so.0
+Requires:	lame-libs
 
 %description lame_audioenc
 Plugin for mp3 encoding capability of avirecompress tool.
@@ -309,13 +317,17 @@ Sterownik VIDIX dla kart graficznych Permedia.
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
+%patch6 -p1
+
+# configure.ac is enough
+rm configure.in
 
 %build
+%{__libtoolize}
+%{__aclocal}
 %{__autoconf}
-
-cd plugins/libmad/libmad
-%{__autoconf}
-cd ../../..
+%{__autoheader}
+%{__automake}
 
 # This is The WRONG Way (tm)
 %if %{!?_without_qt:1}%{?_without_qt:0}
@@ -330,10 +342,13 @@ for f in $GEN_MOC; do moc -o "${f%.[!.]*}.moc" "$f"; done
 	--with-qt-includes=%{_includedir}/qt \
 	--with-qt-libraries=%{_libdir} \
 	--enable-a52 \
-	--enable-release \
+	%{?_with_divx:--enable-divx4} \
 	--enable-ffmpeg \
 	--enable-ffmpeg-a52 \
-	%{?_with_divx:--enable-divx4} \
+	--enable-lamebin \
+	--disable-lame \
+	--enable-libmad \
+	--enable-release \
 %ifarch i586 i686 athlon
 	--enable-x86opt \
 %else
@@ -358,6 +373,9 @@ cp -f include/fourcc.h $RPM_BUILD_ROOT%{_includedir}/%{name}
 install %{SOURCE1} $RPM_BUILD_ROOT%{_applnkdir}/Multimedia
 install bin/test.png $RPM_BUILD_ROOT%{_pixmapsdir}/avifile.png
 
+# avifile dlopens *.so
+rm -f $RPM_BUILD_ROOT%{_libdir}/avifile*/{,vidix/}*.la
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -371,13 +389,9 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/lib*.so.*.*
 %dir %{_libdir}/avifile*
 %attr(755,root,root) %{_libdir}/avifile*/audiodec.so*
-%{_libdir}/avifile*/audiodec.la
 %attr(755,root,root) %{_libdir}/avifile*/mpeg_audiodec.so*
-%{_libdir}/avifile*/mpeg_audiodec.la
 %attr(755,root,root) %{_libdir}/avifile*/ac3pass.so*
-%{_libdir}/avifile*/ac3pass.la
 %attr(755,root,root) %{_libdir}/avifile*/mjpeg.so*
-%{_libdir}/avifile*/mjpeg.la
 %ifarch %{ix86} ppc
 %dir %{_libdir}/avifile*/vidix
 %endif
@@ -386,8 +400,8 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc doc/README-DEVEL*
 %attr(755,root,root) %{_bindir}/avifile-config
+%attr(755,root,root) %{_libdir}/lib*.so
 %{_libdir}/lib*.la
-%{_libdir}/lib*.so
 %{_includedir}/%{name}
 %{_aclocaldir}/*.m4
 %{_pkgconfigdir}/%{name}.pc
@@ -426,78 +440,64 @@ rm -rf $RPM_BUILD_ROOT
 %files win32
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/avifile*/win32.so*
-%{_libdir}/avifile*/win32.la
 %endif
 
 %files ffmpeg
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/avifile*/ffmpeg.so*
-%{_libdir}/avifile*/ffmpeg.la
 
 %if %{?_with_divx:1}%{!?_with_divx:0}
 %files divx
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/avifile*/divx*.so*
-%{_libdir}/avifile*/divx*.la
 %endif
 
 %files vorbis
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/avifile*/vorbis*.so*
-%{_libdir}/avifile*/vorbis*.la
 
 %files mad
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/avifile*/mad*.so*
-%{_libdir}/avifile*/mad*.la
 
 %files lame_audioenc
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/avifile*/mp3lamebin_audioenc.so*
-%attr(755,root,root) %{_libdir}/avifile*/mp3lame_audioenc.so*
-%{_libdir}/avifile*/mp3lamebin_audioenc.la
-%{_libdir}/avifile*/mp3lame_audioenc.la
+#%attr(755,root,root) %{_libdir}/avifile*/mp3lame_audioenc.so*
 
 %ifarch %{ix86} ppc
 %files xvid
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/avifile*/xvid.so*
-%{_libdir}/avifile*/xvid.la
 %endif
 
 %ifnarch ppc
 %files vidix-driver-fb
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/avifile*/vidix/libgenfb.so*
-%{_libdir}/avifile*/vidix/libgenfb.la
 
 %files vidix-driver-mach64
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/avifile*/vidix/libmach64.so*
-%{_libdir}/avifile*/vidix/libmach64.la
 
 %files vidix-driver-rage128
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/avifile*/vidix/librage128.so*
-%{_libdir}/avifile*/vidix/librage128.la
 
 %files vidix-driver-radeon
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/avifile*/vidix/libradeon.so*
-%{_libdir}/avifile*/vidix/libradeon.la
 
 %files vidix-driver-mga
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/avifile*/vidix/libmga*.so*
-%{_libdir}/avifile*/vidix/libmga*.la
 
-%files vidix-driver-nvidia
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/avifile*/vidix/libnvidia.so*
-%{_libdir}/avifile*/vidix/libnvidia.la
+# "just debug driver", even removed from sources
+#%files vidix-driver-nvidia
+#%defattr(644,root,root,755)
+#%attr(755,root,root) %{_libdir}/avifile*/vidix/libnvidia.so*
 
 %files vidix-driver-permedia
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/avifile*/vidix/libpm3.so*
-%{_libdir}/avifile*/vidix/libpm3.la
 %endif
