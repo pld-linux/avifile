@@ -24,17 +24,16 @@ Patch1:		%{name}-deplib.patch
 Patch2:		%{name}-ac3.patch
 Patch3:		%{name}-fps.patch
 Patch4:		%{name}-mga.patch
-Requires:	avi-codecs
-BuildRequires:	unzip
-BuildRequires:	libstdc++-devel
-BuildRequires:	qt-devel
-BuildRequires:	SDL-devel >= 1.1.3
 BuildRequires:	XFree86-devel
+BuildRequires:	SDL-devel >= 1.2.0
+BuildRequires:	ac3dec-devel >= 0.6.1
 BuildRequires:	libjpeg-devel
 %{!?bcond_off_arts:BuildRequires:	arts-devel}
-BuildRequires:	ac3dec-devel >= 0.6.1
+BuildRequires:	unzip
+BuildRequires:	qt-devel
 BuildConflicts:	wine-devel
 ExclusiveArch:	%{ix86}
+Requires:	avi-codecs
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_prefix		/usr/X11R6
