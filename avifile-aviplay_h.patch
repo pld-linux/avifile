@@ -1,0 +1,12 @@
+diff -burN avifile0.7-0.7.34-vanilla/include/aviplay.h avifile0.7-0.7.34/include/aviplay.h
+--- avifile0.7-0.7.34-vanilla/include/aviplay.h	Fri May  2 22:54:52 2003
++++ avifile0.7-0.7.34/include/aviplay.h	Fri May  2 22:57:57 2003
+@@ -273,7 +273,7 @@
+ };
+ 
+ IAviPlayer* CreateAviPlayer(const char* filename, int bitdepth,
+-			    const char* subfile = 0, unsigned int flags = 0,
++			    const char* subfile = 0, unsigned long flags = 0,
+ 			    // vcodec & acodec are going to be supported
+ 			    const char* vcodec = 0, const char* acodec = 0);
+ 
