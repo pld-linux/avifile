@@ -3,9 +3,10 @@ Summary(pl):	Biblioteka i przyk³adowy program do odtwarzania plików AVI
 Name:		avifile
 Version:	0.48
 Release:	1
-Group:		X11/Applications/Multimedia
-Group(pl):	X11/Aplikacje/Multimedia
 License:	GPL
+Group:		X11/Applications/Multimedia
+Group(de):	X11/Applikationen/Multimedia
+Group(pl):	X11/Aplikacje/Multimedia
 Source0:	http://divx.euro.ru/%{name}-%{version}.tar.gz
 Patch0:		%{name}-DESTDIR.patch
 Patch1:		%{name}-old_ver_conflict.patch
@@ -35,6 +36,7 @@ Wykorzystuje dekompresory dla Windows oraz fragmenty kody Wine
 Summary:	Header file required to build programs using libaviplay
 Summary(pl):	Pliki nag³ówkowe wymagane przez programy u¿ywaj±ce libaviplay
 Group:		X11/Development/Libraries
+Group(de):	X11/Entwicklung/Libraries
 Group(pl):	X11/Programowanie/Biblioteki
 
 %description devel
@@ -51,7 +53,6 @@ libaviplay.
 find . -exec touch {} \;
 
 %build
-#LDFLAGS="-s"; export LDFLAGS
 %configure
 
 %{__make}
@@ -78,7 +79,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/*
 %attr(755,root,root) %{_libdir}/*
 %{_datadir}/%{name}
-
 
 %files devel
 %defattr(644,root,root,755)
