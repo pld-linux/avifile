@@ -6,13 +6,13 @@ Summary:	Library for playing AVI files
 Summary(pl):	Biblioteka do odtwarzania plików AVI
 Name:		avifile
 Version:	%{_ver}
-Release:	0.%{_snap}.9
+Release:	0.%{_snap}.10
 Epoch:		3
 License:	GPL
 Group:		X11/Libraries
-URL:		http://avifile.sourceforge.net/
 Source0:	http://avifile.sourceforge.net/%{name}%{version}-%{_snap}.tar.gz
 Source1:	%{name}.desktop
+URL:		http://avifile.sourceforge.net/
 Patch0:		%{name}-shareware.patch
 Patch1:		%{name}-deplib.patch
 Patch2:		%{name}-ac3.patch
@@ -34,7 +34,7 @@ BuildRequires:	libogg-devel
 BuildRequires:	libtool
 BuildRequires:	libvorbis-devel >= 1:1.0
 BuildRequires:	nas-devel
-BuildRequires:	qt-devel
+BuildRequires:	qt-devel >= 3.0.5
 BuildRequires:	unzip
 %ifarch %{ix86} ppc sparc sparc64 sparcv9
 BuildRequires:	xvid-devel
@@ -219,11 +219,11 @@ autoheader
 automake -a -c --foreign
 
 cd plugins/libmad/libmad
-%{__autoconf}
+	%{__autoconf}
 cd ../../..
 
 cd libmmxnow
-%{__autoconf}
+	%{__autoconf}
 cd ..
 
 # This is The WRONG Way (tm)
