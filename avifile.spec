@@ -21,6 +21,7 @@ Patch0:		%{name}-shareware.patch
 Patch1:		%{name}-no_libnsl.patch
 Patch2:		%{name}-vidix.patch
 Patch3:		%{name}-configure.patch
+Patch4:		%{name}-compilation.patch
 URL:		http://avifile.sourceforge.net/
 BuildRequires:	SDL-devel >= 1.2.0
 BuildRequires:	XFree86-devel
@@ -218,6 +219,7 @@ Dekoder i koder XVID.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p0
 
 %build
 rm -f missing aclocal.m4
@@ -236,8 +238,10 @@ cd libmmxnow
 cd ..
 
 # This is The WRONG Way (tm)
+%if %{!?_without_qt:1}%{?_without_qt:0}
 GEN_MOC="`grep -Rl '^ *Q_OBJECT$' *`"
 for f in $GEN_MOC; do moc -o "${f%.[!.]*}.moc" "$f"; done
+%endif
 
 %configure \
 	CPPFLAGS="-I/usr/include/divx" AS="%{__cc}" \
@@ -250,7 +254,8 @@ for f in $GEN_MOC; do moc -o "${f%.[!.]*}.moc" "$f"; done
 	--enable-ffmpeg-a52 \
 	%{?_with_divx4:--enable-divx4} \
 	--disable-x86opt \
-	%{?_without_qt:--without-qt}
+	%{?_without_qt:--without-qt} \
+	%{?_without_qt:--disable-samples}
 
 touch lib/dummy.cpp
 %{__make}
