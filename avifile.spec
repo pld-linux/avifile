@@ -14,9 +14,6 @@ Source0:	http://avifile.sourceforge.net/%{name}-%{version}-%{_snap}.tgz
 Source1:	%{name}.desktop
 Patch0:		%{name}-shareware.patch
 Patch1:		%{name}-deplib.patch
-Patch2:		%{name}-ac3.patch
-Patch3:		%{name}-size_t.patch
-Patch4:		%{name}-wma2wav.patch
 BuildRequires:	XFree86-devel
 BuildRequires:	SDL-devel >= 1.2.0
 BuildRequires:	a52dec-libs-devel
@@ -27,6 +24,7 @@ BuildRequires:	divx4linux-devel
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	libtool
+BuildRequires:	xvid-devel
 BuildConflicts:	wine-devel
 ExclusiveArch:	%{ix86}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -69,9 +67,6 @@ libaviplay.
 %patch0 -p1
 # was broken and need fixing; without this xmms and avi plugin is broken
 %patch1 -p1
-%patch2 -p1
-%patch3 -p1
-%patch4 -p1
 
 %build
 rm -f missing aclocal.m4
