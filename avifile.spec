@@ -2,7 +2,7 @@
 #
 # Conditional build:
 # _without_qt		- disables QT support
-# _with_divx4		- enables divx4linux support (proprietary, binary-only lib)
+# _with_divx		- enables divx4linux support (proprietary, binary-only lib)
 #
 %define		_snapver	20020913
 %define		_snap		%{_snapver}
@@ -11,7 +11,7 @@ Summary(pl):	Biblioteka do odtwarzania plików AVI
 Summary(pt_BR):	Biblioteca para reproduzir formatos de áudio e vídeo usando binários win32
 Name:		avifile
 Version:	0.7.16
-Release:	0.%{_snap}.3%{?_with_divx4:+divx4}
+Release:	0.%{_snap}.3%{?_with_divx:+divx}
 Epoch:		3
 License:	GPL
 Group:		X11/Libraries
@@ -29,7 +29,7 @@ BuildRequires:	a52dec-libs-devel
 BuildRequires:	audiofile-devel
 BuildRequires:	autoconf
 BuildRequires:	automake
-%{?_with_divx4:BuildRequires:	divx4linux-devel}
+%{?_with_divx:BuildRequires:	divx4linux-devel}
 BuildRequires:	lame-libs-devel
 BuildRequires:	libjpeg-devel
 BuildRequires:	libogg-devel
@@ -252,7 +252,7 @@ for f in $GEN_MOC; do moc -o "${f%.[!.]*}.moc" "$f"; done
 	--enable-release \
 	--enable-ffmpeg \
 	--enable-ffmpeg-a52 \
-	%{?_with_divx4:--enable-divx4} \
+	%{?_with_divx:--enable-divx4} \
 	--disable-x86opt \
 	%{?_without_qt:--without-qt} \
 	%{?_without_qt:--disable-samples}
@@ -332,7 +332,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/avifile*/ffmpeg.so*
 %attr(755,root,root) %{_libdir}/avifile*/ffmpeg.la
 
-%if %{?_with_divx4:1}%{!?_with_divx4:0}
+%if %{?_with_divx:1}%{!?_with_divx:0}
 %files divx
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/avifile*/divx*.so*
