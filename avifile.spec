@@ -22,6 +22,7 @@ Patch0:		%{name}-shareware.patch
 Patch1:		%{name}-no_libnsl.patch
 Patch2:		%{name}-configure.patch
 Patch3:		%{name}-fix-keys.patch
+Patch4:		%{name}-xft.patch
 URL:		http://avifile.sourceforge.net/
 BuildRequires:	SDL-devel >= 1.2.0
 BuildRequires:	XFree86-devel
@@ -219,6 +220,7 @@ Dekoder i koder XVID.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 %build
 #rm -f missing aclocal.m4
@@ -247,7 +249,7 @@ for f in $GEN_MOC; do moc -o "${f%.[!.]*}.moc" "$f"; done
 #Temporary removed -I/usr/include/freetype2 cause it break build, I don't know why :(
 
 %configure \
-	CPPFLAGS="-I/usr/include/divx -I/usr/include/xvid" \
+	CPPFLAGS="-I/usr/include/divx -I/usr/include/xvid -I/usr/include/freetype2" \
 	AS="%{__cc}" \
 	FFMPEG_CFLAGS="%{rpmcflags} -ffast-math %{!?debug:-fomit-frame-pointer}" \
 	--with-qt-includes=%{_includedir}/qt \
