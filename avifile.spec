@@ -2,7 +2,8 @@
 #
 # Conditional build:
 # _without_qt		- disables QT support
-# _with_divx		- enables divx4linux support (proprietary, binary-only lib)
+# _with_divx		- enables divx4linux support (proprietary, binary-only
+#			  lib)  note: if disabled, divx is decoded by ffmpeg
 #
 %define		_snapver	20020913
 %define		_snap		%{_snapver}
