@@ -453,7 +453,9 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/avifile*/xvid.so*
 %{_libdir}/avifile*/xvid.la
+%endif
 
+%ifnarch ppc
 %files vidix-driver-fb
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/avifile*/vidix/libgenfb.so*
