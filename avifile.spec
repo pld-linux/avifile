@@ -58,15 +58,15 @@ find . -exec touch {} \;
 
 %build
 autoconf
-CD_OPT="$RPM_OPT_FLAGS" ; export CD_OPT
-%configure --with-qt-includes=%{_includedir}/qt
+CD_OPT="%{!?debug:$RPM_OPT_FLAGS}%{?debug:-O -g}"; export CD_OPT
+%configure \
+	--with-qt-includes=%{_includedir}/qt
 
 %{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
-
-install -d "$RPM_BUILD_ROOT"{%{_bindir},%{_libdir},/usr/lib/win32}
+install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir},/usr/lib/win32}
 
 %{__make} install \
 	DESTDIR="$RPM_BUILD_ROOT"
