@@ -445,7 +445,7 @@ rm -rf $RPM_BUILD_ROOT
 %files xvid
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/avifile*/xvid.so*
-%{_libdir}/avifile*/vidix.la
+%{_libdir}/avifile*/xvid.la
 %endif
 
 %ifarch %{ix86} ppc
