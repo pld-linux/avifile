@@ -47,9 +47,7 @@ BuildRequires:	pkgconfig
 %{?with_qt:BuildRequires:	qt-devel >= 2.0.0}
 BuildRequires:	unzip
 BuildRequires:	xft-devel
-%ifarch %{ix86} ppc
 BuildRequires:	xvid-devel
-%endif
 BuildConflicts:	wine-devel
 Obsoletes:	avifile-vidix-nvidia
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -392,9 +390,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/avifile*/mpeg_audiodec.so*
 %attr(755,root,root) %{_libdir}/avifile*/ac3pass.so*
 %attr(755,root,root) %{_libdir}/avifile*/mjpeg.so*
-%ifarch %{ix86} ppc
 %dir %{_libdir}/avifile*/vidix
-%endif
 
 %files devel
 %defattr(644,root,root,755)
@@ -465,11 +461,9 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/avifile*/mp3lamebin_audioenc.so*
 #%attr(755,root,root) %{_libdir}/avifile*/mp3lame_audioenc.so*
 
-%ifarch %{ix86} ppc
 %files xvid
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/avifile*/xvid.so*
-%endif
 
 %ifnarch ppc
 %files vidix-driver-fb
