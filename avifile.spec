@@ -382,7 +382,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_pkgconfigdir}/%{name}.pc
 %{_mandir}/man1/avifile-config.1*
 
-
 %if %{?_without_qt:0}%{!?_without_qt:1}
 %files aviplay
 %defattr(644,root,root,755)
