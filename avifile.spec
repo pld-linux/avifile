@@ -3,7 +3,7 @@ Summary:	Library and sample program for playing AVI files
 Summary(pl):	Biblioteka i przyk³adowy program do odtwarzania plików AVI
 Name:		avifile
 Version:	0.6
-Release:	0.%{snap}
+Release:	0.%{snap}.1
 Epoch:		2
 License:	GPL
 Group:		X11/Applications/Multimedia
@@ -113,6 +113,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/lib*.so.*.*
 %dir %{_libdir}/avifile
 %attr(755,root,root) %{_libdir}/avifile/lib*.so*
+%attr(755,root,root) %{_libdir}/avifile/lib*.la
 %{_datadir}/%{name}
 
 %files devel
@@ -120,6 +121,5 @@ rm -rf $RPM_BUILD_ROOT
 %doc doc/README-DEVEL*
 %attr(755,root,root) %{_bindir}/avifile-config
 %attr(755,root,root) %{_libdir}/lib*.la
-%attr(755,root,root) %{_libdir}/avifile/lib*.la
 %{_libdir}/lib*.so
 %{_includedir}/%{name}
