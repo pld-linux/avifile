@@ -1,7 +1,7 @@
 Summary:	Library and sample program for playing AVI files
 Summary(pl):	Biblioteka i przyk³adowy program do odtwarzania plików AVI
 Name:		avifile
-Version:	0.43
+Version:	0.45.1
 Release:	1
 Group:		X11/Applications/Multimedia
 Group(pl):	X11/Aplikacje/Multimedia
@@ -14,7 +14,9 @@ Patch2:		%{name}-old_ver_conflict.patch
 Requires:	avi-codecs
 BuildRequires:	unzip
 BuildRequires:	libstdc++-devel
+BuildRequires:	xmps-devel
 BuildRequires:	qt-devel
+BuildRequires:	SDL-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_prefix		/usr/X11R6
@@ -49,11 +51,8 @@ libaviplay.
 find . -exec touch {} \;
 
 %build
-#autoheader;autoconf;automake; 
-
-LDFLAGS="-s" ; export LDFLAGS
-#CXXFLAGS="$RPM_OPT_FLAGS"; export CXXFLAGS
-%configure 
+#LDFLAGS="-s"; export LDFLAGS
+%configure
 
 %{__make}
 
@@ -75,10 +74,11 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
+%doc *gz
 %attr(755,root,root) %{_bindir}/*
 %attr(755,root,root) %{_libdir}/*
 %{_datadir}/%{name}
-%doc *gz doc/*gz
+
 
 %files devel
 %defattr(644,root,root,755)
