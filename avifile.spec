@@ -2,13 +2,13 @@ Summary:	Library and sample program for playing AVI files
 Summary(pl):	Biblioteka i przyk³adowy program do odtwarzania plików AVI
 Name:		avifile
 Version:	0.6.0
-Release:	0.beta4.2
+Release:	0.beta4.3
 Epoch:		1
 License:	GPL
 Group:		X11/Applications/Multimedia
 Group(de):	X11/Applikationen/Multimedia
 Group(pl):	X11/Aplikacje/Multimedia
-Source0:	http://divx.euro.ru/%{name}-%{version}-beta4.tar.gz
+Source0:	http://divx.euro.ru/%{name}-%{version}-beta4.1.tar.gz
 Patch0:		%{name}-shareware.patch
 Patch1:		%{name}-opt.patch
 Patch2:		%{name}-am_fix.patch
@@ -55,7 +55,7 @@ libaviplay.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
-%patch3 -p1
+#%patch3 -p1
 
 %build
 libtoolize --copy --force
