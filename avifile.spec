@@ -215,81 +215,88 @@ XVID decoder and encoder.
 Dekoder i koder XVID.
 
 %package vidix-driver-fb
-Summary:	VIDIX FB Driver
-Summary(pl):	Sterownik VIDIX dla FB
+Summary:	VIDIX driver for generic FrameBuffer
+Summary(pl):	Sterownik VIDIX dla zwyk³ego FrameBuffera
 Group:		X11/Libraries
+Requires:	%{name} = %{version}
 
 %description vidix-driver-fb
-VIDIX FB Driver.
+VIDIX driver for generic FrameBuffer.
 
 %description vidix-driver-fb -l pl
-Sterownik VIDIX dla FB.
+Sterownik VIDIX dla zwyk³ego FrameBuffera.
 
 %package vidix-driver-mach64
-Summary:	VIDIX mach64 Driver
-Summary(pl):	Sterownik VIDIX dla mach64
+Summary:	VIDIX driver for ATI Mach64 video adapters
+Summary(pl):	Sterownik VIDIX dla kart graficznych ATI Mach64
 Group:		X11/Libraries
+Requires:	%{name} = %{version}
 
 %description vidix-driver-mach64
-VIDIX mach64 Driver.
+VIDIX driver for ATI Mach64 adapters.
 
 %description vidix-driver-mach64 -l pl
-Sterownik vidix dla mach64.
+Sterownik vidix dla kart graficznych ATI Mach64.
 
 %package vidix-driver-rage128
-Summary:	vidix rage128 Driver
-Summary(pl):	Sterownik vidix dla rage128
+Summary:	VIDIX driver for ATI Rage128 video adapters
+Summary(pl):	Sterownik VIDIX dla kart graficznych ATI Rage128
 Group:		X11/Libraries
+Requires:	%{name} = %{version}
 
 %description vidix-driver-rage128
-vidix rage128 Driver.
+VIDIX driver for ATI Rage128 video adapters.
 
 %description vidix-driver-rage128 -l pl
-Sterownik vidix dla rage128.
+Sterownik VIDIX dla kart graficznych ATI Rage128.
 
 %package vidix-driver-radeon
-Summary:	vidix radeon Driver
-Summary(pl):	Sterownik vidix dla radeon
+Summary:	VIDIX driver for ATI Radeon video adapters
+Summary(pl):	Sterownik VIDIX dla kart graficznych ATI Radeon
 Group:		X11/Libraries
+Requires:	%{name} = %{version}
 
 %description vidix-driver-radeon
-vidix radeon Driver.
+VIDIX driver for ATI Radeon video adapters.
 
 %description vidix-driver-radeon -l pl
-Sterownik vidix dla radeon.
+Sterownik VIDIX dla kart graficznych ATI Radeon.
 
 %package vidix-driver-mga
-Summary:	vidix MGA Driver
-Summary(pl):	Sterownik vidix dla MGA
+Summary:	VIDIX driver for MGA (Matrox) video adapters
+Summary(pl):	Sterownik VIDIX dla kart graficznych MGA (Matrox)
 Group:		X11/Libraries
+Requires:	%{name} = %{version}
 
 %description vidix-driver-mga
-vidix MGA Driver.
+VIDIX driver for MGA (Matrox) video adapters.
 
 %description vidix-driver-mga -l pl
-Sterownik vidix dla MGA.
+Sterownik VIDIX dla kart graficznych MGA (Matrox).
 
 %package vidix-driver-nvidia
-Summary:	vidix nvidia Driver
-Summary(pl):	Sterownik vidix dla nvidia
+Summary:	VIDIX driver for NVidia video adapters
+Summary(pl):	Sterownik VIDIX dla kart graficznych NVidia
 Group:		X11/Libraries
+Requires:	%{name} = %{version}
 
 %description vidix-driver-nvidia
-vidix nvidia Driver.
+VIDIX driver for NVidia video adapters.
 
 %description vidix-driver-nvidia -l pl
-Sterownik vidix dla nvidia.
+Sterownik VIDIX dla kart graficznych NVidia.
 
 %package vidix-driver-permedia
-Summary:	vidix permedia Driver
-Summary(pl):	Sterownik vidix dla permedia
+Summary:	VIDIX driver for Permedia video adapters
+Summary(pl):	Sterownik VIDIX dla kart graficznych Permedia
 Group:		X11/Libraries
+Requires:	%{name} = %{version}
 
 %description vidix-driver-permedia
-vidix permedia Driver.
+VIDIX driver for Permedia video adapters.
 
 %description vidix-driver-permedia -l pl
-Sterownik vidix dla permedia.
+Sterownik VIDIX dla kart graficznych Permedia.
 
 %prep
 %setup -q -n avifile0.7-%{version}
@@ -378,6 +385,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/avifile*/ac3pass.la
 %attr(755,root,root) %{_libdir}/avifile*/mjpeg.so*
 %{_libdir}/avifile*/mjpeg.la
+%ifarch %{ix86} ppc
+%dir %{_libdir}/avifile*/vidix
+%endif
 
 %files devel
 %defattr(644,root,root,755)
@@ -446,51 +456,37 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/avifile*/xvid.so*
 %{_libdir}/avifile*/xvid.la
-%endif
 
-%ifarch %{ix86} ppc
 %files vidix-driver-fb
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/avifile*/vidix/libgenfb.so*
 %{_libdir}/avifile*/vidix/libgenfb.la
-%endif
 
-%ifarch %{ix86} ppc
 %files vidix-driver-mach64
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/avifile*/vidix/libmach64.so*
 %{_libdir}/avifile*/vidix/libmach64.la
-%endif
 
-%ifarch %{ix86} ppc
 %files vidix-driver-rage128
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/avifile*/vidix/librage128.so*
 %{_libdir}/avifile*/vidix/librage128.la
-%endif
 
-%ifarch %{ix86} ppc
 %files vidix-driver-radeon
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/avifile*/vidix/libradeon.so*
 %{_libdir}/avifile*/vidix/libradeon.la
-%endif
 
-%ifarch %{ix86} ppc
 %files vidix-driver-mga
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/avifile*/vidix/libmga*.so*
 %{_libdir}/avifile*/vidix/libmga*.la
-%endif
 
-%ifarch %{ix86} ppc
 %files vidix-driver-nvidia
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/avifile*/vidix/libnvidia.so*
 %{_libdir}/avifile*/vidix/libnvidia.la
-%endif
 
-%ifarch %{ix86} ppc
 %files vidix-driver-permedia
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/avifile*/vidix/libpm3.so*
