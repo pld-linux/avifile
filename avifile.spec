@@ -78,7 +78,7 @@ install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir},/usr/lib/win32}
 %{__make} install \
 	DESTDIR="$RPM_BUILD_ROOT"
 
-install samples/misc/.libs/{asfdump,asftest,benchmark} $RPM_BUILD_ROOT%{_bindir}
+install samples/misc/{asfdump,.libs/{asftest,benchmark}} $RPM_BUILD_ROOT%{_bindir}
 
 gzip -9nf README doc/{CREDITS,EXCEPTIONS,KNOWN_BUGS,LICENSING} \
 	doc/{README-DEVEL,TODO,VIDEO-PERFORMANCE,WARNINGS}
