@@ -33,7 +33,9 @@ BuildRequires:	libtool
 BuildRequires:	libogg-devel
 BuildRequires:	libvorbis-devel
 BuildRequires:	lame-libs-devel
+%ifarch %{ix86}
 BuildRequires:	xvid-devel
+%endif
 BuildConflicts:	wine-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
