@@ -14,8 +14,7 @@ Source0:	http://avifile.sourceforge.net/%{name}-%{version}-%{_snap}.tgz
 Source1:	%{name}.desktop
 Patch0:		%{name}-shareware.patch
 Patch1:		%{name}-deplib.patch
-Patch2:		%{name}-amfix.patch
-Patch3:		%{name}-xvid.patch
+Patch2:		%{name}-xvid.patch
 BuildRequires:	XFree86-devel
 BuildRequires:	SDL-devel >= 1.2.0
 BuildRequires:  a52dec-libs-devel
@@ -201,7 +200,6 @@ Dekoder i koder XVID.
 # was broken and need fixing; without this xmms and avi plugin is broken
 %patch1 -p1
 %patch2 -p1
-%patch3 -p1
 
 %build
 rm -f missing aclocal.m4
