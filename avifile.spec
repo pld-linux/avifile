@@ -254,7 +254,11 @@ for f in $GEN_MOC; do moc -o "${f%.[!.]*}.moc" "$f"; done
 	--enable-ffmpeg \
 	--enable-ffmpeg-a52 \
 	%{?_with_divx:--enable-divx4} \
+%ifarch i586 i686 athlon
+	--enable-x86opt \
+%else
 	--disable-x86opt \
+%endif
 	%{?_without_qt:--without-qt} \
 	%{?_without_qt:--disable-samples}
 
