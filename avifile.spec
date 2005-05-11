@@ -53,6 +53,7 @@ BuildRequires:	libvorbis-devel >= 1:1.0
 %{?with_nas:BuildRequires:	nas-devel}
 BuildRequires:	pkgconfig
 %{?with_qt:BuildRequires:	qt-devel >= 2.0.0}
+BuildRequires:	rpmbuild(macros) >= 1.213
 BuildRequires:	xft-devel
 BuildRequires:	xvid-devel >= 1:1.0.0
 BuildConflicts:	wine-devel
@@ -181,7 +182,7 @@ Summary(pl):	Wtyczka koduj±ca d¼wiêk w formacie MP3
 Group:		X11/Libraries
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 # this library is dlopened
-%ifarch amd64 ia64 ppc64 s390x sparc64
+%ifarch %{x8664} ia64 ppc64 s390x sparc64
 Requires:	libmp3lame.so.0()(64bit)
 %else
 Requires:	libmp3lame.so.0
