@@ -9,13 +9,13 @@ Summary:	Library for playing AVI files
 Summary(pl):	Biblioteka do odtwarzania plików AVI
 Summary(pt_BR):	Biblioteca para reproduzir formatos de áudio e vídeo usando binários win32
 Name:		avifile
-Version:	0.7.41
-Release:	1%{?with_divx:+divx}
+Version:	0.7.43
+Release:	0.1%{?with_divx:+divx}
 Epoch:		3
 License:	GPL
 Group:		X11/Libraries
-Source0:	http://dl.sourceforge.net/avifile/%{name}-0.7-%{version}.tar.gz
-# Source0-md5:	a08911965d81a02ded95ddb95f63e1cf
+Source0:	http://dl.sourceforge.net/avifile/%{name}-0.7-%{version}.tar.bz2
+# Source0-md5:	821adfba2606773764aa29fcf14eb51f
 Source1:	%{name}.desktop
 Patch0:		%{name}-shareware.patch
 Patch1:		%{name}-fix-keys.patch
@@ -30,7 +30,6 @@ Patch9:		%{name}-ffmpeg-alpha.patch
 Patch10:	%{name}-opt.patch
 Patch11:	%{name}-ffmpeg-ppc.patch
 Patch12:	%{name}-opts.patch
-Patch13:	%{name}-nth.patch
 URL:		http://avifile.sourceforge.net/
 BuildRequires:	SDL-devel >= 1.2.0
 BuildRequires:	XFree86-devel
@@ -334,7 +333,6 @@ Sterownik VIDIX dla kart graficznych ATI Rage128.
 %patch10 -p1
 %patch11 -p1
 %patch12 -p1
-%patch13 -p1
 
 # unwanted hack
 rm -f m4/as.m4
