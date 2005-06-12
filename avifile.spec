@@ -338,6 +338,8 @@ Sterownik VIDIX dla kart graficznych ATI Rage128.
 rm -f m4/as.m4
 # original file contains only m4/*.m4; must exist because of AC_INIT parameter
 > acinclude.m4
+# they are originally the same - resync after patching configure.in
+mv -f configure.in configure.ac
 
 %build
 %{__libtoolize}
