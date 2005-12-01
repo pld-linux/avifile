@@ -10,7 +10,7 @@ Summary(pl):	Biblioteka do odtwarzania plików AVI
 Summary(pt_BR):	Biblioteca para reproduzir formatos de áudio e vídeo usando binários win32
 Name:		avifile
 Version:	0.7.43
-Release:	1%{?with_divx:+divx}
+Release:	2%{?with_divx:+divx}
 Epoch:		3
 License:	GPL
 Group:		X11/Libraries
@@ -23,13 +23,12 @@ Patch2:		%{name}-etc_dir.patch
 Patch3:		%{name}-aviplay_h.patch
 Patch4:		%{name}-no_aux_dir.patch
 Patch5:		%{name}-link_shared.patch
-Patch6:		%{name}-avifile_config_fix.patch
-Patch7:		%{name}-no_libnsl.patch
-Patch8:		%{name}-system-libmad.patch
-Patch9:		%{name}-ffmpeg-alpha.patch
-Patch10:	%{name}-opt.patch
-Patch11:	%{name}-ffmpeg-ppc.patch
-Patch12:	%{name}-opts.patch
+Patch6:		%{name}-no_libnsl.patch
+Patch7:		%{name}-system-libmad.patch
+Patch8:		%{name}-ffmpeg-alpha.patch
+Patch9:		%{name}-opt.patch
+Patch10:	%{name}-ffmpeg-ppc.patch
+Patch11:	%{name}-opts.patch
 URL:		http://avifile.sourceforge.net/
 BuildRequires:	SDL-devel >= 1.2.0
 BuildRequires:	XFree86-devel
@@ -332,7 +331,6 @@ Sterownik VIDIX dla kart graficznych ATI Rage128.
 %patch9 -p1
 %patch10 -p1
 %patch11 -p1
-%patch12 -p1
 
 # unwanted hack
 rm -f m4/as.m4
@@ -375,21 +373,16 @@ touch lib/dummy.cpp
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_bindir},%{_includedir}/%{name},%{_libdir},/usr/lib/win32,%{_pixmapsdir},%{_desktopdir}}
+install -d $RPM_BUILD_ROOT{/usr/lib/win32,%{_pixmapsdir},%{_desktopdir}}
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT \
 	m4datadir=%{_aclocaldir}
 
-cp -f include/fourcc.h $RPM_BUILD_ROOT%{_includedir}/%{name}
-
 # conflicts with ???
 mv -f $RPM_BUILD_ROOT%{_bindir}/kv4lsetup $RPM_BUILD_ROOT%{_bindir}/akv4lsetup
 mv -f $RPM_BUILD_ROOT%{_mandir}/man1/kv4lsetup.1 $RPM_BUILD_ROOT%{_mandir}/man1/akv4lsetup.1
 %{__perl} -pi -e 's/(kv4l|k4vl)/akv4l/g' $RPM_BUILD_ROOT%{_mandir}/man1/akv4lsetup.1
-
-mv -f $RPM_BUILD_ROOT%{_includedir}/%{name}-0.7/* $RPM_BUILD_ROOT%{_includedir}/%{name}
-rmdir $RPM_BUILD_ROOT%{_includedir}/%{name}-0.7
 
 install %{SOURCE1} $RPM_BUILD_ROOT%{_desktopdir}
 install bin/test.png $RPM_BUILD_ROOT%{_pixmapsdir}/avifile.png
@@ -428,9 +421,9 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/avifile-config
 %attr(755,root,root) %{_libdir}/libaviplay*.so
 %{_libdir}/lib*.la
-%{_includedir}/%{name}
+%{_includedir}/avifile*
 %{_aclocaldir}/*.m4
-%{_pkgconfigdir}/%{name}.pc
+%{_pkgconfigdir}/avifile.pc
 %{_mandir}/man1/avifile-config.1*
 
 %if %{with qt}
