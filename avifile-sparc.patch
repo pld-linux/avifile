@@ -1,5 +1,5 @@
---- avifile-0.7-0.7.43/configure.ac.orig	2006-01-03 21:44:20.984180000 +0000
-+++ avifile-0.7-0.7.43/configure.ac	2006-01-03 22:25:56.036744834 +0000
+--- avifile-0.7-0.7.43/configure.in.orig	2006-01-03 21:44:20.984180000 +0000
++++ avifile-0.7-0.7.43/configure.in	2006-01-03 22:25:56.036744834 +0000
 @@ -108,6 +108,7 @@
      ;;
    sparc*)
@@ -8,3 +8,12 @@
      ;;
    mips*)
      AC_DEFINE(ARCH_MIPS, 1, [Define if you want to build on mips architecture.])
+--- avifile-0.7-0.7.43/ffmpeg/libavcodec/sparc/Makefile.am.orig	2004-10-20 11:31:29.000000000 +0000
++++ avifile-0.7-0.7.43/ffmpeg/libavcodec/sparc/Makefile.am	2006-01-04 06:50:49.846260882 +0000
+@@ -13,5 +13,6 @@
+ endif
+ 
+ AM_CPPFLAGS = $(LTNOPIC) -DHAVE_AV_CONFIG_H -I$(srcdir)/../..
++AM_CFLAGS = -mcpu=ultrasparc
+ 
+ MAINTAINERCLEANFILES = Makefile.in
