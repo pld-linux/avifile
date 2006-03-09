@@ -9,13 +9,13 @@ Summary:	Library for playing AVI files
 Summary(pl):	Biblioteka do odtwarzania plików AVI
 Summary(pt_BR):	Biblioteca para reproduzir formatos de áudio e vídeo usando binários win32
 Name:		avifile
-Version:	0.7.43
-Release:	3%{?with_divx:+divx}
+Version:	0.7.45
+Release:	1
 Epoch:		3
 License:	GPL
 Group:		X11/Libraries
 Source0:	http://dl.sourceforge.net/avifile/%{name}-0.7-%{version}.tar.bz2
-# Source0-md5:	821adfba2606773764aa29fcf14eb51f
+# Source0-md5:	7da94802f120d1b69e04a13170dcd21d
 Source1:	%{name}.desktop
 Patch0:		%{name}-shareware.patch
 Patch1:		%{name}-fix-keys.patch
@@ -30,9 +30,9 @@ Patch9:		%{name}-opt.patch
 Patch10:	%{name}-ffmpeg-ppc.patch
 Patch11:	%{name}-opts.patch
 Patch12:	%{name}-sparc.patch
+Patch13:	%{name}-link.patch
 URL:		http://avifile.sourceforge.net/
 BuildRequires:	SDL-devel >= 1.2.0
-BuildRequires:	XFree86-devel
 BuildRequires:	a52dec-libs-devel
 BuildRequires:	audiofile-devel
 BuildRequires:	autoconf
@@ -53,7 +53,13 @@ BuildRequires:	libvorbis-devel >= 1:1.0
 BuildRequires:	pkgconfig
 %{?with_qt:BuildRequires:	qt-devel >= 2.0.0}
 BuildRequires:	rpmbuild(macros) >= 1.213
-BuildRequires:	xft-devel
+BuildRequires:	xorg-lib-libXext-devel
+BuildRequires:	xorg-lib-libXft-devel
+BuildRequires:	xorg-lib-libXi-devel
+BuildRequires:	xorg-lib-libXinerama-devel
+BuildRequires:	xorg-lib-libXv-devel
+BuildRequires:	xorg-lib-libXxf86dga-devel
+BuildRequires:	xorg-lib-libXxf86vm-devel
 BuildRequires:	xvid-devel >= 1:1.0.0
 BuildConflicts:	wine-devel
 Obsoletes:	avifile-vidix-nvidia
@@ -81,8 +87,13 @@ Summary(pl):	Pliki nag³ówkowe wymagane przez programy u¿ywaj±ce libavifile
 Summary(pt_BR):	Componentes para desenvolvimento com a avifile
 Group:		X11/Development/Libraries
 Requires:	%{name} = %{epoch}:%{version}-%{release}
-Requires:	XFree86-devel
-Requires:	xft-devel
+Requires:	xorg-lib-libXext-devel
+Requires:	xorg-lib-libXft-devel
+Requires:	xorg-lib-libXi-devel
+Requires:	xorg-lib-libXinerama-devel
+Requires:	xorg-lib-libXv-devel
+Requires:	xorg-lib-libXxf86dga-devel
+Requires:	xorg-lib-libXxf86vm-devel
 Requires:	zlib-devel
 
 %description devel
@@ -333,13 +344,12 @@ Sterownik VIDIX dla kart graficznych ATI Rage128.
 %patch10 -p1
 %patch11 -p1
 %patch12 -p1
+%patch13 -p1
 
 # unwanted hack
 rm -f m4/as.m4
 # original file contains only m4/*.m4; must exist because of AC_INIT parameter
 > acinclude.m4
-# they are originally the same - resync after patching configure.in
-mv -f configure.in configure.ac
 
 %build
 %{__libtoolize}
