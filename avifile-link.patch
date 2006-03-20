@@ -1,0 +1,20 @@
+--- avifile-0.7-0.7.45/configure.in.orig	2006-03-09 00:02:19.595137000 +0100
++++ avifile-0.7-0.7.45/configure.in	2006-03-09 00:07:40.895217000 +0100
+@@ -384,7 +384,7 @@
+ AC_PATH_XTRA
+ 
+ if test x$have_x = xyes ; then
+-    X_MYLIBS="$X_LIBS $X_PRE_LIBS -lXext -lX11 $X_EXTRA_LIBS"
++    X_MYLIBS="$X_LIBS -lXext -lX11 $X_EXTRA_LIBS"
+     save_CPPFLAGS=$CPPFLAGS
+     save_LDFLAGS=$LDFLAGS
+     save_LIBS=$LIBS
+@@ -496,7 +496,7 @@
+ 	AC_CHECK_LIB(Xdpms, DPMSQueryExtension, [], [], $X_MYLIBS)
+     fi
+ 
+-    X_LIBS="$X_LIBS $X_PRE_LIBS $LIBS -lXext -lX11 $X_EXTRA_LIBS"
++    X_LIBS="$X_LIBS $LIBS -lXext -lX11 $X_EXTRA_LIBS"
+     CPPFLAGS=$save_CPPFLAGS
+     LDFLAGS=$save_LDFLAGS
+     LIBS=$save_LIBS

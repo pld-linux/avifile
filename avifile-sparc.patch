@@ -1,0 +1,10 @@
+--- avifile-0.7-0.7.43/configure.in.orig	2006-01-03 21:44:20.984180000 +0000
++++ avifile-0.7-0.7.43/configure.in	2006-01-03 22:25:56.036744834 +0000
+@@ -108,6 +108,7 @@
+     ;;
+   sparc*)
+     AC_DEFINE(ARCH_SPARC, 1, [Define if you want to build on sparc architecture.])
++    enable_sparcopt=yes
+     ;;
+   mips*)
+     AC_DEFINE(ARCH_MIPS, 1, [Define if you want to build on mips architecture.])
