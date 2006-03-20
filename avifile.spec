@@ -25,12 +25,11 @@ Patch4:		%{name}-no_aux_dir.patch
 Patch5:		%{name}-link_shared.patch
 Patch6:		%{name}-no_libnsl.patch
 Patch7:		%{name}-system-libmad.patch
-Patch8:		%{name}-ffmpeg-alpha.patch
+Patch8:		%{name}-system_wide_ffmpeg.patch
 Patch9:		%{name}-opt.patch
-Patch10:	%{name}-ffmpeg-ppc.patch
-Patch11:	%{name}-opts.patch
-Patch12:	%{name}-sparc.patch
-Patch13:	%{name}-link.patch
+Patch10:	%{name}-opts.patch
+Patch11:	%{name}-sparc.patch
+Patch12:	%{name}-link.patch
 URL:		http://avifile.sourceforge.net/
 BuildRequires:	SDL-devel >= 1.2.0
 BuildRequires:	a52dec-libs-devel
@@ -39,6 +38,7 @@ BuildRequires:	autoconf
 BuildRequires:	automake
 %{?with_divx:BuildRequires:	divx4linux-devel}
 BuildRequires:	faad2-devel
+BuildRequires:	ffmpeg-devel
 %ifarch ppc
 # version with altivec support fixed
 BuildRequires:	gcc >= 5:3.3.2-3
@@ -64,6 +64,8 @@ BuildRequires:	xvid-devel >= 1:1.0.0
 BuildConflicts:	wine-devel
 Obsoletes:	avifile-vidix-nvidia
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+
+%define		specflags	-fno-strict-aliasing
 
 %description
 Avifile is a library that allow programs to read and write compressed
@@ -331,6 +333,7 @@ Sterownik VIDIX dla kart graficznych ATI Rage128.
 
 %prep
 %setup -q -n %{name}-0.7-%{version}
+rm -rf ffmpeg m4/ffmpeg.m4
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
@@ -344,7 +347,6 @@ Sterownik VIDIX dla kart graficznych ATI Rage128.
 %patch10 -p1
 %patch11 -p1
 %patch12 -p1
-%patch13 -p1
 
 # unwanted hack
 rm -f m4/as.m4
@@ -364,8 +366,6 @@ rm -f m4/as.m4
 	--with-qt-libraries=%{_libdir} \
 	--enable-a52 \
 	%{?with_divx:--enable-divx4} \
-	--enable-ffmpeg \
-	--enable-ffmpeg-a52 \
 	--enable-lamebin \
 	--disable-lame \
 	--enable-libmad \
