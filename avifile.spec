@@ -30,6 +30,9 @@ Patch9:		%{name}-opt.patch
 Patch10:	%{name}-opts.patch
 Patch11:	%{name}-sparc.patch
 Patch12:	%{name}-link.patch
+Patch13:	%{name}-am.patch
+Patch14:	%{name}-gcc4.patch
+Patch15:	%{name}-compile.patch
 URL:		http://avifile.sourceforge.net/
 BuildRequires:	SDL-devel >= 1.2.0
 BuildRequires:	a52dec-libs-devel
@@ -347,6 +350,9 @@ rm -rf ffmpeg m4/ffmpeg.m4
 %patch10 -p1
 %patch11 -p1
 %patch12 -p1
+%patch13 -p1
+%patch14 -p1
+%patch15 -p1
 
 # unwanted hack
 rm -f m4/as.m4
