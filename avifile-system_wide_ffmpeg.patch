@@ -57,7 +57,7 @@
   drivers/libdha/bin/Makefile
 --- avifile-0.7-0.7.45/lib/aviread/Makefile.am	2005-08-28 23:46:49.000000000 +0200
 +++ avifile-0.7-0.7.45.fixed/lib/aviread/Makefile.am	2006-03-20 02:48:38.000000000 +0100
-@@ -45,22 +45,15 @@
+@@ -45,22 +45,13 @@
  
  if AMM_LINK_SHARED
  FF_LIB = \
@@ -69,9 +69,7 @@
 - ../../ffmpeg/libavformat/libavformat.la \
 - ../../ffmpeg/libavcodec/libavcodec.la \
 - ../../ffmpeg/libavutil/libavutil.la
-+ $(libdir)/libavformat.la \
-+ $(libdir)/libavcodec.la \
-+ $(libdir)/libavutil.la
++ -lavformat -lavcodec -lavutil
  endif
  
  libaviread_la_LIBADD = $(FF_LIB)
