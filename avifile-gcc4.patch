@@ -1,0 +1,11 @@
+--- avifile-0.7-0.7.45/include/avm_map.h.orig	2006-12-21 17:37:39.000000000 +0000
++++ avifile-0.7-0.7.45/include/avm_map.h	2006-12-21 17:37:43.000000000 +0000
+@@ -45,7 +45,7 @@
+ 
+     template <class Key1, class Value1> struct binary_tree_node
+     {
+-	avm_map::pair<Key1, Value1>* entry;
++	pair<Key1, Value1>* entry;
+ 	binary_tree_node<Key1, Value1>* left;
+ 	Key1 minval;
+ 	binary_tree_node<Key1, Value1>* right;
