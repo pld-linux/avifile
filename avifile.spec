@@ -187,9 +187,9 @@ ffmpeg jest hiperszybkim koderem audio/wideo czasu rzeczywistego,
 serwerem strumieni oraz standardowym konwerterem plików audio-wideo.
 
 Mo¿e pobieraæ obraz ze standardowego ¼ród³a obrazu Video4Linux i
-konwertowaæ je do kilku formatów plików opartych na kodowaniu
-DCT i kompensacji ruchu. D¼wiêk jest kompresowany w formacie MPEG
-layer 2 lub przy u¿yciu strumienia kompatybilnego z AC3.
+konwertowaæ je do kilku formatów plików opartych na kodowaniu DCT i
+kompensacji ruchu. D¼wiêk jest kompresowany w formacie MPEG layer 2
+lub przy u¿yciu strumienia kompatybilnego z AC3.
 
 %package lame_audioenc
 Summary:	MP3 audio encoder plugin
