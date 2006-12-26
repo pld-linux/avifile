@@ -35,6 +35,7 @@ Patch14:	%{name}-gcc4.patch
 Patch15:	%{name}-compile.patch
 URL:		http://avifile.sourceforge.net/
 BuildRequires:	SDL-devel >= 1.2.0
+BuildRequires:	XFree86-devel
 BuildRequires:	a52dec-libs-devel
 BuildRequires:	audiofile-devel
 BuildRequires:	autoconf
@@ -56,13 +57,7 @@ BuildRequires:	libvorbis-devel >= 1:1.0
 BuildRequires:	pkgconfig
 %{?with_qt:BuildRequires:	qt-devel >= 2.0.0}
 BuildRequires:	rpmbuild(macros) >= 1.213
-BuildRequires:	xorg-lib-libXext-devel
-BuildRequires:	xorg-lib-libXft-devel
-BuildRequires:	xorg-lib-libXi-devel
-BuildRequires:	xorg-lib-libXinerama-devel
-BuildRequires:	xorg-lib-libXv-devel
-BuildRequires:	xorg-lib-libXxf86dga-devel
-BuildRequires:	xorg-lib-libXxf86vm-devel
+BuildRequires:	xft-devel
 BuildRequires:	xvid-devel >= 1:1.0.0
 BuildConflicts:	wine-devel
 Obsoletes:	avifile-vidix-nvidia
@@ -92,13 +87,8 @@ Summary(pl):	Pliki nag³ówkowe wymagane przez programy u¿ywaj±ce libavifile
 Summary(pt_BR):	Componentes para desenvolvimento com a avifile
 Group:		X11/Development/Libraries
 Requires:	%{name} = %{epoch}:%{version}-%{release}
-Requires:	xorg-lib-libXext-devel
-Requires:	xorg-lib-libXft-devel
-Requires:	xorg-lib-libXi-devel
-Requires:	xorg-lib-libXinerama-devel
-Requires:	xorg-lib-libXv-devel
-Requires:	xorg-lib-libXxf86dga-devel
-Requires:	xorg-lib-libXxf86vm-devel
+Requires:	XFree86-devel
+Requires:	xft-devel
 Requires:	zlib-devel
 
 %description devel
@@ -187,9 +177,9 @@ ffmpeg jest hiperszybkim koderem audio/wideo czasu rzeczywistego,
 serwerem strumieni oraz standardowym konwerterem plików audio-wideo.
 
 Mo¿e pobieraæ obraz ze standardowego ¼ród³a obrazu Video4Linux i
-konwertowaæ je do kilku formatów plików opartych na kodowaniu
-DCT i kompensacji ruchu. D¼wiêk jest kompresowany w formacie MPEG
-layer 2 lub przy u¿yciu strumienia kompatybilnego z AC3.
+konwertowaæ je do kilku formatów plików opartych na kodowaniu DCT i
+kompensacji ruchu. D¼wiêk jest kompresowany w formacie MPEG layer 2
+lub przy u¿yciu strumienia kompatybilnego z AC3.
 
 %package lame_audioenc
 Summary:	MP3 audio encoder plugin
