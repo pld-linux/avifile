@@ -6,8 +6,8 @@
 %bcond_with	nas	# enable NAS support
 #
 Summary:	Library for playing AVI files
-Summary(pl.UTF-8):   Biblioteka do odtwarzania plików AVI
-Summary(pt_BR.UTF-8):   Biblioteca para reproduzir formatos de áudio e vídeo usando binários win32
+Summary(pl.UTF-8):	Biblioteka do odtwarzania plików AVI
+Summary(pt_BR.UTF-8):	Biblioteca para reproduzir formatos de áudio e vídeo usando binários win32
 Name:		avifile
 Version:	0.7.45
 Release:	4
@@ -88,8 +88,8 @@ interfaces para compressores e descompresseores de áudio e vídeo.
 
 %package devel
 Summary:	Header file required to build programs using libavifile
-Summary(pl.UTF-8):   Pliki nagłówkowe wymagane przez programy używające libavifile
-Summary(pt_BR.UTF-8):   Componentes para desenvolvimento com a avifile
+Summary(pl.UTF-8):	Pliki nagłówkowe wymagane przez programy używające libavifile
+Summary(pt_BR.UTF-8):	Componentes para desenvolvimento com a avifile
 Group:		X11/Development/Libraries
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 Requires:	xorg-lib-libXext-devel
@@ -113,7 +113,7 @@ Componentes para desenvolvimento com a avifile.
 
 %package qt
 Summary:	Qt-based AVI utilities
-Summary(pl.UTF-8):   Oparte na bibliotece Qt narzędzia do plików AVI
+Summary(pl.UTF-8):	Oparte na bibliotece Qt narzędzia do plików AVI
 Group:		X11/Applications/Multimedia
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 
@@ -125,7 +125,7 @@ Oparte na bibliotece Qt narzędzia do plików AVI.
 
 %package aviplay
 Summary:	Player for AVI/ASF/WMF files
-Summary(pl.UTF-8):   Odtwarzacz plików AVI/ASF/WMF
+Summary(pl.UTF-8):	Odtwarzacz plików AVI/ASF/WMF
 Group:		X11/Applications/Multimedia
 Requires:	%{name}-qt = %{epoch}:%{version}-%{release}
 
@@ -138,7 +138,7 @@ odtwarzania z sieci.)
 
 %package utils
 Summary:	Sample programs using the avifile library
-Summary(pl.UTF-8):   Przykładowe programy używające biblioteki avifile
+Summary(pl.UTF-8):	Przykładowe programy używające biblioteki avifile
 Group:		X11/Applications/Multimedia
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 
@@ -155,7 +155,7 @@ są tak intensywnie rozwijane jak odtwarzacz.
 
 %package divx
 Summary:	Fast MPEG4 codec
-Summary(pl.UTF-8):   Szybki kodek MPEG4
+Summary(pl.UTF-8):	Szybki kodek MPEG4
 Group:		X11/Libraries
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 Requires:	divx4linux
@@ -169,7 +169,7 @@ Dekoder i koder MPEG-4 DivX.
 
 %package ffmpeg
 Summary:	GPL MPEG4 codec
-Summary(pl.UTF-8):   Kodek MPEG4 na licencji GPL
+Summary(pl.UTF-8):	Kodek MPEG4 na licencji GPL
 Group:		X11/Libraries
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 
@@ -193,7 +193,7 @@ lub przy użyciu strumienia kompatybilnego z AC3.
 
 %package lame_audioenc
 Summary:	MP3 audio encoder plugin
-Summary(pl.UTF-8):   Wtyczka kodująca dźwięk w formacie MP3
+Summary(pl.UTF-8):	Wtyczka kodująca dźwięk w formacie MP3
 Group:		X11/Libraries
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 # this library is dlopened
@@ -212,7 +212,7 @@ Wtyczka umożliwiająca avirecompressowi kodowanie MP3.
 
 %package mad
 Summary:	MAD - MPEG audio plugin
-Summary(pl.UTF-8):   MAD - wtyczka MPEG audio
+Summary(pl.UTF-8):	MAD - wtyczka MPEG audio
 Group:		X11/Libraries
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 
@@ -224,7 +224,7 @@ Wtyczka do dekompresji strumieni dźwiękowych MPEG-1 Layer I/II/III.
 
 %package vorbis
 Summary:	Vorbis audio plugin
-Summary(pl.UTF-8):   Wtyczka Vorbis audio
+Summary(pl.UTF-8):	Wtyczka Vorbis audio
 Group:		X11/Libraries
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 
@@ -236,7 +236,7 @@ Wtyczka do dekompresji strumieni audio Vorbis.
 
 %package win32
 Summary:	Win32 audio/video plugin
-Summary(pl.UTF-8):   Wtyczka audio/video win32
+Summary(pl.UTF-8):	Wtyczka audio/video win32
 Group:		X11/Libraries
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 Requires:	w32codec
@@ -251,7 +251,7 @@ bibliotek DLL Win32.
 
 %package xvid
 Summary:	XVID codec
-Summary(pl.UTF-8):   Kodek XVID
+Summary(pl.UTF-8):	Kodek XVID
 Group:		X11/Libraries
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 Requires:	xvid
@@ -264,7 +264,7 @@ Dekoder i koder XVID.
 
 %package vidix-driver-fb
 Summary:	VIDIX driver for generic FrameBuffer
-Summary(pl.UTF-8):   Sterownik VIDIX dla zwykłego FrameBuffera
+Summary(pl.UTF-8):	Sterownik VIDIX dla zwykłego FrameBuffera
 Group:		X11/Libraries
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 
@@ -276,7 +276,7 @@ Sterownik VIDIX dla zwykłego FrameBuffera.
 
 %package vidix-driver-mach64
 Summary:	VIDIX driver for ATI Mach64 video adapters
-Summary(pl.UTF-8):   Sterownik VIDIX dla kart graficznych ATI Mach64
+Summary(pl.UTF-8):	Sterownik VIDIX dla kart graficznych ATI Mach64
 Group:		X11/Libraries
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 
@@ -288,7 +288,7 @@ Sterownik vidix dla kart graficznych ATI Mach64.
 
 %package vidix-driver-mga
 Summary:	VIDIX driver for MGA (Matrox) video adapters
-Summary(pl.UTF-8):   Sterownik VIDIX dla kart graficznych MGA (Matrox)
+Summary(pl.UTF-8):	Sterownik VIDIX dla kart graficznych MGA (Matrox)
 Group:		X11/Libraries
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 
@@ -300,7 +300,7 @@ Sterownik VIDIX dla kart graficznych MGA (Matrox).
 
 %package vidix-driver-permedia
 Summary:	VIDIX driver for Permedia video adapters
-Summary(pl.UTF-8):   Sterownik VIDIX dla kart graficznych Permedia
+Summary(pl.UTF-8):	Sterownik VIDIX dla kart graficznych Permedia
 Group:		X11/Libraries
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 
@@ -312,7 +312,7 @@ Sterownik VIDIX dla kart graficznych Permedia.
 
 %package vidix-driver-radeon
 Summary:	VIDIX driver for ATI Radeon video adapters
-Summary(pl.UTF-8):   Sterownik VIDIX dla kart graficznych ATI Radeon
+Summary(pl.UTF-8):	Sterownik VIDIX dla kart graficznych ATI Radeon
 Group:		X11/Libraries
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 
@@ -324,7 +324,7 @@ Sterownik VIDIX dla kart graficznych ATI Radeon.
 
 %package vidix-driver-rage128
 Summary:	VIDIX driver for ATI Rage128 video adapters
-Summary(pl.UTF-8):   Sterownik VIDIX dla kart graficznych ATI Rage128
+Summary(pl.UTF-8):	Sterownik VIDIX dla kart graficznych ATI Rage128
 Group:		X11/Libraries
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 
