@@ -6,8 +6,8 @@
 %bcond_with	nas	# enable NAS support
 #
 Summary:	Library for playing AVI files
-Summary(pl):	Biblioteka do odtwarzania plików AVI
-Summary(pt_BR):	Biblioteca para reproduzir formatos de áudio e vídeo usando binários win32
+Summary(pl.UTF-8):   Biblioteka do odtwarzania plikÃ³w AVI
+Summary(pt_BR.UTF-8):   Biblioteca para reproduzir formatos de Ã¡udio e vÃ­deo usando binÃ¡rios win32
 Name:		avifile
 Version:	0.7.45
 Release:	4
@@ -75,21 +75,21 @@ Avifile is a library that allow programs to read and write compressed
 AVI files (Indeo Video, DivX ;-), etc.) under x86 Linux.
 (De)compression is performed with various plugins (Win32, FFMpeg,...)
 
-%description -l pl
-Avifile jest bibliotek± s³u¿±c± do odczytywania i zapisywania
-skompresowanych plików AVI (Indeo Video, DivX ;-), etc.) pod Linuksem.
-Do (de)kompresji u¿ywane s± wtyczki (win32, FFMpeg...).
+%description -l pl.UTF-8
+Avifile jest bibliotekÄ… sÅ‚uÅ¼Ä…cÄ… do odczytywania i zapisywania
+skompresowanych plikÃ³w AVI (Indeo Video, DivX ;-), etc.) pod Linuksem.
+Do (de)kompresji uÅ¼ywane sÄ… wtyczki (win32, FFMpeg...).
 
-%description -l pt_BR
-Avifile busca criar uma biblioteca usável de suporte a arquivos AVI e
-um conjunto básico de utilitários (para reprodução, captura e edição)
-para o Linux. Contém classes C++ para leitura e criação de AVIs e
-interfaces para compressores e descompresseores de áudio e vídeo.
+%description -l pt_BR.UTF-8
+Avifile busca criar uma biblioteca usÃ¡vel de suporte a arquivos AVI e
+um conjunto bÃ¡sico de utilitÃ¡rios (para reproduÃ§Ã£o, captura e ediÃ§Ã£o)
+para o Linux. ContÃ©m classes C++ para leitura e criaÃ§Ã£o de AVIs e
+interfaces para compressores e descompresseores de Ã¡udio e vÃ­deo.
 
 %package devel
 Summary:	Header file required to build programs using libavifile
-Summary(pl):	Pliki nag³ówkowe wymagane przez programy u¿ywaj±ce libavifile
-Summary(pt_BR):	Componentes para desenvolvimento com a avifile
+Summary(pl.UTF-8):   Pliki nagÅ‚Ã³wkowe wymagane przez programy uÅ¼ywajÄ…ce libavifile
+Summary(pt_BR.UTF-8):   Componentes para desenvolvimento com a avifile
 Group:		X11/Development/Libraries
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 Requires:	xorg-lib-libXext-devel
@@ -104,41 +104,41 @@ Requires:	zlib-devel
 %description devel
 Header files required to build programs using libavifile.
 
-%description devel -l pl
-Pliki nag³ówkowe niezbêdne do kompilacji programów korzystaj±cych z
+%description devel -l pl.UTF-8
+Pliki nagÅ‚Ã³wkowe niezbÄ™dne do kompilacji programÃ³w korzystajÄ…cych z
 libavifile.
 
-%description devel -l pt_BR
+%description devel -l pt_BR.UTF-8
 Componentes para desenvolvimento com a avifile.
 
 %package qt
 Summary:	Qt-based AVI utilities
-Summary(pl):	Oparte na bibliotece Qt narzêdzia do plików AVI
+Summary(pl.UTF-8):   Oparte na bibliotece Qt narzÄ™dzia do plikÃ³w AVI
 Group:		X11/Applications/Multimedia
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 
 %description qt
 Qt-based AVI utilities.
 
-%description qt -l pl
-Oparte na bibliotece Qt narzêdzia do plików AVI.
+%description qt -l pl.UTF-8
+Oparte na bibliotece Qt narzÄ™dzia do plikÃ³w AVI.
 
 %package aviplay
 Summary:	Player for AVI/ASF/WMF files
-Summary(pl):	Odtwarzacz plików AVI/ASF/WMF
+Summary(pl.UTF-8):   Odtwarzacz plikÃ³w AVI/ASF/WMF
 Group:		X11/Applications/Multimedia
 Requires:	%{name}-qt = %{epoch}:%{version}-%{release}
 
 %description aviplay
 Sample player for AVI, ASF, WFM (with straming support) files.
 
-%description aviplay -l pl
-Przyk³adowy odtwarzacz plików AVI, ASF, WFM (ze wsparciem dla
+%description aviplay -l pl.UTF-8
+PrzykÅ‚adowy odtwarzacz plikÃ³w AVI, ASF, WFM (ze wsparciem dla
 odtwarzania z sieci.)
 
 %package utils
 Summary:	Sample programs using the avifile library
-Summary(pl):	Przyk³adowe programy u¿ywaj±ce biblioteki avifile
+Summary(pl.UTF-8):   PrzykÅ‚adowe programy uÅ¼ywajÄ…ce biblioteki avifile
 Group:		X11/Applications/Multimedia
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 
@@ -148,14 +148,14 @@ capturing, AVI recompression, benchmarking, joining AVI files. These
 programs have more bugs as they are not as extensively developed as
 player.
 
-%description utils -l pl
-Kilka u¿ytecznych narzêdzi do przechwytywania TV, rekompresji AVI,
-benchmarkowania, ³±czenia plików AVI. Maj± wiêcej b³êdów, poniewa¿ nie
-s± tak intensywnie rozwijane jak odtwarzacz.
+%description utils -l pl.UTF-8
+Kilka uÅ¼ytecznych narzÄ™dzi do przechwytywania TV, rekompresji AVI,
+benchmarkowania, Å‚Ä…czenia plikÃ³w AVI. MajÄ… wiÄ™cej bÅ‚Ä™dÃ³w, poniewaÅ¼ nie
+sÄ… tak intensywnie rozwijane jak odtwarzacz.
 
 %package divx
 Summary:	Fast MPEG4 codec
-Summary(pl):	Szybki kodek MPEG4
+Summary(pl.UTF-8):   Szybki kodek MPEG4
 Group:		X11/Libraries
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 Requires:	divx4linux
@@ -164,12 +164,12 @@ Obsoletes:	avifile-divx4
 %description divx
 DivX MPEG-4 decoder and encoder.
 
-%description divx -l pl
+%description divx -l pl.UTF-8
 Dekoder i koder MPEG-4 DivX.
 
 %package ffmpeg
 Summary:	GPL MPEG4 codec
-Summary(pl):	Kodek MPEG4 na licencji GPL
+Summary(pl.UTF-8):   Kodek MPEG4 na licencji GPL
 Group:		X11/Libraries
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 
@@ -182,18 +182,18 @@ into several file formats based on DCT/motion compensation encoding.
 Sound is compressed in MPEG audio layer 2 or using an AC3 compatible
 stream.
 
-%description ffmpeg -l pl
+%description ffmpeg -l pl.UTF-8
 ffmpeg jest hiperszybkim koderem audio/wideo czasu rzeczywistego,
-serwerem strumieni oraz standardowym konwerterem plików audio-wideo.
+serwerem strumieni oraz standardowym konwerterem plikÃ³w audio-wideo.
 
-Mo¿e pobieraæ obraz ze standardowego ¼ród³a obrazu Video4Linux i
-konwertowaæ je do kilku formatów plików opartych na kodowaniu DCT i
-kompensacji ruchu. D¼wiêk jest kompresowany w formacie MPEG layer 2
-lub przy u¿yciu strumienia kompatybilnego z AC3.
+MoÅ¼e pobieraÄ‡ obraz ze standardowego ÅºrÃ³dÅ‚a obrazu Video4Linux i
+konwertowaÄ‡ je do kilku formatÃ³w plikÃ³w opartych na kodowaniu DCT i
+kompensacji ruchu. DÅºwiÄ™k jest kompresowany w formacie MPEG layer 2
+lub przy uÅ¼yciu strumienia kompatybilnego z AC3.
 
 %package lame_audioenc
 Summary:	MP3 audio encoder plugin
-Summary(pl):	Wtyczka koduj±ca d¼wiêk w formacie MP3
+Summary(pl.UTF-8):   Wtyczka kodujÄ…ca dÅºwiÄ™k w formacie MP3
 Group:		X11/Libraries
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 # this library is dlopened
@@ -207,36 +207,36 @@ Requires:	lame-libs
 %description lame_audioenc
 Plugin for MP3 encoding capability of avirecompress tool.
 
-%description lame_audioenc -l pl
-Wtyczka umo¿liwiaj±ca avirecompressowi kodowanie MP3.
+%description lame_audioenc -l pl.UTF-8
+Wtyczka umoÅ¼liwiajÄ…ca avirecompressowi kodowanie MP3.
 
 %package mad
 Summary:	MAD - MPEG audio plugin
-Summary(pl):	MAD - wtyczka MPEG audio
+Summary(pl.UTF-8):   MAD - wtyczka MPEG audio
 Group:		X11/Libraries
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 
 %description mad
 Plugin for decompression of MPEG-1 Layer I/II/III audio streams.
 
-%description mad -l pl
-Wtyczka do dekompresji strumieni d¼wiêkowych MPEG-1 Layer I/II/III.
+%description mad -l pl.UTF-8
+Wtyczka do dekompresji strumieni dÅºwiÄ™kowych MPEG-1 Layer I/II/III.
 
 %package vorbis
 Summary:	Vorbis audio plugin
-Summary(pl):	Wtyczka Vorbis audio
+Summary(pl.UTF-8):   Wtyczka Vorbis audio
 Group:		X11/Libraries
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 
 %description vorbis
 Plugin for decompression of Vorbis audio streams.
 
-%description vorbis -l pl
+%description vorbis -l pl.UTF-8
 Wtyczka do dekompresji strumieni audio Vorbis.
 
 %package win32
 Summary:	Win32 audio/video plugin
-Summary(pl):	Wtyczka audio/video win32
+Summary(pl.UTF-8):   Wtyczka audio/video win32
 Group:		X11/Libraries
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 Requires:	w32codec
@@ -245,13 +245,13 @@ Requires:	w32codec
 Plugin for using Win32 DLL libraries in avifile located in
 /usr/lib/win32.
 
-%description win32 -l pl
-Wtyczka do u¿ywania w avifile zlokalizowanych w /usr/lib/win32
+%description win32 -l pl.UTF-8
+Wtyczka do uÅ¼ywania w avifile zlokalizowanych w /usr/lib/win32
 bibliotek DLL Win32.
 
 %package xvid
 Summary:	XVID codec
-Summary(pl):	Kodek XVID
+Summary(pl.UTF-8):   Kodek XVID
 Group:		X11/Libraries
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 Requires:	xvid
@@ -259,79 +259,79 @@ Requires:	xvid
 %description xvid
 XVID decoder and encoder.
 
-%description xvid -l pl
+%description xvid -l pl.UTF-8
 Dekoder i koder XVID.
 
 %package vidix-driver-fb
 Summary:	VIDIX driver for generic FrameBuffer
-Summary(pl):	Sterownik VIDIX dla zwyk³ego FrameBuffera
+Summary(pl.UTF-8):   Sterownik VIDIX dla zwykÅ‚ego FrameBuffera
 Group:		X11/Libraries
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 
 %description vidix-driver-fb
 VIDIX driver for generic FrameBuffer.
 
-%description vidix-driver-fb -l pl
-Sterownik VIDIX dla zwyk³ego FrameBuffera.
+%description vidix-driver-fb -l pl.UTF-8
+Sterownik VIDIX dla zwykÅ‚ego FrameBuffera.
 
 %package vidix-driver-mach64
 Summary:	VIDIX driver for ATI Mach64 video adapters
-Summary(pl):	Sterownik VIDIX dla kart graficznych ATI Mach64
+Summary(pl.UTF-8):   Sterownik VIDIX dla kart graficznych ATI Mach64
 Group:		X11/Libraries
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 
 %description vidix-driver-mach64
 VIDIX driver for ATI Mach64 adapters.
 
-%description vidix-driver-mach64 -l pl
+%description vidix-driver-mach64 -l pl.UTF-8
 Sterownik vidix dla kart graficznych ATI Mach64.
 
 %package vidix-driver-mga
 Summary:	VIDIX driver for MGA (Matrox) video adapters
-Summary(pl):	Sterownik VIDIX dla kart graficznych MGA (Matrox)
+Summary(pl.UTF-8):   Sterownik VIDIX dla kart graficznych MGA (Matrox)
 Group:		X11/Libraries
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 
 %description vidix-driver-mga
 VIDIX driver for MGA (Matrox) video adapters.
 
-%description vidix-driver-mga -l pl
+%description vidix-driver-mga -l pl.UTF-8
 Sterownik VIDIX dla kart graficznych MGA (Matrox).
 
 %package vidix-driver-permedia
 Summary:	VIDIX driver for Permedia video adapters
-Summary(pl):	Sterownik VIDIX dla kart graficznych Permedia
+Summary(pl.UTF-8):   Sterownik VIDIX dla kart graficznych Permedia
 Group:		X11/Libraries
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 
 %description vidix-driver-permedia
 VIDIX driver for Permedia video adapters.
 
-%description vidix-driver-permedia -l pl
+%description vidix-driver-permedia -l pl.UTF-8
 Sterownik VIDIX dla kart graficznych Permedia.
 
 %package vidix-driver-radeon
 Summary:	VIDIX driver for ATI Radeon video adapters
-Summary(pl):	Sterownik VIDIX dla kart graficznych ATI Radeon
+Summary(pl.UTF-8):   Sterownik VIDIX dla kart graficznych ATI Radeon
 Group:		X11/Libraries
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 
 %description vidix-driver-radeon
 VIDIX driver for ATI Radeon video adapters.
 
-%description vidix-driver-radeon -l pl
+%description vidix-driver-radeon -l pl.UTF-8
 Sterownik VIDIX dla kart graficznych ATI Radeon.
 
 %package vidix-driver-rage128
 Summary:	VIDIX driver for ATI Rage128 video adapters
-Summary(pl):	Sterownik VIDIX dla kart graficznych ATI Rage128
+Summary(pl.UTF-8):   Sterownik VIDIX dla kart graficznych ATI Rage128
 Group:		X11/Libraries
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 
 %description vidix-driver-rage128
 VIDIX driver for ATI Rage128 video adapters.
 
-%description vidix-driver-rage128 -l pl
+%description vidix-driver-rage128 -l pl.UTF-8
 Sterownik VIDIX dla kart graficznych ATI Rage128.
 
 %prep
