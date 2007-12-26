@@ -1,9 +1,8 @@
 [Desktop Entry]
-Encoding=UTF-8
 Name=AVIplay
 Comment=Player for AVI/ASF/WMF files
 Comment[pl]=Odtwarzacz plików AVI/ASF/WMF
-Icon=avifile.png
+Icon=avifile
 Exec=aviplay
 Terminal=false
 Type=Application
