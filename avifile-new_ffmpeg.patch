@@ -1,0 +1,20 @@
+--- avifile-0.7-0.7.45/lib/aviread/FFReadHandler.cpp.orig	2008-02-17 21:15:03.493086369 +0100
++++ avifile-0.7-0.7.45/lib/aviread/FFReadHandler.cpp	2008-02-17 21:15:48.989959474 +0100
+@@ -152,7 +152,7 @@
+ int FFReadHandler::seek(framepos_t pos)
+ {
+     Locker locker(m_Mutex);
+-    url_fseek(&m_pContext->pb, 0, SEEK_SET);
++    url_fseek(m_pContext->pb, 0, SEEK_SET);
+     flush();
+     //av_find_stream_info(m_pContext);
+     return 0;
+@@ -165,7 +165,7 @@
+     AVM_WRITE("FF reader", "readPacket()\n");
+     if (av_read_packet(m_pContext, &pkt) < 0)
+     {
+-        if (!url_feof(&m_pContext->pb))
++        if (!url_feof(m_pContext->pb))
+ 	    AVM_WRITE("FF reader", "ffmpeg packet error and not eof??\n");
+         return -1;
+     }
