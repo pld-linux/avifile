@@ -1,0 +1,48 @@
+--- avifile-0.7-0.7.45/lib/aviread/FFReadHandler.cpp.orig	2008-01-15 22:34:55.143423276 +0100
++++ avifile-0.7-0.7.45/lib/aviread/FFReadHandler.cpp	2008-01-15 22:35:24.638923552 +0100
+@@ -6,7 +6,9 @@
+ #define int64_t_C(c)     (c ## LL)
+ #define uint64_t_C(c)    (c ## ULL)
+ #endif
++extern "C" {
+ #include "avformat.h"
++}
+ 
+ #include <stdio.h>
+ #include <stdlib.h>
+--- avifile-0.7-0.7.45/lib/aviread/FFReadStream.cpp.orig	2008-01-15 22:36:06.632517167 +0100
++++ avifile-0.7-0.7.45/lib/aviread/FFReadStream.cpp	2008-01-15 22:36:22.130152904 +0100
+@@ -7,7 +7,9 @@
+ #define int64_t_C(c)     (c ## LL)
+ #define uint64_t_C(c)    (c ## ULL)
+ #endif
++extern "C" {
+ #include "avformat.h"
++}
+ 
+ #include <stdio.h>
+ #include <stdlib.h>
+--- avifile-0.7-0.7.45/plugins/libffmpeg/fillplugins.h.orig	2008-01-15 22:41:17.085155668 +0100
++++ avifile-0.7-0.7.45/plugins/libffmpeg/fillplugins.h	2008-01-15 22:41:55.579283150 +0100
+@@ -9,7 +9,9 @@
+ #define int64_t_C(c)     (c ## LL)
+ #define uint64_t_C(c)    (c ## ULL)
+ #endif
++extern "C" {
+ #include "avformat.h"
++}
+ 
+ #include <string.h>
+ #include <stdlib.h>
+--- avifile-0.7-0.7.45/plugins/libffmpeg/FFVideoDecoder.h.orig	2008-01-16 01:12:13.703511754 +0100
++++ avifile-0.7-0.7.45/plugins/libffmpeg/FFVideoDecoder.h	2008-01-16 01:12:30.200994960 +0100
+@@ -7,7 +7,9 @@
+ #define int64_t_C(c)     (c ## LL)
+ #define uint64_t_C(c)    (c ## ULL)
+ #endif
++extern "C" {
+ #include "avformat.h"
++}
+ 
+ AVM_BEGIN_NAMESPACE;
+ 
