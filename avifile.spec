@@ -33,6 +33,9 @@ Patch12:	%{name}-link.patch
 Patch13:	%{name}-am.patch
 Patch14:	%{name}-gcc4.patch
 Patch15:	%{name}-compile.patch
+Patch16:	%{name}-extern_c_ffmpeg.patch
+Patch17:	%{name}-xf86dga.patch
+Patch18:	%{name}-new_ffmpeg.patch
 URL:		http://avifile.sourceforge.net/
 BuildRequires:	SDL-devel >= 1.2.0
 BuildRequires:	a52dec-libs-devel
@@ -68,7 +71,7 @@ BuildConflicts:	wine-devel
 Obsoletes:	avifile-vidix-nvidia
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define		specflags	-fno-strict-aliasing
+%define		specflags	-fno-strict-aliasing -D__STDC_CONSTANT_MACROS
 
 %description
 Avifile is a library that allow programs to read and write compressed
@@ -353,6 +356,9 @@ rm -rf ffmpeg m4/ffmpeg.m4
 %patch13 -p1
 %patch14 -p1
 %patch15 -p1
+%patch16 -p1
+%patch17 -p1
+%patch18 -p1
 
 # unwanted hack
 rm -f m4/as.m4
