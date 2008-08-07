@@ -242,7 +242,7 @@ Summary:	Win32 audio/video plugin
 Summary(pl.UTF-8):	Wtyczka audio/video win32
 Group:		X11/Libraries
 Requires:	%{name} = %{epoch}:%{version}-%{release}
-Requires:	w32codec
+Suggests:	w32codec
 
 %description win32
 Plugin for using Win32 DLL libraries in avifile located in
