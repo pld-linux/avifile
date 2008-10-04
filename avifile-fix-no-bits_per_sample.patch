@@ -18,3 +18,25 @@
              // hack which might be eventually usefull
  	    memcpy(&bh->biXPelsPerMeter, &m_pHandler->m_pContext, sizeof(void*));
  	    if (bh->biCompression == 0)
+--- avifile-0.7-0.7.45/plugins/libffmpeg/FFVideoDecoder.cpp.old	2008-10-05 00:44:29.000000000 +0200
++++ avifile-0.7-0.7.45/plugins/libffmpeg/FFVideoDecoder.cpp	2008-10-05 00:45:45.000000000 +0200
+@@ -175,7 +175,7 @@
+ 	m_pAvContext = avcodec_alloc_context();
+         // for autodetection errors
+ 	m_pAvContext->codec_tag = m_pFormat->biCompression;
+-	m_pAvContext->bits_per_sample = m_pFormat->biBitCount;
++	m_pAvContext->bits_per_coded_sample = m_pFormat->biBitCount;
+         m_pAvContext->width = m_Dest.biWidth;
+ 	m_pAvContext->height = (m_Dest.biHeight < 0) ? -m_Dest.biHeight : m_Dest.biHeight;
+ 	m_pAvContext->get_buffer = avcodec_default_get_buffer;
+--- avifile-0.7-0.7.45/plugins/libffmpeg/FFAudioDecoder.cpp.old	2008-10-05 00:43:45.000000000 +0200
++++ avifile-0.7-0.7.45/plugins/libffmpeg/FFAudioDecoder.cpp	2008-10-05 00:43:57.000000000 +0200
+@@ -50,7 +50,7 @@
+ 	}
+     }
+     int framesz = 0;
+-    int hr = avcodec_decode_audio(m_pAvContext, (int16_t*)out_data, &framesz,
++    int hr = avcodec_decode_audio2(m_pAvContext, (int16_t*)out_data, &framesz,
+ 				  (uint8_t*)in_data, in_size);
+     //printf("CONVERT  i:%d  o:%d  f:%d   h:%d\n", in_size, out_size, framesz, hr);
+     if (size_read)
