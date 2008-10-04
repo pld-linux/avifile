@@ -36,6 +36,7 @@ Patch15:	%{name}-compile.patch
 Patch16:	%{name}-extern_c_ffmpeg.patch
 Patch17:	%{name}-xf86dga.patch
 Patch18:	%{name}-new_ffmpeg.patch
+Patch19:	%{name}-fix-no-bits_per_sample.patch
 URL:		http://avifile.sourceforge.net/
 BuildRequires:	SDL-devel >= 1.2.0
 BuildRequires:	a52dec-libs-devel
@@ -359,6 +360,7 @@ rm -rf ffmpeg m4/ffmpeg.m4
 %patch16 -p1
 %patch17 -p1
 %patch18 -p1
+%patch19 -p1
 
 # unwanted hack
 rm -f m4/as.m4
@@ -373,7 +375,7 @@ rm -f m4/as.m4
 %{__automake}
 
 %configure \
-	CPPFLAGS="-I/usr/include/divx" \
+	CPPFLAGS="-I/usr/include/divx -I/usr/include/libavformat -I/usr/include/libavcodec" \
 	--with-qt-includes=%{_includedir}/qt \
 	--with-qt-libraries=%{_libdir} \
 	--enable-a52 \
