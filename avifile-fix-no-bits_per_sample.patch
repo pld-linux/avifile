@@ -1,0 +1,20 @@
+--- avifile-0.7-0.7.45/lib/aviread/FFReadStream.cpp.old	2008-10-05 00:33:50.000000000 +0200
++++ avifile-0.7-0.7.45/lib/aviread/FFReadStream.cpp	2008-10-05 00:34:17.000000000 +0200
+@@ -215,7 +215,7 @@
+ 	    wf->nSamplesPerSec = avs->codec->sample_rate;
+ 	    wf->nAvgBytesPerSec = avs->codec->bit_rate / 8;
+             wf->nBlockAlign = avs->codec->block_align;
+-	    wf->wBitsPerSample = avs->codec->bits_per_sample;
++	    wf->wBitsPerSample = avs->codec->bits_per_coded_sample;
+ 	    if (lSize >= (sizeof(WAVEFORMATEX) + avs->codec->extradata_size)
+ 		&& avs->codec->extradata)
+ 	    {
+@@ -239,7 +239,7 @@
+ 	    bh->biHeight = avs->codec->height;
+ 	    bh->biPlanes = 1;
+ 	    bh->biCompression = avs->codec->codec_tag;
+-            bh->biBitCount = avs->codec->bits_per_sample;
++            bh->biBitCount = avs->codec->bits_per_coded_sample;
+             // hack which might be eventually usefull
+ 	    memcpy(&bh->biXPelsPerMeter, &m_pHandler->m_pContext, sizeof(void*));
+ 	    if (bh->biCompression == 0)
