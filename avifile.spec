@@ -10,7 +10,7 @@ Summary(pl.UTF-8):	Biblioteka do odtwarzania plików AVI
 Summary(pt_BR.UTF-8):	Biblioteca para reproduzir formatos de áudio e vídeo usando binários win32
 Name:		avifile
 Version:	0.7.45
-Release:	13
+Release:	14
 Epoch:		3
 License:	GPL
 Group:		X11/Libraries
@@ -37,6 +37,7 @@ Patch16:	%{name}-extern_c_ffmpeg.patch
 Patch17:	%{name}-xf86dga.patch
 Patch18:	%{name}-new_ffmpeg.patch
 Patch19:	%{name}-fix-no-bits_per_sample.patch
+Patch20:	%{name}-gcc44.patch
 URL:		http://avifile.sourceforge.net/
 BuildRequires:	SDL-devel >= 1.2.0
 BuildRequires:	a52dec-libs-devel
@@ -361,6 +362,7 @@ rm -rf ffmpeg m4/ffmpeg.m4
 %patch17 -p1
 %patch18 -p1
 %patch19 -p1
+%patch20 -p1
 
 # unwanted hack
 rm -f m4/as.m4
