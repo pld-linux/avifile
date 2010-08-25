@@ -423,16 +423,16 @@ rm -rf $RPM_BUILD_ROOT
 %doc doc/{README-DEVEL,TODO,VIDEO-PERFORMANCE,WARNINGS}
 %attr(755,root,root)%{_libdir}/libaviplay-*.so.*.*
 %attr(755,root,root)%{_libdir}/libaviplaydha-*.so.*.*
-%attr(755,root,root)%{_libdir}/libaviplayvidix-*.so.*.*
 %attr(755,root,root) %ghost %{_libdir}/libaviplay-*.so.0
 %attr(755,root,root) %ghost %{_libdir}/libaviplaydha-*.so.0
-%attr(755,root,root) %ghost %{_libdir}/libaviplayvidix-*.so.0
 %dir %{_libdir}/avifile*
 %attr(755,root,root) %{_libdir}/avifile*/ac3pass.so*
 %attr(755,root,root) %{_libdir}/avifile*/audiodec.so*
 %attr(755,root,root) %{_libdir}/avifile*/mpeg_audiodec.so*
 %attr(755,root,root) %{_libdir}/avifile*/osmjpeg.so*
 %ifarch %{ix86}
+%attr(755,root,root)%{_libdir}/libaviplayvidix-*.so.*.*
+%attr(755,root,root) %ghost %{_libdir}/libaviplayvidix-*.so.0
 %dir %{_libdir}/avifile*/vidix
 %endif
 
