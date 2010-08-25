@@ -1,0 +1,27 @@
+--- avifile-0.7-0.7.45/include/Makefile.am.orig	2006-12-21 14:45:33.000000000 +0000
++++ avifile-0.7-0.7.45/include/Makefile.am	2006-12-21 14:46:08.000000000 +0000
+@@ -42,9 +42,3 @@
+ EXTRA_DIST = version.h.in
+ DISTCLEANFILES = version.h
+ MAINTAINERCLEANFILES = Makefile.in config.h.in stamp-h.in stamp-h1.in
+-
+-install-hook:
+-	ln -s $(pkgincludedir) $(pkgincludedir)/avifile
+-
+-#check_PROGRAMS = t
+-#t_SOURCES = t.cpp
+--- avifile-0.7-0.7.45/Makefile.am.orig	2006-12-21 15:09:37.000000000 +0000
++++ avifile-0.7-0.7.45/Makefile.am	2006-12-21 15:10:01.000000000 +0000
+@@ -26,12 +26,6 @@
+  config.log config.status configure.ac config.h.in confdefs.h libtool \
+  avifile-config avifile.spec avifile.pc stamp-h2.in
+ 
+-# Run ldconfig after installing the library:
+-install-hook:
+-	-ldconfig
+-
+-#install-exec-local:
+-#	$(INSTALL_SCRIPT) -m 0755 $(srcdir)/avifile-config $(DESTDIR)$(bindir)
+ .SILENT: help
+ 
+ help:
