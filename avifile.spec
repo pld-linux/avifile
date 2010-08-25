@@ -14,7 +14,7 @@ Release:	16
 Epoch:		3
 License:	GPL
 Group:		X11/Libraries
-Source0:	http://dl.sourceforge.net/avifile/%{name}-0.7-%{version}.tar.bz2
+Source0:	http://downloads.sourceforge.net/avifile/%{name}-0.7-%{version}.tar.bz2
 # Source0-md5:	7da94802f120d1b69e04a13170dcd21d
 Source1:	%{name}.desktop
 Patch0:		%{name}-shareware.patch
@@ -433,7 +433,12 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc README doc/{CREDITS,EXCEPTIONS,KNOWN_BUGS,LICENSING}
 %doc doc/{README-DEVEL,TODO,VIDEO-PERFORMANCE,WARNINGS}
-%attr(755,root,root) %{_libdir}/libaviplay*.so.*.*
+%attr(755,root,root)%{_libdir}/libaviplay-*.so.*.*
+%attr(755,root,root)%{_libdir}/libaviplaydha-*.so.*.*
+%attr(755,root,root)%{_libdir}/libaviplayvidix-*.so.*.*
+%attr(755,root,root) %ghost %{_libdir}/libaviplay-*.so.0
+%attr(755,root,root) %ghost %{_libdir}/libaviplaydha-*.so.0
+%attr(755,root,root) %ghost %{_libdir}/libaviplayvidix-*.so.0
 %dir %{_libdir}/avifile*
 %attr(755,root,root) %{_libdir}/avifile*/ac3pass.so*
 %attr(755,root,root) %{_libdir}/avifile*/audiodec.so*
@@ -460,6 +465,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/avicap
 %attr(755,root,root) %{_bindir}/avirecompress
 %attr(755,root,root) %{_libdir}/libqavm-*.so.*.*
+%attr(755,root,root) %ghost %{_libdir}/libqavm-*.so.0
 %{_mandir}/man1/avicap.1*
 %{_mandir}/man1/avirecompress.1*
 
