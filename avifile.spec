@@ -1,8 +1,8 @@
 #
 # Conditional build:
 %bcond_without	qt	# don't build Qt-based utilities (incl. aviplay)
-%bcond_with	divx	# enables divx4linux support (proprietary, binary-only
-			# lib)  note: if disabled, divx is decoded by ffmpeg
+%bcond_with	divx	# enables divx4linux support (proprietary, binary-only lib) note: if disabled, divx is decoded by ffmpeg
+%bcond_without	xvid	# xvid support
 %bcond_with	nas	# enable NAS support
 #
 Summary:	Library for playing AVI files
@@ -10,7 +10,7 @@ Summary(pl.UTF-8):	Biblioteka do odtwarzania plików AVI
 Summary(pt_BR.UTF-8):	Biblioteca para reproduzir formatos de áudio e vídeo usando binários win32
 Name:		avifile
 Version:	0.7.45
-Release:	16
+Release:	17
 Epoch:		3
 License:	GPL
 Group:		X11/Libraries
@@ -62,7 +62,7 @@ BuildRequires:	pkgconfig
 %{?with_qt:BuildRequires:	qt-devel >= 2.0.0}
 BuildRequires:	rpmbuild(macros) >= 1.213
 BuildRequires:	xft-devel
-BuildRequires:	xvid-devel >= 1:1.0.0
+%{?with_xvid:BuildRequires:	xvid-devel >= 1:1.0.0}
 BuildConflicts:	wine-devel
 Obsoletes:	avifile-vidix-nvidia
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -510,9 +510,11 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/avifile*/win32.so
 %endif
 
+%if %{with xvid}
 %files xvid
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/avifile*/xvid4.so
+%endif
 
 %ifarch %{ix86}
 %files vidix-driver-fb
