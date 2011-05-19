@@ -10,7 +10,7 @@ Summary(pl.UTF-8):	Biblioteka do odtwarzania plików AVI
 Summary(pt_BR.UTF-8):	Biblioteca para reproduzir formatos de áudio e vídeo usando binários win32
 Name:		avifile
 Version:	0.7.45
-Release:	16
+Release:	17
 Epoch:		3
 License:	GPL
 Group:		X11/Libraries
