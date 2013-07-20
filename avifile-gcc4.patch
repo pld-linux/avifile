@@ -9,3 +9,14 @@
  	binary_tree_node<Key1, Value1>* left;
  	Key1 minval;
  	binary_tree_node<Key1, Value1>* right;
+--- avifile-0.7-0.7.45/lib/aviread/AsfNetworkInputStream.cpp.orig	2004-10-25 12:15:38.000000000 +0200
++++ avifile-0.7-0.7.45/lib/aviread/AsfNetworkInputStream.cpp	2013-07-16 16:37:29.072365344 +0200
+@@ -937,7 +937,7 @@
+ 	}
+ 
+ 	asf_packet* p;
+-	unsigned short& size = chhdr.size;
++	unsigned short size = chhdr.size;
+ 	//printf("STREAMPACKET 0x%x  sz:%d  %lld   seq:%d part:%d  sc:%d\n", chhdr.kind, size, rsize, chhdr.seq, chhdr.partflag, chhdr.size_confirm);
+ 	switch (chhdr.kind)
+ 	{

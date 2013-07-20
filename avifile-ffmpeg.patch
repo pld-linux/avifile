@@ -1,0 +1,376 @@
+--- avifile-0.7-0.7.45/lib/aviread/FFReadHandler.cpp.orig	2013-07-16 16:48:12.312338353 +0200
++++ avifile-0.7-0.7.45/lib/aviread/FFReadHandler.cpp	2013-07-19 17:06:37.738081034 +0200
+@@ -46,14 +46,12 @@
+ 
+ int FFReadHandler::Init(const char* url)
+ {
+-    AVFormatParameters avfp;
+     AVInputFormat* fmt = 0;
+     // av_find_input_format(url);
+     // printf("find input format  %p   %s\n", fmt, url);
+-    memset(&avfp, 0, sizeof(avfp));
+     //if (!fmt)  return -1;
+-    int r = av_open_input_file(&m_pContext, url,
+-			       fmt, 64000, &avfp);
++    int r = avformat_open_input(&m_pContext, url,
++			       fmt, NULL);
+     if (r < 0)
+     {
+ 	AVM_WRITE("FF reader", "OPEN INPUT failed\n");
+@@ -100,8 +98,8 @@
+     uint_t j = 0;
+     switch (type)
+     {
+-    case IStream::Audio: t = CODEC_TYPE_AUDIO; break;
+-    case IStream::Video: t = CODEC_TYPE_VIDEO; break;
++    case IStream::Audio: t = AVMEDIA_TYPE_AUDIO; break;
++    case IStream::Video: t = AVMEDIA_TYPE_VIDEO; break;
+     default: return 0;
+     }
+ 
+@@ -125,8 +123,8 @@
+ 
+     switch (type)
+     {
+-    case IStream::Audio: t = CODEC_TYPE_AUDIO; break;
+-    case IStream::Video: t = CODEC_TYPE_VIDEO; break;
++    case IStream::Audio: t = AVMEDIA_TYPE_AUDIO; break;
++    case IStream::Video: t = AVMEDIA_TYPE_VIDEO; break;
+     default: return 0;
+     }
+ 
+@@ -152,7 +150,7 @@
+ int FFReadHandler::seek(framepos_t pos)
+ {
+     Locker locker(m_Mutex);
+-    url_fseek(m_pContext->pb, 0, SEEK_SET);
++    avio_seek(m_pContext->pb, 0, SEEK_SET);
+     flush();
+     //av_find_stream_info(m_pContext);
+     return 0;
+@@ -177,8 +175,8 @@
+ 	AVFrame pic;
+ 	int got_pic = 0;
+ 	memset(&pic, 0, sizeof(pic));
+-	int r = avcodec_decode_video(s->m_pAvContext,
+-				     &pic, &got_pic, pkt.data, pkt.size);
++	int r = avcodec_decode_video2(s->m_pAvContext,
++				     &pic, &got_pic, &pkt);
+ 	AVM_WRITE("FF reader", "____  %d   %d\n", r, got_pic);
+     }
+     //printf("FFMPEG pktsize: %u %llu   %d\n", pkt.size, pkt.pts, pkt.stream_index);fflush(stdout);
+@@ -203,19 +201,19 @@
+ 	    / st->codec.frame_rate;
+     }
+ #endif
+-    //if (st->codec.codec_type == CODEC_TYPE_VIDEO) printf("FRATE %d pts:%lld %d  %d  t:%lld\n", p->position, pkt.pts,st->codec.frame_rate_base, st->codec.frame_rate, p->timestamp);
++    //if (st->codec.codec_type == AVMEDIA_TYPE_VIDEO) printf("FRATE %d pts:%lld %d  %d  t:%lld\n", p->position, pkt.pts,st->codec.frame_rate_base, st->codec.frame_rate, p->timestamp);
+     //else printf("Bitrate  %d\n", st->codec.bit_rate);
+     //printf("TIMESTAMP %lld    %d %d   bitrate:%d\n", p->timestamp, s->m_pAvStream->r_frame_rate_base, s->m_pAvStream->r_frame_rate, st->codec.bit_rate);
+ 
+     switch (st->codec->codec_type)
+     {
+-    case CODEC_TYPE_AUDIO:
++    case AVMEDIA_TYPE_AUDIO:
+ 	if (!pkt.pts && st->codec->bit_rate)
+ 	    p->timestamp = (int64_t)p->position * 8 * 1000000 /
+ 		st->codec->bit_rate;
+ 	s->m_uiPosition += pkt.size;
+ 	break;
+-    case CODEC_TYPE_VIDEO:
++    case AVMEDIA_TYPE_VIDEO:
+     default:
+ 	s->m_uiPosition++;
+ 	break;
+@@ -227,7 +225,7 @@
+ 	   pkt.stream_index, m_Streams[pkt.stream_index]->m_Packets.size(),
+ 	   pkt.pts, pkt.size, p->timestamp, pkt.flags);
+ #endif
+-    if (pkt.flags & PKT_FLAG_KEY)
++    if (pkt.flags & AV_PKT_FLAG_KEY)
+ 	p->flags |= KEYFRAME;
+     av_free_packet(&pkt);
+ 
+--- avifile-0.7-0.7.45/lib/aviread/FFReadStream.cpp.orig	2013-07-19 17:08:37.194742686 +0200
++++ avifile-0.7-0.7.45/lib/aviread/FFReadStream.cpp	2013-07-19 17:45:26.764649961 +0200
+@@ -18,7 +18,7 @@
+ AVM_BEGIN_NAMESPACE;
+ 
+ static const struct id2fcc {
+-    enum CodecID id;
++    enum AVCodecID id;
+     uint32_t fcc;
+ } id2fcct[] = {
+     { CODEC_ID_MPEG1VIDEO, RIFFINFO_MPG1 },
+@@ -32,7 +32,7 @@
+     { CODEC_ID_NONE }
+ };
+ 
+-static int get_fcc(enum CodecID id)
++static int get_fcc(enum AVCodecID id)
+ {
+     for (const struct id2fcc* p = id2fcct; p->id; p++)
+ 	if (p->id == id)
+@@ -53,15 +53,15 @@
+     //printf("CODECRA %d  %d   %d\n", avs->codec.frame_rate, avs->codec->frame_rate_base, m_pAvStream->r_frame_rate_base);
+     if (0 && avs->codec->codec_id == CODEC_ID_MPEG1VIDEO)
+     {
+-	m_pAvContext = avcodec_alloc_context();
++	m_pAvContext = avcodec_alloc_context3(NULL);
+ 	//AVCodec* codec = avcodec_find_encoder(avs->codec->codec_id);
+ 	if (m_pAvContext)
+ 	{
+ 	    AVCodec* codec = avcodec_find_decoder(avs->codec->codec_id);
+-	    if (codec && avcodec_open(m_pAvContext, codec) == 0)
++	    if (codec && avcodec_open2(m_pAvContext, codec, NULL) == 0)
+ 	    {
+ 		m_pAvContext->flags |= CODEC_FLAG_TRUNCATED;
+-		m_pAvContext->hurry_up = 5;
++		m_pAvContext->skip_idct = m_pAvContext->skip_frame = AVDISCARD_ALL;
+ 		//printf("Opened hurryup decoder %p  %p\n", codec, m_pAvContext->codec->decode);
+ 	    }
+ 	    else
+@@ -148,7 +148,7 @@
+ 
+ 	switch (avs->codec->codec_type)
+ 	{
+-	case CODEC_TYPE_AUDIO:
++	case AVMEDIA_TYPE_AUDIO:
+ 	    m_StreamInfo.m_p->setAudio(avs->codec->channels,
+ 				       avs->codec->sample_rate,
+ 				       avs->codec->frame_bits);
+@@ -157,7 +157,7 @@
+ 	    AVM_WRITE("FF stream", "Audio Format:  %.4s (0x%x)\n",
+ 		      (const char*)&avs->codec->codec_tag, avs->codec->codec_tag);
+ 	    break;
+-	case CODEC_TYPE_VIDEO:
++	case AVMEDIA_TYPE_VIDEO:
+ 	    m_StreamInfo.m_p->setVideo(avs->codec->width, avs->codec->height,
+ 				       0, avs->codec->sample_aspect_ratio.num /
+ 				       (float) avs->codec->sample_aspect_ratio.den);
+@@ -191,8 +191,8 @@
+ {
+     switch (m_pHandler->m_pContext->streams[m_uiSId]->codec->codec_type)
+     {
+-    case CODEC_TYPE_AUDIO: return IStream::Audio;
+-    case CODEC_TYPE_VIDEO: return IStream::Video;
++    case AVMEDIA_TYPE_AUDIO: return IStream::Audio;
++    case AVMEDIA_TYPE_VIDEO: return IStream::Video;
+     default: return IStream::Other;
+     }
+ }
+@@ -202,7 +202,7 @@
+     AVStream* avs = m_pHandler->m_pContext->streams[m_uiSId];
+     switch (avs->codec->codec_type)
+     {
+-    case CODEC_TYPE_AUDIO:
++    case AVMEDIA_TYPE_AUDIO:
+ 	if (pFormat && lSize >= sizeof(WAVEFORMATEX))
+ 	{
+ 	    WAVEFORMATEX* wf = (WAVEFORMATEX*) pFormat;
+@@ -228,7 +228,7 @@
+ 	//printf("EEEEEEEEEEE %d\n", avs->codec->extradata_size);
+ 	return sizeof(WAVEFORMATEX)
+ 	    + ((avs->codec->extradata) ? avs->codec->extradata_size : 0);
+-    case CODEC_TYPE_VIDEO:
++    case AVMEDIA_TYPE_VIDEO:
+ 	if (pFormat && lSize >= sizeof(BITMAPINFOHEADER))
+ 	{
+ 	    BITMAPINFOHEADER* bh = (BITMAPINFOHEADER*) pFormat;
+@@ -312,7 +312,7 @@
+ {
+     if (time < 1.)
+     {
+-	if (m_pAvStream->codec->codec_type == CODEC_TYPE_AUDIO)
++	if (m_pAvStream->codec->codec_type == AVMEDIA_TYPE_AUDIO)
+             // check if more streams are available
+             // and seek only with the video
+             return 0;
+--- avifile-0.7-0.7.45/lib/codeckeeper.cpp.orig	2013-07-19 17:48:46.567974909 +0200
++++ avifile-0.7-0.7.45/lib/codeckeeper.cpp	2013-07-19 17:53:49.324628870 +0200
+@@ -295,7 +295,6 @@
+     audio_codecs.clear();
+ 
+     // FFMPEG initialization
+-    avcodec_init();
+     avcodec_register_all();
+ 
+     uncompressed_FillPlugins(video_codecs);
+--- avifile-0.7-0.7.45/plugins/libffmpeg/libffmpeg.cpp.orig	2006-03-05 21:44:59.000000000 +0100
++++ avifile-0.7-0.7.45/plugins/libffmpeg/libffmpeg.cpp	2013-07-19 18:00:25.221278922 +0200
+@@ -137,7 +137,6 @@
+     static int is_init = 0;
+     if (!is_init)
+     {
+-	avcodec_init();
+ 	avcodec_register_all();
+ 	is_init++;
+     }
+--- avifile-0.7-0.7.45/plugins/libffmpeg/FFAudioDecoder.cpp.orig	2013-07-19 18:01:05.454610568 +0200
++++ avifile-0.7-0.7.45/plugins/libffmpeg/FFAudioDecoder.cpp	2013-07-19 18:15:09.351241818 +0200
+@@ -25,7 +25,7 @@
+ {
+     if (!m_pAvContext)
+     {
+-	m_pAvContext = avcodec_alloc_context();
++	m_pAvContext = avcodec_alloc_context3(NULL);
+ 	m_pAvContext->channels = m_pFormat->nChannels;
+ 	if (m_pAvContext->channels > 2)
+ 	    m_pAvContext->channels = 2;
+@@ -33,7 +33,7 @@
+ 	m_pAvContext->sample_rate = m_pFormat->nSamplesPerSec;
+ 	m_pAvContext->block_align = m_pFormat->nBlockAlign;
+ 	m_pAvContext->codec_tag = m_Info.fourcc;
+-	m_pAvContext->codec_id = (CodecID) m_pAvCodec->id;
++	m_pAvContext->codec_id = (AVCodecID) m_pAvCodec->id;
+ 
+ 	if (m_pFormat->cbSize > 0)
+ 	{
+@@ -41,7 +41,7 @@
+ 	    m_pAvContext->extradata_size = m_pFormat->cbSize;
+ 	}
+ 
+-	if (avcodec_open(m_pAvContext, m_pAvCodec) < 0)
++	if (avcodec_open2(m_pAvContext, m_pAvCodec, NULL) < 0)
+ 	{
+ 	    AVM_WRITE("FFAudioDecoder", "WARNING: can't open avcodec\n");
+ 	    free(m_pAvContext);
+@@ -50,8 +50,12 @@
+ 	}
+     }
+     int framesz = 0;
+-    int hr = avcodec_decode_audio2(m_pAvContext, (int16_t*)out_data, &framesz,
+-				  (uint8_t*)in_data, in_size);
++    AVPacket avpkt;
++    av_init_packet(&avpkt);
++    avpkt.data = (uint8_t*)in_data;
++    avpkt.size = in_size;
++    int hr = avcodec_decode_audio3(m_pAvContext, (int16_t*)out_data, &framesz,
++				  &avpkt);
+     //printf("CONVERT  i:%d  o:%d  f:%d   h:%d\n", in_size, out_size, framesz, hr);
+     if (size_read)
+ 	*size_read = (hr < 0) ? in_size : hr;
+--- avifile-0.7-0.7.45/plugins/libffmpeg/FFVideoDecoder.cpp.orig	2013-07-19 18:15:45.704573627 +0200
++++ avifile-0.7-0.7.45/plugins/libffmpeg/FFVideoDecoder.cpp	2013-07-19 20:13:57.874275997 +0200
+@@ -101,36 +101,29 @@
+     pic->pts = pImage->m_lTimestamp;
+     pic->type = FF_BUFFER_TYPE_USER;
+     pImage->m_iType = pic->pict_type;
+-    //pic->age = pic->coded_picture_number - pImage->m_iAge;
+-    //pImage->m_iAge = (pic->pict_type == FF_B_TYPE) ?
++    //pImage->m_iAge = (pic->pict_type == AV_PICTURE_TYPE_B) ?
+     //pImage->m_iAge = (pic->reference) ?
+     //    -256*256*256*64 : pic->coded_picture_number;
+ 
+     d->m_iAgeIP[0]++;
+-    pic->age = d->m_iAgeIP[0] - pImage->m_iAge;
+-    pImage->m_iAge = (pic->pict_type == FF_B_TYPE) ?
++    pImage->m_iAge = (pic->pict_type == AV_PICTURE_TYPE_B) ?
+ 	256*256*256*64 : d->m_iAgeIP[0];
+-    if (pic->age < 1)
+-	pic->age = 256*256*256*64;
+ 
+ #if 0
+     // mplayer code
+     if (pic->reference)
+     {
+-        pic->age = d->m_iAgeIP[0];
+ 	d->m_iAgeIP[0] = d->m_iAgeIP[1] + 1;
+         d->m_iAgeIP[1] = 1;
+         d->m_iAgeB++;
+     }
+     else
+     {
+-	pic->age = d->m_iAgeB;
+         d->m_iAgeIP[0]++;
+         d->m_iAgeIP[1]++;
+         d->m_iAgeB = 1;
+     }
+ #endif
+-    //printf("Age %d  %d   cp:%d   %p\n", pic->age, pImage->m_iAge, pic->coded_picture_number, pImage);
+     //printf("PictType %d   %d\n", pic->pict_type, pic->reference);
+     //printf("%p %p %p  %d  %d\n", avctx->dr_buffer[0], avctx->dr_buffer[1], avctx->dr_buffer[2], avctx->dr_stride, avctx->dr_uvstride);
+     return 0;
+@@ -172,7 +165,7 @@
+     //printf("FFMPEG space  \n"); m_Dest.Print(); pImage->GetFmt()->Print();
+     if (!m_pAvContext)
+     {
+-	m_pAvContext = avcodec_alloc_context();
++	m_pAvContext = avcodec_alloc_context3(NULL);
+         // for autodetection errors
+ 	m_pAvContext->codec_tag = m_pFormat->biCompression;
+ 	m_pAvContext->bits_per_coded_sample = m_pFormat->biBitCount;
+@@ -198,8 +191,6 @@
+ 	{
+             m_pAvContext->extradata_size = m_pFormat->biSize - sizeof(BITMAPINFOHEADER);
+ 	    m_pAvContext->extradata = (uint8_t*) m_pFormat + sizeof(BITMAPINFOHEADER);
+-	    if (m_pAvContext->extradata_size > 40)
+-		m_pAvContext->flags |= CODEC_FLAG_EXTERN_HUFF; // somewhat useless
+ 	}
+ 
+ 	m_uiBuffers = (pImage && pImage->GetAllocator()) ? pImage->GetAllocator()->GetImages() : 0;
+@@ -297,7 +288,7 @@
+ 		m_pAvContext->workaround_bugs |= p->flag;
+ 	}
+ */
+-	if (avcodec_open(m_pAvContext, m_pAvCodec) < 0)
++	if (avcodec_open2(m_pAvContext, m_pAvCodec, NULL) < 0)
+ 	{
+ 	    AVM_WRITE(m_Info.GetPrivateName(), "WARNING: FFVideoDecoder::DecodeFrame() can't open avcodec\n");
+             Stop();
+@@ -317,9 +308,13 @@
+     m_bUsed = false;
+     m_pReleased = 0;
+     AVFrame pic;
++    AVPacket avpkt;
+     int got_picture = 0;
+-    int hr = avcodec_decode_video(m_pAvContext, &pic, &got_picture,
+-				  (unsigned char*) src, size);
++    av_init_packet(&avpkt);
++    avpkt.data = (unsigned char*)src;
++    avpkt.size = size;
++    int hr = avcodec_decode_video2(m_pAvContext, &pic, &got_picture,
++				  &avpkt);
+     //printf("DECFF got_picture  %d  %p   del:%d  hr:%d size:%d\n", got_picture, src, m_pAvContext->delay, hr, size);
+     //printf("PictType  %d\n", m_pAvContext->pict_type);
+     //static int ctr=0; printf("WIDTH %dx%d  %d  r:%d\n", m_pAvContext->width, m_pAvContext->height, ctr++, m_pAvContext->pict_type);
+@@ -365,7 +360,7 @@
+     }
+ 
+     Debug printf("FF: r=0x%x  sz=%d  %d  b:%d  img:%p  out:%p\n", hr, size, got_picture, m_bUsed, pImage, pOut);
+-    Debug printf("FF: frame_size %d  number %d  picnum %d\n", m_pAvContext->frame_size, m_pAvContext->frame_number, m_pAvContext->real_pict_num);
++    Debug printf("FF: frame_size %d  number %d\n", m_pAvContext->frame_size, m_pAvContext->frame_number);
+     if (!got_picture)
+     {
+ 	Debug printf("FF: NO PICTURE  released=%p\n", m_pReleased);
+@@ -388,8 +383,8 @@
+ 	switch (m_pAvContext->pix_fmt)
+ 	{
+ 	case PIX_FMT_BGR24: imfmt = IMG_FMT_BGR24; break;
+-	case PIX_FMT_RGBA32: imfmt = IMG_FMT_BGR32; break;
+-	case PIX_FMT_YUV422: imfmt = IMG_FMT_YUY2; break;
++	case PIX_FMT_RGB32: imfmt = IMG_FMT_BGR32; break;
++	case PIX_FMT_YUYV422: imfmt = IMG_FMT_YUY2; break;
+ 	case PIX_FMT_YUV410P: imfmt = IMG_FMT_I410; break;
+ 	case PIX_FMT_YUV411P: imfmt = IMG_FMT_I411; break;
+ 	case PIX_FMT_YUV420P: imfmt = IMG_FMT_I420; break;
+--- avifile-0.7-0.7.45/plugins/libffmpeg/FFVideoEncoder.cpp.orig	2005-09-12 14:06:48.000000000 +0200
++++ avifile-0.7-0.7.45/plugins/libffmpeg/FFVideoEncoder.cpp	2013-07-19 20:15:08.434273035 +0200
+@@ -122,7 +122,7 @@
+ 
+     if (!m_pAvContext)
+     {
+-	m_pAvContext = avcodec_alloc_context();
++	m_pAvContext = avcodec_alloc_context3(NULL);
+         m_pAvContext->width = m_bh.biWidth;
+ 	m_pAvContext->height = m_obh.biHeight;
+ 	//m_pAvContext->pix_fmt = PIX_FMT_YUV420P;
+@@ -138,7 +138,7 @@
+ 
+         printf("CODEC opening  %dx%d\n", m_bh.biWidth, m_obh.biHeight);
+ 
+-	if (avcodec_open(m_pAvContext, m_pAvCodec) < 0)
++	if (avcodec_open2(m_pAvContext, m_pAvCodec, NULL) < 0)
+ 	{
+ 	    free(m_pAvContext);
+ 	    m_pAvContext = 0;

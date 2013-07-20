@@ -1,0 +1,36 @@
+--- avifile-0.7-0.7.45/samples/Makefile.am.orig	2002-11-14 19:51:00.000000000 +0100
++++ avifile-0.7-0.7.45/samples/Makefile.am	2013-07-20 07:00:41.605980891 +0200
+@@ -1,2 +1,7 @@
+-SUBDIRS = artsplug misc qtvidcap qtrecompress mjpeg_plugin
++if AMM_USE_V4L
++VIDCAP = qtvidcap
++else
++VIDCAP =
++endif
++SUBDIRS = artsplug misc $(VIDCAP) qtrecompress mjpeg_plugin
+ MAINTAINERCLEANFILES = Makefile.in
+--- avifile-0.7-0.7.45/doc/Makefile.am.orig	2003-07-10 14:34:11.000000000 +0200
++++ avifile-0.7-0.7.45/doc/Makefile.am	2013-07-20 07:18:01.199270597 +0200
+@@ -2,15 +2,19 @@
+ 
+ man_MANS = \
+  avibench.1 \
+- avicap.1 \
+  avicat.1 \
+  avifile-config.1 \
+  avimake.1 \
+  aviplay.1 \
+- avirec.1 \
+  avirecompress.1 \
+- avitype.1 \
++ avitype.1
++
++if AMM_USE_V4L
++man_MANS += \
++ avicap.1 \
++ avirec.1 \
+  kv4lsetup.1
++endif
+ 
+ pkgdocdir = $(datadir)/$(PACKAGE)/doc
+ pkgdoc_DATA = FreeBSD CREDITS EXCEPTIONS KNOWN_BUGS TODO \

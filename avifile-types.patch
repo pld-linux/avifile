@@ -1,0 +1,11 @@
+--- avifile-0.7-0.7.45/drivers/libdha/irq.c.orig	2003-02-12 17:11:45.000000000 +0100
++++ avifile-0.7-0.7.45/drivers/libdha/irq.c	2013-07-16 16:19:48.385743192 +0200
+@@ -14,7 +14,7 @@
+ static int hwirq_locks=0;
+ 
+ int	hwirq_install(int bus, int dev, int func,
+-		      int ar, u_long ao, uint32_t ad)
++		      int ar, unsigned long ao, uint32_t ad)
+ {
+   int retval;
+   if( libdha_fd == -1) libdha_fd = open("/dev/dhahelper",O_RDWR);

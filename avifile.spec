@@ -4,13 +4,14 @@
 %bcond_with	divx	# enables divx4linux support (proprietary, binary-only
 			# lib)  note: if disabled, divx is decoded by ffmpeg
 %bcond_with	nas	# enable NAS support
+%bcond_with	v4l1	# Video4Linux 1
 #
 Summary:	Library for playing AVI files
 Summary(pl.UTF-8):	Biblioteka do odtwarzania plików AVI
 Summary(pt_BR.UTF-8):	Biblioteca para reproduzir formatos de áudio e vídeo usando binários win32
 Name:		avifile
 Version:	0.7.45
-Release:	17
+Release:	18
 Epoch:		3
 License:	GPL
 Group:		X11/Libraries
@@ -38,6 +39,9 @@ Patch17:	%{name}-xf86dga.patch
 Patch18:	%{name}-new_ffmpeg.patch
 Patch19:	%{name}-fix-no-bits_per_sample.patch
 Patch20:	%{name}-gcc44.patch
+Patch21:	%{name}-types.patch
+Patch22:	%{name}-ffmpeg.patch
+Patch23:	%{name}-v4l.patch
 URL:		http://avifile.sourceforge.net/
 BuildRequires:	SDL-devel >= 1.2.0
 BuildRequires:	a52dec-libs-devel
@@ -341,7 +345,7 @@ Sterownik VIDIX dla kart graficznych ATI Rage128.
 
 %prep
 %setup -q -n %{name}-0.7-%{version}
-rm -rf ffmpeg m4/ffmpeg.m4
+%{__rm} -r ffmpeg m4/ffmpeg.m4
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
@@ -363,9 +367,12 @@ rm -rf ffmpeg m4/ffmpeg.m4
 %patch18 -p1
 %patch19 -p1
 %patch20 -p1
+%patch21 -p1
+%patch22 -p1
+%patch23 -p1
 
 # unwanted hack
-rm -f m4/as.m4
+%{__rm} m4/as.m4
 # original file contains only m4/*.m4; must exist because of AC_INIT parameter
 > acinclude.m4
 
@@ -386,6 +393,8 @@ rm -f m4/as.m4
 	--disable-lame \
 	--enable-libmad \
 	--enable-release \
+	%{!?with_qt:--disable-samples} \
+	%{!?with_v4l1:--disable-v4l} \
 %ifarch %{ix86}
 %ifnarch i386 i486
 	--enable-x86opt \
@@ -393,8 +402,7 @@ rm -f m4/as.m4
 %else
 	--disable-x86opt \
 %endif
-	%{!?with_qt:--without-qt} \
-	%{!?with_qt:--disable-samples}
+	%{!?with_qt:--without-qt}
 
 touch lib/dummy.cpp
 %{__make}
@@ -407,18 +415,20 @@ install -d $RPM_BUILD_ROOT{/usr/lib/win32,%{_pixmapsdir},%{_desktopdir}}
 	DESTDIR=$RPM_BUILD_ROOT \
 	m4datadir=%{_aclocaldir}
 
+%if %{with v4l1}
 # conflicts with ???
 mv -f $RPM_BUILD_ROOT%{_bindir}/kv4lsetup $RPM_BUILD_ROOT%{_bindir}/akv4lsetup
 mv -f $RPM_BUILD_ROOT%{_mandir}/man1/kv4lsetup.1 $RPM_BUILD_ROOT%{_mandir}/man1/akv4lsetup.1
 %{__perl} -pi -e 's/(kv4l|k4vl)/akv4l/g' $RPM_BUILD_ROOT%{_mandir}/man1/akv4lsetup.1
+%endif
 
 install %{SOURCE1} $RPM_BUILD_ROOT%{_desktopdir}
 install bin/test.png $RPM_BUILD_ROOT%{_pixmapsdir}/avifile.png
 
 # avifile dlopens *.so
-rm -f $RPM_BUILD_ROOT%{_libdir}/avifile*/{,vidix/}*.la
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/avifile*/{,vidix/}*.la
 # API not exported
-rm -f $RPM_BUILD_ROOT%{_libdir}/libqavm*.{so,la}
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/libqavm*.{so,la}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -431,123 +441,131 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc README doc/{CREDITS,EXCEPTIONS,KNOWN_BUGS,LICENSING}
-%doc doc/{README-DEVEL,TODO,VIDEO-PERFORMANCE,WARNINGS}
-%attr(755,root,root)%{_libdir}/libaviplay-*.so.*.*
-%attr(755,root,root)%{_libdir}/libaviplaydha-*.so.*.*
-%attr(755,root,root)%{_libdir}/libaviplayvidix-*.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libaviplay-*.so.0
-%attr(755,root,root) %ghost %{_libdir}/libaviplaydha-*.so.0
-%attr(755,root,root) %ghost %{_libdir}/libaviplayvidix-*.so.0
-%dir %{_libdir}/avifile*
-%attr(755,root,root) %{_libdir}/avifile*/ac3pass.so*
-%attr(755,root,root) %{_libdir}/avifile*/audiodec.so*
-%attr(755,root,root) %{_libdir}/avifile*/mpeg_audiodec.so*
-%attr(755,root,root) %{_libdir}/avifile*/osmjpeg.so*
+%doc README doc/{CREDITS,EXCEPTIONS,KNOWN_BUGS,LICENSING,TODO,VIDEO-PERFORMANCE,WARNINGS}
+%attr(755,root,root)%{_libdir}/libaviplay-0.7.so.*.*
+%attr(755,root,root) %ghost %{_libdir}/libaviplay-0.7.so.0
+%attr(755,root,root)%{_libdir}/libaviplaydha-0.7.so.*.*
+%attr(755,root,root) %ghost %{_libdir}/libaviplaydha-0.7.so.0
+%attr(755,root,root)%{_libdir}/libaviplayvidix-0.7.so.*.*
+%attr(755,root,root) %ghost %{_libdir}/libaviplayvidix-0.7.so.0
+%dir %{_libdir}/avifile-0.7
+%attr(755,root,root) %{_libdir}/avifile-0.7/ac3pass.so
+%attr(755,root,root) %{_libdir}/avifile-0.7/audiodec.so
+%attr(755,root,root) %{_libdir}/avifile-0.7/mpeg_audiodec.so
+%attr(755,root,root) %{_libdir}/avifile-0.7/osmjpeg.so
 %ifarch %{ix86}
-%dir %{_libdir}/avifile*/vidix
+%dir %{_libdir}/avifile-0.7/vidix
 %endif
 
 %files devel
 %defattr(644,root,root,755)
-%doc doc/README-DEVEL*
+%doc doc/README-DEVEL
 %attr(755,root,root) %{_bindir}/avifile-config
-%attr(755,root,root) %{_libdir}/libaviplay*.so
-%{_libdir}/lib*.la
-%{_includedir}/avifile*
-%{_aclocaldir}/*.m4
+%attr(755,root,root) %{_libdir}/libaviplay.so
+%attr(755,root,root) %{_libdir}/libaviplaydha.so
+%attr(755,root,root) %{_libdir}/libaviplayvidix.so
+%{_libdir}/libaviplay.la
+%{_libdir}/libaviplaydha.la
+%{_libdir}/libaviplayvidix.la
+%{_includedir}/avifile-0.7
+%{_aclocaldir}/avifile.m4
 %{_pkgconfigdir}/avifile.pc
 %{_mandir}/man1/avifile-config.1*
 
 %if %{with qt}
 %files qt
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/avicap
 %attr(755,root,root) %{_bindir}/avirecompress
-%attr(755,root,root) %{_libdir}/libqavm-*.so.*.*
+%attr(755,root,root) %{_libdir}/libqavm-0.7.so.*.*
 %attr(755,root,root) %ghost %{_libdir}/libqavm-*.so.0
-%{_mandir}/man1/avicap.1*
 %{_mandir}/man1/avirecompress.1*
+%if %{with v4l1}
+%attr(755,root,root) %{_bindir}/avicap
+%{_mandir}/man1/avicap.1*
+%endif
 
 %files aviplay
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/aviplay
 %{_mandir}/man1/aviplay.1*
-%{_datadir}/%{name}*
+%{_datadir}/avifile-0.7
 %{_desktopdir}/avifile.desktop
 %{_pixmapsdir}/avifile.png
 %endif
 
 %files utils
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/akv4lsetup
 %attr(755,root,root) %{_bindir}/avibench
 %attr(755,root,root) %{_bindir}/avicat
 %attr(755,root,root) %{_bindir}/avimake
-%attr(755,root,root) %{_bindir}/avirec
 %attr(755,root,root) %{_bindir}/avitype
-%{_mandir}/man1/akv4lsetup.1*
 %{_mandir}/man1/avibench.1*
 %{_mandir}/man1/avicat.1*
 %{_mandir}/man1/avimake.1*
-%{_mandir}/man1/avirec.1*
 %{_mandir}/man1/avitype.1*
+%if %{with v4l1}
+%attr(755,root,root) %{_bindir}/akv4lsetup
+%attr(755,root,root) %{_bindir}/avirec
+%{_mandir}/man1/akv4lsetup.1*
+%{_mandir}/man1/avirec.1*
+%endif
 
 %if %{with divx}
 %files divx
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/avifile*/divx4.so
+%attr(755,root,root) %{_libdir}/avifile-0.7/divx4.so
 %endif
 
 %files ffmpeg
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/avifile*/ffmpeg.so
+%attr(755,root,root) %{_libdir}/avifile-0.7/ffmpeg.so
 
 %files lame_audioenc
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/avifile*/mp3lamebin_audioenc.so
-#%attr(755,root,root) %{_libdir}/avifile*/mp3lame_audioenc.so
+%attr(755,root,root) %{_libdir}/avifile-0.7/mp3lamebin_audioenc.so
+#%attr(755,root,root) %{_libdir}/avifile-0.7/mp3lame_audioenc.so
 
 %files mad
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/avifile*/mad_audiodec.so
+%attr(755,root,root) %{_libdir}/avifile-0.7/mad_audiodec.so
 
 %files vorbis
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/avifile*/vorbis_audio.so
+%attr(755,root,root) %{_libdir}/avifile-0.7/vorbis_audio.so
 
 %ifarch %{ix86}
 %files win32
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/avifile*/win32.so
+%attr(755,root,root) %{_libdir}/avifile-0.7/win32.so
 %endif
 
 %files xvid
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/avifile*/xvid4.so
+%attr(755,root,root) %{_libdir}/avifile-0.7/xvid4.so
 
 %ifarch %{ix86}
 %files vidix-driver-fb
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/avifile*/vidix/libgenfb.so
+%attr(755,root,root) %{_libdir}/avifile-0.7/vidix/libgenfb.so
 
 %files vidix-driver-mach64
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/avifile*/vidix/libmach64.so
+%attr(755,root,root) %{_libdir}/avifile-0.7/vidix/libmach64.so
 
 %files vidix-driver-mga
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/avifile*/vidix/libmga*.so
+%attr(755,root,root) %{_libdir}/avifile-0.7/vidix/libmga.so
+%attr(755,root,root) %{_libdir}/avifile-0.7/vidix/libmga_crtc2.so
 
 %files vidix-driver-permedia
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/avifile*/vidix/libpm3.so
+%attr(755,root,root) %{_libdir}/avifile-0.7/vidix/libpm3.so
 
 %files vidix-driver-radeon
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/avifile*/vidix/libradeon.so
+%attr(755,root,root) %{_libdir}/avifile-0.7/vidix/libradeon.so
 
 %files vidix-driver-rage128
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/avifile*/vidix/librage128.so
+%attr(755,root,root) %{_libdir}/avifile-0.7/vidix/librage128.so
 %endif
