@@ -1,0 +1,11 @@
+--- avifile-0.7-0.7.45/drivers/libdha/mtrr.c.orig	2020-08-29 20:21:27.482643449 +0200
++++ avifile-0.7-0.7.45/drivers/libdha/mtrr.c	2020-08-29 20:21:31.662620804 +0200
+@@ -80,7 +80,7 @@
+ 	char sout[256];
+ 	unsigned wr_len;
+ 	sprintf(sout,"base=0x%08X size=0x%08X type=%s\n",base,size,stype);
+-	wr_len = fprintf(mtrr_fd,sout);
++	wr_len = fprintf(mtrr_fd,"%s",sout);
+ 	/*printf("MTRR: %s\n",sout);*/
+ 	fclose(mtrr_fd);
+ 	return wr_len == strlen(sout) ? 0 : EPERM;

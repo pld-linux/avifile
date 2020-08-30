@@ -42,6 +42,8 @@ Patch20:	%{name}-gcc44.patch
 Patch21:	%{name}-types.patch
 Patch22:	%{name}-ffmpeg.patch
 Patch23:	%{name}-v4l.patch
+Patch24:	%{name}-format.patch
+Patch25:	%{name}-narrowing.patch
 URL:		http://avifile.sourceforge.net/
 BuildRequires:	SDL-devel >= 1.2.0
 BuildRequires:	a52dec-libs-devel
@@ -370,6 +372,8 @@ Sterownik VIDIX dla kart graficznych ATI Rage128.
 %patch21 -p1
 %patch22 -p1
 %patch23 -p1
+%patch24 -p1
+%patch25 -p1
 
 # unwanted hack
 %{__rm} m4/as.m4
