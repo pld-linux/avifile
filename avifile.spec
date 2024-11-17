@@ -1,9 +1,8 @@
 #
 # Conditional build:
-%bcond_without	qt	# don't build Qt-based utilities (incl. aviplay)
-%bcond_with	divx	# enables divx4linux support (proprietary, binary-only
-			# lib)  note: if disabled, divx is decoded by ffmpeg
-%bcond_with	nas	# enable NAS support
+%bcond_without	qt	# Qt-based utilities (incl. aviplay)
+%bcond_with	divx	# divx4linux support (proprietary, binary-only lib); if disabled, divx is decoded by ffmpeg
+%bcond_with	nas	# NAS support
 %bcond_with	v4l1	# Video4Linux 1
 #
 Summary:	Library for playing AVI files
@@ -15,7 +14,7 @@ Release:	18
 Epoch:		3
 License:	GPL
 Group:		X11/Libraries
-Source0:	http://downloads.sourceforge.net/avifile/%{name}-0.7-%{version}.tar.bz2
+Source0:	https://downloads.sourceforge.net/avifile/%{name}-0.7-%{version}.tar.bz2
 # Source0-md5:	7da94802f120d1b69e04a13170dcd21d
 Source1:	%{name}.desktop
 Patch0:		%{name}-shareware.patch
@@ -44,7 +43,7 @@ Patch22:	%{name}-ffmpeg.patch
 Patch23:	%{name}-v4l.patch
 Patch24:	%{name}-format.patch
 Patch25:	%{name}-narrowing.patch
-URL:		http://avifile.sourceforge.net/
+URL:		https://avifile.sourceforge.net/
 BuildRequires:	SDL-devel >= 1.2.0
 BuildRequires:	a52dec-libs-devel
 BuildRequires:	audiofile-devel
@@ -76,7 +75,7 @@ BuildRequires:	xorg-lib-libXxf86dga-devel
 BuildRequires:	xorg-lib-libXxf86vm-devel
 BuildRequires:	xvid-devel >= 1:1.0.0
 BuildConflicts:	wine-devel
-Obsoletes:	avifile-vidix-nvidia
+Obsoletes:	avifile-vidix-driver-nvidia < 3:0.7.38
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		specflags	-fno-strict-aliasing -D__STDC_CONSTANT_MACROS
@@ -170,7 +169,7 @@ Summary(pl.UTF-8):	Szybki kodek MPEG4
 Group:		X11/Libraries
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 Requires:	divx4linux
-Obsoletes:	avifile-divx4
+Obsoletes:	avifile-divx4 < 0.7.16
 
 %description divx
 DivX MPEG-4 decoder and encoder.
