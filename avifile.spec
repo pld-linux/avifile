@@ -18,7 +18,6 @@ Source0:	https://downloads.sourceforge.net/avifile/%{name}-0.7-%{version}.tar.bz
 # Source0-md5:	7da94802f120d1b69e04a13170dcd21d
 Source1:	%{name}.desktop
 Patch0:		%{name}-shareware.patch
-Patch1:		%{name}-fix-keys.patch
 Patch2:		%{name}-etc_dir.patch
 Patch3:		%{name}-aviplay_h.patch
 Patch4:		%{name}-no_aux_dir.patch
@@ -348,7 +347,6 @@ Sterownik VIDIX dla kart graficznych ATI Rage128.
 %setup -q -n %{name}-0.7-%{version}
 %{__rm} -r ffmpeg m4/ffmpeg.m4
 %patch0 -p1
-%patch1 -p1
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
