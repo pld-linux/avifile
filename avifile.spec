@@ -1,9 +1,10 @@
 #
 # Conditional build:
-%bcond_without	qt	# Qt-based utilities (incl. aviplay)
-%bcond_with	divx	# divx4linux support (proprietary, binary-only lib); if disabled, divx is decoded by ffmpeg
-%bcond_with	nas	# NAS support
-%bcond_with	v4l1	# Video4Linux 1
+%bcond_without	qt		# Qt-based utilities (incl. aviplay)
+%bcond_with	divx		# divx4linux support (proprietary, binary-only lib); if disabled, divx is decoded by ffmpeg
+%bcond_with	nas		# NAS support
+%bcond_without	system_ffmpeg	# system FFmpeg libraries
+%bcond_with	v4l1		# Video4Linux 1
 #
 Summary:	Library for playing AVI files
 Summary(pl.UTF-8):	Biblioteka do odtwarzania plików AVI
@@ -12,7 +13,8 @@ Name:		avifile
 Version:	0.7.45
 Release:	18
 Epoch:		3
-License:	GPL
+# referred as just "GPL" in most places, player/playercontrol.cpp specifies version 2
+License:	GPL v2
 Group:		X11/Libraries
 Source0:	https://downloads.sourceforge.net/avifile/%{name}-0.7-%{version}.tar.bz2
 # Source0-md5:	7da94802f120d1b69e04a13170dcd21d
@@ -50,7 +52,9 @@ BuildRequires:	autoconf
 BuildRequires:	automake
 %{?with_divx:BuildRequires:	divx4linux-devel}
 BuildRequires:	faad2-devel
-BuildRequires:	ffmpeg-devel
+%if %{with system_ffmpeg}
+BuildRequires:	ffmpeg-devel >= 4
+%endif
 %ifarch ppc
 # version with altivec support fixed
 BuildRequires:	gcc >= 5:3.3.2-3
@@ -345,7 +349,6 @@ Sterownik VIDIX dla kart graficznych ATI Rage128.
 
 %prep
 %setup -q -n %{name}-0.7-%{version}
-%{__rm} -r ffmpeg m4/ffmpeg.m4
 %patch0 -p1
 %patch2 -p1
 %patch3 -p1
@@ -353,7 +356,6 @@ Sterownik VIDIX dla kart graficznych ATI Rage128.
 %patch5 -p1
 %patch6 -p1
 %patch7 -p1
-%patch8 -p1
 %patch9 -p1
 %patch10 -p1
 %patch11 -p1
@@ -361,16 +363,20 @@ Sterownik VIDIX dla kart graficznych ATI Rage128.
 %patch13 -p1
 %patch14 -p1
 %patch15 -p1
-%patch16 -p1
 %patch17 -p1
-%patch18 -p1
-%patch19 -p1
 %patch20 -p1
 %patch21 -p1
-%patch22 -p1
 %patch23 -p1
 %patch24 -p1
 %patch25 -p1
+%if %{with system_ffmpeg}
+%patch8 -p1
+%patch16 -p1
+%patch18 -p1
+%patch19 -p1
+%patch22 -p1
+%{__rm} -r ffmpeg m4/ffmpeg.m4
+%endif
 
 # unwanted hack
 %{__rm} m4/as.m4
